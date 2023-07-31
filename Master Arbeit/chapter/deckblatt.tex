@@ -1,0 +1,60 @@
+%----------------- KONFIGURATION -----------------%
+\pagestyle{empty} % enthalten keinerlei Kopf oder Fuß
+
+\newgeometry{left=4cm, right=2cm, top=1cm, bottom=1cm} % Mehr Platz oben und unten
+%----------------- HS RM Logo -----------------%
+\begin{figure}[t]
+	\flushright
+	\includegraphics[width=0.3\textwidth]{media/logo_hsrm}
+\end{figure}
+
+%----------------- INHALT -----------------%
+
+\begin{center}
+Hochschule RheinMain \\
+Fachbereich DCSM \\
+Studiengang Master of Science - Informatik
+
+% Whitespace
+\vspace{30 pt}
+
+{\Large \textbf{Masterthesis}} \\
+zur Erlangung des akademischen Grades \\ 
+Master of Science - M.Sc.\todoi{Stimmt der Grad?}
+
+% Whitespace
+\vspace{50 pt}
+
+\begin{spacing}{1.2}
+\LARGE \textbf{\thetitle}
+\end{spacing}
+%
+\end{center}
+
+\vfill % Fills all the space, so the follwing stuff is floating down
+
+%
+\begin{small}
+\begin{tabular}[h]{p{4cm}l l}
+    vorgelegt von        & \textbf{Robert \textsc{Davidoff}} \\ 
+                         & Matrikelnummer 1108804 \\
+                         & Innsbrucker Straße 34 \\
+                         & 55246 Mainz-Kostheim \\
+                         & \\
+    am                   & \thedate \\
+                         & \\
+    Referent:            & Prof. Dr. Philipp \textsc{Schaible}\\
+    Korreferent:         & Prof. Dr. Unbekannt \textsc{Unbekannt}\\
+\end{tabular}
+%
+\vspace{15pt}
+%
+\end{small}
+%
+\vspace{15pt}
+%
+\begin{center}
+	\textcolor[gray]{0.4}{\tiny Kompiliert am \today ~um \currenttime ~- Erstellt mit \LaTeX}
+\end{center}
+%
+\restoregeometry % Normales definiertes Layout

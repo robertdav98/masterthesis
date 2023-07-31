@@ -1,0 +1,32 @@
+\chapter{Anforderungsanalyse}
+\label{cha:anforderungsanalyse}
+Folgende Anforderungen gelten für das Identitätsmanagementsystem und entsprechen den von der OECD festgelegten Eigenschaften \cite{ID25} \cite{ID26}.
+\section{Funktionale Anforderungen}
+
+\begin{itemize}
+	\item Widerruf: Informationen müssen widerruflich sein
+	\item Auswahl: Es muss dem Nutzer gegeben sein zwischen den Identitätsplattformen zu wählen
+	\item Überprüfbarkeit: Es muss dem Nutzer möglich sein die Daten über sich zu überprüfen. Dazu gehört: Welche Daten stehen zur Verfügung und warum, Wer hat Zugriff auf diese Daten und wann wurden die Daten in das System eingetragen.
+	\item Selektive-Veröffentlichung: Dem Nutzer muss es möglich sein nur einzelne Claims zu veröffentlichen
+\end{itemize}
+
+\section{Nicht-Funktionale Anforderungen}
+
+\begin{itemize}
+	\item Vertraulichkeit: Eigenschaften einer Identität müssen vor unautorisierten Offenlegung geschützt werden
+	\item Integrität: Informationen dürften nur autorisiert modifiziert werden
+	\item Unverknüpfbarkeit: Es darf einem Angreifer nicht möglich sein zwei Transaktionen zu verknüpfen und somit unerlaubte Informationen zu erlangen
+	\item Non-Replay: Operationen dürfen nicht erneut ausführbar sein
+	\item Nichtabstreitbarkeit: Das Senden von Daten durch den Nutzer kann im Nachhinein nicht abgesprochen werden
+	\item Diebstahlschutz: Die Daten dürften nicht von Unbefugten lesbar sein
+	
+\end{itemize}
+
+\section{Technische Anforderungen}
+Als technische Anforderung wird lediglich festgelegt, dass eine DLT verwendet werden soll, was in dieser Arbeit durch die Blockchain realisiert wird. Davon abgesehen werden Komponenten und Schnittstellen verwendet, die die oben genannten (Nicht-) funktionalen Anforderungen erfüllen.
+Auch gilt sich in dem Design und Implementierung an möglichst viele Standards zu halten:
+\begin{itemize}
+	\item W3C Standard für Verifiable Credentials: https://www.w3.org/TR/vc-data-model/
+	\item DIF Presentation Exchange: https://identity.foundation/presentation-exchange/
+	\item ...
+\end{itemize}

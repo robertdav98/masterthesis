@@ -1,0 +1,75 @@
+\chapter{Einführung}
+\label{cha:einfuehrung}
+
+\section{Hintergrund und Motivation}
+
+\begin{comment}
+	Internet als disruptive Technologie
+	Identität im Internet
+	Entstehung von Datensilos die allesamt ähnliche Identitätsdaten speichern
+	Große ineffizienz - kosten im 2stelliegn billionen bereich
+	Schlechte usibility für user, da entweder immer selbe credentials, was unsicher ist, oder immer verschiedene, wobei man einen passwortmanager braucht
+	Ebenso angriffsverktor für Angreifer
+	Nach Abgaben leiden 82\% der Online-Businesse mit Fake-Usern
+	Ebenso 18\% der Einkaufswagen werden aufgrund Credential-Problem verwahrlost
+	
+\end{comment}
+ 
+Das Internet hat sich als disruptive Technologie erwiesen, die die Art und Weise, wie Menschen kommunizieren, Informationen teilen und Geschäfte abwickeln, revolutioniert hat. Im Zeitalter des Internets spielt die Identität im virtuellen Raum eine wichtige Rolle. Normalerweise erfordert die Nutzung eines Online-Dienstes eine einmalige Registrierung und im Anschluss für jede Verwendung eine Anmeldung unter Angabe der zuvor festgelegten Login-Daten. Neben den Login-Daten werden meist auch personenbezogene Daten abgefragt. Wenn eine Nutzer nun X verschiedene Online-Dienste verwendet, so werden X mal identische Daten zur Person gespeichert (Adresse, Vorname, Nachname, Geschlecht, etc). Dieses Verhalten verursacht die Entstehung von Datensilos, die mit mehreren Problemen einhergehen. Nach \cite{ID10} summieren sich die Kosten für die Identitätsdatenspeicherung in den UK auf knapp 4 Billionen Euro und in den USA hochgerechnet auf 22 Billionen Euro. 
+
+Ein weiteres Problem ist die Benutzerfreundlichkeit für den Anwender. Dieser ist gezwungen für jeden Online-Dienst sichere Login-Daten zu selektieren. Sind diese immer identisch, so stellt dies ein Sicherheitsrisiko dar, denn wenn einmalig ein Password kompromittiert ist sind alle anderen Dienste in Gefahr. Besser wäre demnach für jeden Online-Dienst unterschiedliche Login-Daten zu verwenden, was jedoch das Merken schwer macht.
+
+Darüber hinaus stellt die Identitätsproblematik im Internet einen potentiellen Angriffsvektor dar. Cyberkriminelle können Schwachstellen in den Authentifizierungssystemen ausnutzen, um unbefugten Zugriff auf Konten zu erlangen oder Identitätsdiebstahl zu begehen. Dies birgt Risiken für die Privatsphäre und Sicherheit der Nutzer. In den USA werden 25 Personen pro Minute Opfer von Identitätsdiebstahl, wobei sich die durchschnittlichen Kosten für einen Online-Händler pro gestohlenem Datensatz personenbezogener/sensibler Daten auf 165 USD belaufen \cite{ID10}. Im Vorjahr 2015 betrug die Menge 105 USD.
+
+Statistiken \cite{ID11} zeigen, dass 82\% der Unternehmen unter gefälschten Nutzerkonten leiden. Diese Fake-User verursachen nicht nur finanzielle Schäden, sondern können auch den Ruf eines Unternehmens schädigen. Darüber hinaus werden etwa 18\% der Einkaufswagen aufgrund von Problemen mit den Anmeldedaten aufgegeben. Dies führt zu Umsatzeinbußen für Unternehmen und frustriert potenzielle Kunden.
+
+Ein weiteres Problem ist, dass ein Nutzer im Status Quo keine Macht über seine Daten besitzt. Er ist stets davon abhängig dem Anbieter zu vertrauen, dass die Daten bei Anfrage gelöscht werden, sicher gespeichert sind, nicht ungefragt weitergegeben werden, etc. Ebenso ist keinerlei Transparenz darüber gegeben, wofür die Daten im Detail verwendet oder wofür sie gebraucht werden. Alles in einem besteht keine Autonomie für den Nutzer über die Daten, die er bei einem Online-Service angeben muss.
+
+Angesichts dieser Herausforderungen ist die Notwendigkeit einer verbesserten Identitätsverwaltung im Internet offensichtlich. Es werden Lösungen erforscht, die auf dezentralen Identitätsplattformen und Blockchain-Technologie basieren. Solche Ansätze könnten dazu beitragen, die Sicherheit, Privatsphäre und Benutzerfreundlichkeit im Internet zu verbessern, indem sie eine effizientere und sicherere Möglichkeit bieten, Identitäten zu verwalten und zu überprüfen.
+
+\section{Zielsetzung der Arbeit}
+Als Ziel soll ein Konzept erarbeitet werden, dass dem Nutzer erlaubt Herrscher seiner
+Daten zu sein. Er soll eigenständig in der Lage seine Informationen hinzuzufügen, zu
+teilen, zu modifizieren und Berechtigungen zu erteilen/entfernen. Verwirklicht werden
+soll dieses Konzept mittels der DTL (Distributed Ledger Technology). Prototypisch
+soll eine Anwendung implementiert werden, die es erlaubt einem Nutzer seine Daten
+zu pflegen und Anfragen zu genehmigen/abzulehnen. Dabei sind unter anderem die
+Anforderungen: Sicherheit (Security), Kontrollierbarkeit, Übertragbarkeit und Skalierbarkeit.
+
+Ein möglicher Anwendungsfall ist, dass ein Nutzer ein Profil anlegt mit Informationen, die er potentiell freigeben möchte (Bankinformation, Adresse, etc.). Diese werden so gespeichert, dass es - abgesehen für den Nutzer - unmöglich ist diese zu lesen. Nun kann eine Organisation oder Person (beispielsweise der Arbeitgeber um das Gehalt zu überweisen) Information anfragen. Diese Anfrage liegt dem Nutzer vor, welche er akzeptieren oder ablehnen kann. Passiert ersteres, so erhält der Anfragende die Informationen. Anderenfalls werden alle Informationen vorenthalten.
+
+\section{Forschungsfragen}
+Folgende Forschungsfragen werden in dieser Arbeit beantwortet:
+
+\begin{itemize}
+	\item Ist es möglich Daten privat aber öffentlich zu speichern?
+	\item Wie werden die Daten gespeichert? (Hash, Verschlüsselt, etc.) 
+	\item Welcher Mehrwert wird generiert für den User und die Online-Dienste?
+	\item Kann das Problem der Fake-user hiermit gelöst werden?
+	\item Welche Service-Level-Agreements könnten angegeben werden?
+	\item Was passiert im Falle einer Kompromittierung?  Recovery-Optionen?
+	\item Wie sollen Informationen wieder ungültig gemacht werden? (Revokation)
+	\begin{itemize}
+		\item Wieviel kostet der Betrieb?
+		\item Wie teuer sind solche Dienste in der Regel für den User/Online-Dienst?
+		
+	\end{itemize}
+	\item Wie kann sichergestellt werden, dass die Identität wirklich der Person zuzuordnen ist?
+	\item Wie soll das Problem gelöst werden, dass man evtl. verschiedene Identitäten auf verschiedenen Plattformen verwenden möchte (Reddit-Account-Identität vs Online-Banking-Account)
+	\item Blockchain-Forschungsfragen:
+	\begin{itemize}
+		\item Welcher Consensus-Algorithmus ist am passensten für das entwickelte Identitätsmanagementsystem?
+		\item Soll eine private oder eine öffentliche Blockchain verwendet werden?
+		\item Wie und wo werden die privaten Schlüssel speichern?
+		\item Sollen 'permissioned' oder 'permissionless' Blockchains verwendet werden?
+		\item Sind Authentifikations-Graphen valide Lösungsansätze?
+		\item Können die Dokumente als NFT's gespeichert werden?
+		\item Welche Rolle spielen Zero-Knowledge-Proofs für die Entwicklung eines Identitätsmanagementsystems?
+	\end{itemize}
+	
+	
+	
+\end{itemize}
+
+\section{Aufbau der Arbeit}
+\blindtext
