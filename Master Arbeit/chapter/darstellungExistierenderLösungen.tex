@@ -1,0 +1,69 @@
+\chapter{Darstellung existierender Lösungen}
+\label{cha:existierende Lösungen}
+
+\section{Warum SSI Lösungen überlegen sind}
+Es gibt zahlreiche Argumente für das Verwenden von SSI-Lösungen (Sovrin, uPort, etc), da diese viele Nachteile von herkömmlichen (internationalen [Google, Facebook, Amazon, etc] oder lokalen [Verimi, netID, etc]) Identitätsplattformen kompensieren
+
+\begin{itemize}
+	\item Kontrolle: Sowohl lokale als auch internationale IDP's geben dem Nutzer kaum Kontrolle/Einfluss über seine Daten, während SSI Lösungen dem Nutzer die alleinige Kontrolle geben und dieser somit in der Lage ist seine Daten beliebig zu modifizieren oder Zugriff einzuschränken.
+	
+	\item Datenablage: Sowohl bei internationalen als auch bei nationalen IDP's werden die Daten zentral beim IDP abgelegt. Der Unterschied hierbei ist, das bei nationalen IDP's die Daten innerhalb der EU liegen, da diese an rechtliche Rahmenbedingungen gebunden sind. Bei SSI-IDP's liegen die Daten global verteilt in den Knoten des Netzwerks.
+	
+	\item Sicherheit: Bei herkömmlichen IDP's würde ein erfolgreicher Angriff sämtliche Daten kompromittieren, was bei SSI-IDP's aufgrund der Dezentralität nicht (oder nur sehr schwer) möglich ist.
+	
+	\item Datenschutz: Bei internationalen IDP's wird die DSGVO nicht eingehalten, was bei nationalen IDP's und SSI-IDP's nicht zutrifft.
+
+	\item Standards: Alle gegebene IDP's erfüllen in der Regel Standards.
+	
+	\item Vertrauen: Ist lediglich bei SSI-IDP's vollständig gegeben, wenn der Nutzer informiert ist.  
+\end{itemize}
+
+Es ist zu erkennen, dass SSI-IDP's in den meisten Fällen überlegen sind, jedoch gibt es auch einen großen Vorteil: Der Nutzer muss sich bereit erklären auf neue Technologien zuzugreifen und diese auch zu verstehen, um nicht Opfer von Angriffen zu werden. Dazu gehört das Verwenden von Wallets, Verständnis von Prozessen über das Anfragen/Austellen von VC's und erstellen von VP's. Auch sollte nicht vernachlässigt werden, dass das Erstellen von Transaktionen (Schreiben in der Blockchain) in der Regel mit Gebühren einhergeht. In den folgenden Subkapiteln werden verschiedene SSI-Lösungen vorgestellt und im Anschluss miteinander verglichen.
+
+
+\section{Luniverse}
+Luniverse \cite{ID27} ist eine Firma, die im Mai 2018 gegründet wurde und BaaS (Blockchain as a Service) anbietet, indem ein umfassendes Portfolio an Blockchain Lösungen angeboten wird, die verschiedene Problematiken der "Blockchain-Umstellung" lösen. Mittlerweile bedient Luniverse nach eigenen Angaben über 2000 Firmenkunden. Dabei gibt es vier Kategorien:
+
+\begin{enumerate}
+	\item Luniverse NFT \\
+	Mit diesem Dienst wird versprochen, dass die 'Luniverse-Multichain-NFTs' sowohl die Emissionskosten entfernen als auch die Umweltprobleme lösen. Dabei finden die Transaktionen zunächst nur auf der Luniverse-Sidechain statt, wobei die NFTs auch auf das Ethereum-Ökosystem übertragen. Sidechain bedeutet, dass es sich um eine weitere Blockchain handelt, die parallel zu der ursprünglichen Blockchain läuft und eine sehr hohe Interoperabilität bietet. 
+	Es wird das Erstellen ('minten') von NFTs nach dem ERC721 Interface angeboten, ein Marktplatz für NFTs, geteiltes Eigentum von NFT, eine Datenbank für Metadaten und vieles mehr Angeboten. Hierbei wird eine sehr hohe Energieeffizienz durch das Verwenden des LPOA-Konsensus-Algorithmus garantiert, welcher keine Transaktionskosten generiert.
+	Weitere Vorteile der Luniverse-Sidechain sind: 3200 Transaktionen pro Sekunde statt 15, das Anbieten einer REST-API, ein CLI und viele weitere
+	
+	\item Loyalty Point \\
+	Dieser Dienst ist das Blockchain-Äquivalent von Treuepunkten. Es wird angeboten Treuepunkte dezentral zu organisieren, wodurch eine bessere Kundenakquise, eine stärkere Bindung von Kunden und das Übertragen von Treuepunkten zwischen Unternehmen angeboten wird.
+	
+	\item Trace \\
+	Dieser Dienst ist dafür zuständig jegliche Aktivität auf der Blockchain aufzuzeichnen, um im Anschluss Datenintegrität, Verlaufsaufzeichnungen in Zeitreihendatenbanken und Datenverfolgung anzubieten.
+	
+	
+	\item DID \\
+	Unter diesem Dienst wird der ganze Prozess rund um DID's, DID-Dokumenten, Claims, etc. abgebildet. Es wird eine REST-API zur Verfügung gestellt, jedoch wird auch das UI benötigt. Beispielsweise werden Templates für Credentials oder für Verifier im UI erstellt.
+	Davon abgesehen existieren HTTP-Endpunkte für das Überprüfen der Stati von widerrufenen Credentials, das Ausstellen, das Widerrufen und das Verifizieren von Credentials. Endpunkte für das Generieren von DIDs, DID-Docs und Ähnlichem stehen nicht zur Verfügung.
+	
+\end{enumerate}
+
+Bemerkenswert ist, dass die oben genannten Dienste sich gegenseitig ergänzen. So kann die SSI oder NFT Aktivität mittels dem Trace-Dienst analysieren lassen. Vor allem NFT's, die auch das Konzept des Eigentums implementieren könnten für ein umfangreiches IDP von Bedeutung sein. \\
+Auf technischer Sicht arbeitet die API mit nur einem Parameter in den Anfragen: \textsl{didProjectId}. Dieser ist ein Pfad zu einer in der UI erstellen Ressource (Beispielsweise Templates für das Anfragen oder Verifizieren von Credentials). Davon abgesehen verwendet Luniverse eigene DID-Methoden, was an folgender beispielhaften Holder-DID deutlich wird: 'did:ethr:lunvs:0x1111111111111111111111111111111111111111' 
+
+\section{Dock}
+'Dock Certs (certs.dock.io)' ist ein Webdienst, der es ermöglicht Credentials anzufragen, Templates für Credentials, Templates für die Verification von Credentials, das Erstellen von Issuer-Profilen und das visuelle Gestalten von VC im PDF-Format.\\
+Um Credentials anzufragen, zu erstellen oder zu verifizieren muss zunächst ein Template erstellt werden. Dies passiert durch das UI. Hier kann man entweder Templates als JSON importieren oder im UI jedes Attribut einzeln konfigurieren. Anschließend muss ein Issuer-Profil erstellt werden. Dieses besteht einem öffentlichen Namen, einer optionalen Beschreibung und einem 'DID-Type', welcher entweder vom Typ "dock" ist oder "polygonid" (siehe nächste Lösung).
+Im Anschluss ist es möglich Credentials auszustellen, wobei man zunächst das eben erstellte Template auswählt. Im Anschluss kann der Nutzer alle Empfänger des VC entweder manuell eintragen oder als Excel importieren lassen. Hierbei kann auch eine Email angeben werden, sodass diese eine Email erhalten, um das VC zu akzeptieren. In der Email befindet sich ein QR-Code, welcher beispielsweise mit der PolygonID-App gescannt werden kann, wodurch das VC nun im Wallet ist.
+Ebenso lassen sich im UI Verifikationstemplates erstellen, die beispielsweise festlegen welcher Claim (zum Beispiel eine Note) vorhanden sein muss.\\
+Alle diese Funktionen lassen sich auch über die REST-API ausführen. Zusätzlich (und dies ist nicht über das UI möglich) lassen sich DID's und DID-Docks erstellen und Löschen, VC widerrufen, etc. \\
+Es wird angegeben, dass alle Formate W3C-Standard-Konform sind und eine kostenlosen Probephase von 14 Tagen angeboten wird.
+
+
+\section{PoligonId}
+\blindtext
+
+
+\section{Sovrin}
+\blindtext
+
+\section{uPort}
+\blindtext
+
+\section{walt.id}
+\blindtext
