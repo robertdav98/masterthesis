@@ -2,7 +2,7 @@
 \label{cha:existierende Lösungen}
 
 \section{Warum SSI Lösungen überlegen sind}
-Es gibt zahlreiche Argumente für das Verwenden von SSI-Lösungen (Sovrin, uPort, etc), da diese viele Nachteile von herkömmlichen (internationalen [Google, Facebook, Amazon, etc] oder lokalen [Verimi, netID, etc]) Identitätsplattformen kompensieren
+Es gibt zahlreiche Argumente für das Verwenden von SSI-Lösungen (Sovrin, uPort, etc), da diese viele Nachteile von herkömmlichen (internationalen [Google, Facebook, Amazon, etc] oder lokalen [Verimi, netID, etc]) Identitätsplattformen kompensieren \cite{ID28}
 
 \begin{itemize}
 	\item Kontrolle: Sowohl lokale als auch internationale IDP's geben dem Nutzer kaum Kontrolle/Einfluss über seine Daten, während SSI Lösungen dem Nutzer die alleinige Kontrolle geben und dieser somit in der Lage ist seine Daten beliebig zu modifizieren oder Zugriff einzuschränken.
@@ -22,13 +22,22 @@ Es ist zu erkennen, dass SSI-IDP's in den meisten Fällen überlegen sind, jedoc
 
 
 \section{Luniverse}
-Luniverse \cite{ID27} ist eine Firma, die im Mai 2018 gegründet wurde und BaaS (Blockchain as a Service) anbietet, indem ein umfassendes Portfolio an Blockchain Lösungen angeboten wird, die verschiedene Problematiken der "Blockchain-Umstellung" lösen. Mittlerweile bedient Luniverse nach eigenen Angaben über 2000 Firmenkunden. Dabei gibt es vier Kategorien:
+Luniverse \cite{ID27} ist eine Firma, die im Mai 2018 gegründet wurde und BaaS (Blockchain as a Service) anbietet, indem ein umfassendes Portfolio an Blockchain Lösungen angeboten wird, die verschiedene Problematiken der "Blockchain-Umstellung" lösen. 2022 bedient Luniverse nach eigenen Angaben über 2000 Firmenkunden. Dabei gibt es vier Kategorien, die allesamt das Sidechain-Konzept implementieren. \\
+Dabei ist eine Sidechain \cite{ID29} \cite{ID33} eine separate Blockchain, die 
+\begin{itemize}
+	\item parallel zur ursprünglichen Blockchain läuft
+	\item bidirektional mit dem Mainnet verknüpft ist
+	\item ihren eigenen Konsensus-Algorithmus hat
+	\item ihre Sicherheit \textbf{"nicht"} von der Elternkette erbt
+	\item erweiterte Funktionen implementieren kann
+	\item neue Anwendungsfälle umsetzt
+\end{itemize}
+ohne dabei die Elternkette zu beeinträchtigen.
 
 \begin{enumerate}
 	\item Luniverse NFT \\
-	Mit diesem Dienst wird versprochen, dass die 'Luniverse-Multichain-NFTs' sowohl die Emissionskosten entfernen als auch die Umweltprobleme lösen. Dabei finden die Transaktionen zunächst nur auf der Luniverse-Sidechain statt, wobei die NFTs auch auf das Ethereum-Ökosystem übertragen. Sidechain bedeutet, dass es sich um eine weitere Blockchain handelt, die parallel zu der ursprünglichen Blockchain läuft und eine sehr hohe Interoperabilität bietet. 
-	Es wird das Erstellen ('minten') von NFTs nach dem ERC721 Interface angeboten, ein Marktplatz für NFTs, geteiltes Eigentum von NFT, eine Datenbank für Metadaten und vieles mehr Angeboten. Hierbei wird eine sehr hohe Energieeffizienz durch das Verwenden des LPOA-Konsensus-Algorithmus garantiert, welcher keine Transaktionskosten generiert.
-	Weitere Vorteile der Luniverse-Sidechain sind: 3200 Transaktionen pro Sekunde statt 15, das Anbieten einer REST-API, ein CLI und viele weitere
+	Mit diesem Dienst wird versprochen, dass die 'Luniverse-Multichain-NFTs' sowohl die Emissionskosten entfernen als auch die Umweltprobleme lösen. Dabei finden die Transaktionen zunächst nur auf der Luniverse-Sidechain statt, wobei die NFTs auch auf das Ethereum-Ökosystem übertragen. Es wird das Erstellen ('minten') von NFTs nach dem ERC721 Interface, ein Marktplatz für NFTs, geteiltes Eigentum von NFT, eine Datenbank für Metadaten und vieles mehr angeboten. Hierbei wird eine sehr hohe Energieeffizienz durch das Verwenden des LPOA-Konsensus-Algorithmus garantiert, welcher keine Transaktionskosten generiert.
+	Weitere Vorteile der Luniverse-Sidechain sind: Mehr Transaktionen pro Sekunde, Anbieten einer REST-API, ein CLI und viele weitere
 	
 	\item Loyalty Point \\
 	Dieser Dienst ist das Blockchain-Äquivalent von Treuepunkten. Es wird angeboten Treuepunkte dezentral zu organisieren, wodurch eine bessere Kundenakquise, eine stärkere Bindung von Kunden und das Übertragen von Treuepunkten zwischen Unternehmen angeboten wird.
@@ -43,20 +52,85 @@ Luniverse \cite{ID27} ist eine Firma, die im Mai 2018 gegründet wurde und BaaS 
 	
 \end{enumerate}
 
-Bemerkenswert ist, dass die oben genannten Dienste sich gegenseitig ergänzen. So kann die SSI oder NFT Aktivität mittels dem Trace-Dienst analysieren lassen. Vor allem NFT's, die auch das Konzept des Eigentums implementieren könnten für ein umfangreiches IDP von Bedeutung sein. \\
+Bemerkenswert ist, dass die oben genannten Dienste sich gegenseitig ergänzen. So kann die SSI oder NFT Aktivität mittels dem Trace-Dienst analysiert werden. Vor allem NFT's, die auch das Konzept des Eigentums implementieren könnten für ein umfangreiches IDP von Bedeutung sein. \\
 Auf technischer Sicht arbeitet die API mit nur einem Parameter in den Anfragen: \textsl{didProjectId}. Dieser ist ein Pfad zu einer in der UI erstellen Ressource (Beispielsweise Templates für das Anfragen oder Verifizieren von Credentials). Davon abgesehen verwendet Luniverse eigene DID-Methoden, was an folgender beispielhaften Holder-DID deutlich wird: 'did:ethr:lunvs:0x1111111111111111111111111111111111111111' 
 
 \section{Dock}
 'Dock Certs (certs.dock.io)' ist ein Webdienst, der es ermöglicht Credentials anzufragen, Templates für Credentials, Templates für die Verification von Credentials, das Erstellen von Issuer-Profilen und das visuelle Gestalten von VC im PDF-Format.\\
-Um Credentials anzufragen, zu erstellen oder zu verifizieren muss zunächst ein Template erstellt werden. Dies passiert durch das UI. Hier kann man entweder Templates als JSON importieren oder im UI jedes Attribut einzeln konfigurieren. Anschließend muss ein Issuer-Profil erstellt werden. Dieses besteht einem öffentlichen Namen, einer optionalen Beschreibung und einem 'DID-Type', welcher entweder vom Typ "dock" ist oder "polygonid" (siehe nächste Lösung).
-Im Anschluss ist es möglich Credentials auszustellen, wobei man zunächst das eben erstellte Template auswählt. Im Anschluss kann der Nutzer alle Empfänger des VC entweder manuell eintragen oder als Excel importieren lassen. Hierbei kann auch eine Email angeben werden, sodass diese eine Email erhalten, um das VC zu akzeptieren. In der Email befindet sich ein QR-Code, welcher beispielsweise mit der PolygonID-App gescannt werden kann, wodurch das VC nun im Wallet ist.
+Um Credentials anzufragen, zu erstellen oder zu verifizieren muss zunächst ein Template erstellt werden. Dies passiert durch das UI. Hier kann man entweder Templates als JSON importieren (auch mittels öffentlichen URL's von \textsl{public ledgern} wie IPFS [https://ipfs.tech]) oder im UI jedes Attribut einzeln konfigurieren. Anschließend muss ein Issuer-Profil erstellt werden. Dieses besteht aus einem öffentlichen Namen, einer optionalen Beschreibung und einem 'DID-Type', welcher entweder vom Typ "dock" ist oder "polygonid" (siehe nächste Lösung).
+Im Anschluss können Credentials ausgestellt werden, die zuvor erstellen Templates entsprechen müssen. Daraufhin kann der Nutzer alle Empfänger des VC entweder manuell eintragen oder als Excel importieren lassen. Hierbei kann auch eine Email angeben werden, sodass der Rezipient eine Email erhält, um das VC zu akzeptieren. In der Email befindet sich ein QR-Code, welcher beispielsweise mit der PolygonID-App gescannt werden kann, wodurch das VC auf den Wallet übertragen wird.
 Ebenso lassen sich im UI Verifikationstemplates erstellen, die beispielsweise festlegen welcher Claim (zum Beispiel eine Note) vorhanden sein muss.\\
 Alle diese Funktionen lassen sich auch über die REST-API ausführen. Zusätzlich (und dies ist nicht über das UI möglich) lassen sich DID's und DID-Docks erstellen und Löschen, VC widerrufen, etc. \\
-Es wird angegeben, dass alle Formate W3C-Standard-Konform sind und eine kostenlosen Probephase von 14 Tagen angeboten wird.
+Es wird angegeben, dass alle Formate W3C-Standard-konform sind.
+
+Anders als bei Luniverse handelt es sich bei Dock nicht um eine Sidechain, sondern eine eigenständige Blockchain. Dock wirbt damit eine Blockchain entwickelt zu haben, die für die dezentrale Identität optimiert ist \cite{ID30}. Der verwendete Konsensus-Algorithmus lautet GRANDPA (GHOST-based Recursive Ancestor Deriving Prefix Agreement). Eine wichtige Eigenschaft für diesen Kontext ist, dass die Blockproduktion und das Bestätigen von Transaktionen möglichst effizient gestaltet ist. Zudem werden Validatoren (oder auch Nominatoren/Staker) benötigt, die eine bestimmte Menge der Kryptowährung der Blockchain als Kaution hinterlegen müssen, um am Konsensprozess teilzunehmen. Ein Validator ist ein sog. "full node", also ein Knoten des Netzwerks der eine vollständige Kopie der gesamten Blockchain enthält. Hierbei arbeiten bis zu 50 Validatoren parallel, um die Integrität des Netzwerks zu bewahren. Zudem unterstützt die Blockchain das Konzept des Stakings, was bedeutet, dass Teilnehmer dem Netzwerk eine Menge an Kryptowährung hinterlegen, um das Netzwerk sicherer zu gestalten. Als Belohnung erhält der Teilnehmer an bestimmte Menge an 'Dock' (so lautet die Einheit der Kryptowährung).
 
 
-\section{PoligonId}
-\blindtext
+\section{PolygonId}
+PolygonId (https://polygon.technology/polygon-id) ist eine Plattform, die einem Entwickler die Möglichkeit gibt 'eine vertrauenswürdige und sichere Beziehung zwischen Nutzern und dApps (dezentrale Applikationen) zu bauen, die den Prinzipien von SSI und \textbf{privacy by default} folgen' \cite{ID31}.
+'Privacy by default' beschreibt hierbei, dass Claims mittels ZK-proofs (zero-knowledge) überprüft werden können. 
+
+\subsection{Polygon}
+PolygonId dient als Identitätsinfrastruktur auf der Polygon-Blockchain, welche wiederum eine Layer-2-Lösung ist \cite{ID34}, was bedeutet, dass 
+\begin{itemize}
+	\item Ethereum (Layer 1) das übergeordnete Netzwerk ist
+	\item Polygon direkt mit der Hauptkette (Ethereum Mainnet) verbunden ist und dessen Sicherheit und Konsensmechanismen nutzt
+	\item Polygon darauf abzielt die Transaktionsfrequenz zu erhöhen, indem Transaktionen auf außerhalb der Hauptkette ausgelagert werden
+	\item Polygon als Skalierungslösung zk-Rollups verwendet. Demnach wird eine große Menge an Transaktionsdaten auf der - vom Polygon-Framework zur Verfügung gestellten - Sidechain in ein Batch verpackt und mittels zk-Proofs auf der Hauptkette verifiziert, ohne die Details der Transaktionen zu kennen. Eine alternative zu zk-Rollups sind sog. 'optimistic rollups', was bedeutet, dass das Mainnet den Batch 'beglaubigt' \cite{ID35}. In dem Falle, dass sich Fehler oder Unstimmigkeiten innerhalb des Batches befinden kann eine sog. challange eingereicht werden, wodurch Transaktionen überprüft werden durch Teilnehmer des Netzwerks.
+\end{itemize}
+Zusätzlich bietet das Polygon weitere Mechanismen an, wobei im Folgenden nur solche genannt werden, die für das Implementieren von SSI-IDPs von Bedeutung sind oder werden könnten:
+\begin{itemize}
+	\item Polygon POS Chain \cite{ID36}: Ist die Hauptkomponente der Polygon-Plattform und ist eine Proof-of-Stake Blockchain (zuvor auch Matic Network genannt). In der Kryptowährung Matic (MATIC) werden die Transaktionsgebühren gezahlt. Die über PolygonID getätigten Transaktionen finden hier statt und profitieren von Skalierbarkeit, hoher Geschwindigkeit, Benutzerfreundlichkeit und Konnektivität zu Ethereum. Auch wenn es sich hierbei um eine Sidechain handelt ist es bisher \textbf{nicht} möglich DIDs von Polygon auf Ethereum zu übertragen, was bedeutet, dass VP's nur innerhalb von Polygon existieren und andere Ethereum-basierende Lösung diese nicht verifizieren können. Am 21.Juli 2023 wurde angekündigt, dass durch eine Partnerschaft PolygonId auch auf der Ethereum-Blockchain verwendet werden kann \cite{ID36}.
+	\item Polygon Bridge: Ist ein Mechanismus um Vermögenswerte (also Kryptowährungen) zwischen Ethereum und Polygon-Sidechains zu bewegen. Dies kann von Bedeutung sein, wenn beispielsweise beim Anfordern eines VC eine Gebühr bezahlt werden muss (was in der analogen Welt regelmäßig stattfindet) und die Vermögenswerte nicht auf einer Blockchain abgesperrt werden sollen.
+	\item Zusätzlich gibt es mehrere Tools für Software-Entwickler eigene Sidechains zu implementieren (Polygon SDK) oder ein Testnetz, um Smartcontracts und ähnliches zu deployen und zu testen bevor auf dem Mainnet gearbeitet wird.
+	
+\end{itemize}
+All die oben genannten Punkte sind für PolygonId von Bedeutung, da alle Schreib und Verifizierungsvorgänge (das Registrieren oder Updaten von DID's, Verifizieren von Claims, etc.) auf der Polygon-Blockchain stattfinden. \\
+
+\subsection{Usecases und technische Daten über PolygonId}
+Nach eigenen Angaben sind Usecases von PolygonId
+\begin{itemize}
+	\item Digitale Demokratie (eine Person, eine Stimme)
+	\item Passwordless Login
+	\item private Zugangskontrolle
+	\item weitergehende technische Features, wie 'Sybil-Proof"\footnote{Attacke wo Identitäten gefälscht werden - gefährlich bei Mehrheitsabstimmungen oder zum Verlangsamen des Netzwerks}-Protokolle oder Frameworks, die die Entwicklung von SSI-Applikationen vereinfachen.
+\end{itemize}
+
+Auf technischer Sicht bietet PolygonId ein Framework um folgendes Dreieck zu implementieren:
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{media/polygonIddreieck}
+	\caption{Zusammenspiel von Issuer, Holder und Verifier auf technischer Sicht in PolygonId \cite{ID31}}
+	\label{fig:meine-grafik}
+\end{figure}
+
+Es ist zu erkennen, dass Polygon SDK's \footnote{Software Development Kits} für Entwickler zur Verfügung stellt um jeweils (Identity-) Holder, Verifier und Issuer zu implementieren. Für Wallets gibt es zudem eine Wallet-App. Für Issuer müssen Issuer Node gehostet werden, wodurch VC's ausgestellt oder entfernt werden können oder \textsl{Identity States} on-chain veröffentlicht werden können. Nach der Dokumentation \cite{ID38} muss der Node zusammen mit 
+
+\begin{itemize}
+	\item der Applikation
+	\item einem 'Vault' für Key-Management-Services (Beispielsweise zum Speichern des privaten Schlüssels des Issuers)
+	\item einem Cache-Service (Bespielsweise zum Zwischenspeichern von Templates, die einmalig von IPFS gedownloaded werden)
+	\item einer Datenbank zum persistieren aller operativen Daten
+\end{itemize}
+
+Die Identitätsdaten bestehen aus folgenden drei Informationen, die jeweils in sog. 'Sparse Merkle Trees' gespeichert werden:
+\begin{enumerate}
+	\item \textbf{Claims Tree}: Ist ein Baum, der Informationen über ausgestellte Claims einer Identität \textbf{öffentlich} speichert.
+	\item \textbf{Revocations Tree}: Ist ein Baum, der die Noncen (zuvor zufällig generierte Zahlen) einer Widerrufung von Claims \textbf{privat} speichert.
+	\item \textbf{Roots Tree}: Speichert \textbf{öffentlich} die Historie der Wurzeln der Claim Trees.
+\end{enumerate}
+Der Identitätsstatus lässt sich somit wie folgt definieren:
+\begin{align}
+	IdState = Hash(ClR || ReR || RoR)
+\end{align}
+wobei:
+\begin{itemize}
+	\item Hash einer Hash-Funktion entspricht
+	\item ClR der Wurzel des Claims Tree entspricht
+	\item ReR der Wurzel des Revocation Tree entspricht
+	\item ReR der Wurzel des Roots Tree entspricht
+\end{itemize}
+Der oben genannte Identitätsstatus wird als einziges Datum in der Blockchain gespeichert.
 
 
 \section{Sovrin}
