@@ -1,2 +1,39 @@
 \chapter{Vergleich existierender Lösungen}
 \label{cha:vergleich Lösungen}
+In der Folgenden Tabelle werden die Lösungen von \textbf{Luniverse}, \textbf{Dock}, \textbf{Polygon} und \textbf{Sovrin} miteinander verglichen. Betrachtet wird dabei die Blockchain und dessen Konsensus-Algorithmus, ob ein Knoten ohne zusätzliche Erlaubnis ein Validator werden kann, ob ZK-Proofs verfügbar sind und wo die Credentials gespeichert werden. Im Anschluss werden die Transaktionskosten betrachtet und die maximale Transaktionsfrequenz.
+
+\begin{landscape}
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{cccccc}
+			\toprule
+			\textbf{Bezeichung} & {Blockchain} & {Konsensus-Algorithmus} & {Permissionless?}& {ZK-Proofs?} & {Speicherung}\\
+			\midrule
+			\rowcolor{lavender}
+			Luniverse 	& Luniverse-Sidechain 	& LPOA 														& No 									& Yes 															& Wallet\footnote{Wird mit WalletSDK implementiert}					\\
+			Dock      	& Dock-Sidechain		& GRANDPA  													& Yes 									& Yes 															& Wallet\footnote{Wird mit WalletSDK implementiert}					\\
+			\rowcolor{lavender}
+			PolygonId 	& Polygon PoS 			& Proof-of-Stake 											& Yes 									& Yes 															& PolyginId App oder WalletSDK										\\
+			Sovrin 		& Sovrin Network 		& Plenum\footnote{Basiert auf 'Byantine Failt Tolerance'} 	& No 									& Yes 															& WalletSDK															\\
+			\rowcolor{lavender}
+			ShoCard 	& Bitcoin				& Proof-of-Work 											& Yes 									& No 															& Blockchain, ShoCard central server, App							\\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+\end{landscape}
+
+
+\section{Transaktionskosten}
+Transaktionen auf der Blockchain sind Prozesse, die in den verteilten Speicher schreiben. Da Transaktionen von Validator-Knoten überprüft werden, muss an das Netzwerk eine Gebühr gezahlt werden. Diese variiert je nach Blockchain, Zustand der Blockchain und Auslastung.
+\begin{itemize}
+	\item Luniverse: Luniverse gibt an, dass keine Transaktionsgebühren existieren.
+	\item Dock: Gibt an, dass keine Gebühren anfallen für die Credentialerstellung. Transaktionen für das erstellen von Schemas oder Credentials widerrufen seien sehr gering \cite{ID44}
+	\item Polygon: Bei Polygon lassen sich die Transaktionskosten sehr genau berechnen. Dabei hängt es von zwei Faktoren ab, wie teuer die Transaktion wird \cite{ID45}:
+	\begin{itemize}
+		\item Menge an Gas: Das ist eine Metrik für die Leistung, die das Netzwerk für das Ausführen der Transaktion zur Verfügung stellt. Im Falle vom Polygon wird die 'Ethereum Virtual Machine' (EVM) verwendet, welche Platten-Verwendung, CPU-Verwendung, etc. misst und so die Menge an Gas berechnet.
+		\item Gaspreis: Dieser Faktor hängt von der Netzwerkauslastung ab. Prinzipiell gibt es drei Modelle zwischen denen man entscheiden muss: Standard, Fast und Rapid. Dabei wird aufsteigend die Transaktionsdauer geringer (30-10 bei Standard und 5-10 bei Rapid). Analog dazu steigt auch der Gaspreis. Auf PolygonScan\footnote{https://polygonscan.com/gastracker} können die Gaspreise historisch betrachtet werden.
+	\end{itemize}
+	\item Sovrin: Credential und DID-Erstellung sind kostenlos. Für alles andere (also Revokation, Schemas, etc) gibt es jeweils für TestNet und MainNet eigene Preise.
+	\item ShoCard: Transaktionskosten auf der Bitcoin Blockchain werden in Satoshi ($1 * 10^{-6} Bitcoin$) pro Byte berechnet. Demnach kostet die Transaktion mehr, je nachdem viele Daten in die Blockchain geschrieben werden. Im Jahr 2023 betrugen die Kosten für eine Transaktion im Durchschnitt zwischen einen und drei Euro \cite{ID49}. Es ist jedoch anzunehmen, dass Transaktionen, die Data-Anchoring betreiben, mehr kosten, da mehr Daten geschrieben werden.
+	
+\end{itemize}

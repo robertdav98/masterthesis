@@ -132,12 +132,74 @@ wobei:
 \end{itemize}
 Der oben genannte Identitätsstatus wird als einziges Datum in der Blockchain gespeichert.
 
+\subsection{zk-Proof von PolygonId}
+Ein Feature von PolygonId, dass es von anderen SSI-Frameworks hervorhebt ist, dass es Verifikation mittels sog. \textsl{zero-knowledge-proofs} zur Verfügung stellt. Die Idee hierbei ist, dass dem Verifier die Richtigkeit eines Claims verifizieren kann \textbf{ohne} Informationen über den eigentlichen Claim zu erhalten. Als Beispiel wird folgender \textbf{nicht anonymisierter / nicht verschlüsselter/ selektiv freigegebener} Claim betrachtet:
+\begin{lstlisting}[language=json,firstnumber=1]	
+[...]
+	"credentialSubject": {	
+		"id": "did:example:456",	
+		"degree": {		
+			"type": "Gehalt",		
+			"name": "ArbeitgeberName",		
+			"frequence": "monthly",
+			"value": 4000	
+		}	
+	}
+[...]
+\end{lstlisting}
+Sollte nun beispielsweise ein Kreditinstitut (der Verifier) überprüfen wollen, ob der Kunde mehr als 2000€ verdient, so ist es in erster Linie irrelevant, ob die Person 5000€ oder 10000€ verdient und würde nur unnötig die Privatsphäre beeinträchtigen. Polygon bietet hierzu eine Lösung und implementiert ein zero-knowledge-Konzept, wo der Verifier über eine Query-Sprache lediglich über den Besitz des Credentials informiert wird ohne tatsächlich Informationen zu erhalten.
+Die Anfrage kann on-chain und off-chain formuliert und sieht wie folgt aus (erstellt mit dem ZK-QueryBuilder\footnote{https://schema-builder.polygonid.me/query-builder} von PolygonId):
+
+\begin{lstlisting}[language=json,firstnumber=1]	
+[...]
+    const proofRequest: protocol.ZKPRequest = {
+		id: 1,
+		circuitId: 'credentialAtomicQuerySigV2',
+		query: {
+			allowedIssuers: ['*'],
+			type: 'EmployeeData',
+			context: 'https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/employee-data/employee-data.jsonld',
+			credentialSubject: {
+				monthlySalary: {
+					$gt: 2000,
+				},
+			},
+		},
+	};
+[...]
+\end{lstlisting}
+Das Ergebnis der Anfrage ist ein Objekt, welches 'zero-knowledge-proof-information' speichert und dem Verifier zusichert, dass der zu verifizierende Nutzer den Claim tatsächlich besitzt.
 
 \section{Sovrin}
-\blindtext
+Sovrin (Foundation) \footnote{https://sovrin.org/} ist eine gemeinnützige Organisation, die etabliert wurde, um das Governance-Framework 'Sovrin Network' zu administrieren, welches ein öffentlicher Dienstleistungsservice ist zum ermöglichen der SSI \cite{ID39}. Dabei ist die Funktion der Sovrin Foundation das Sicherstellen des öffentlichen und global zugänglichen Sovrin-Identity-Systems.
+Der verteilte Speicher des Netzwerks ist die eigen entwickelte Blockchain, die vollständig darauf abzielt SSI zu implementieren. Folgende vier Eigenschaften seien für ein erfolgreiches SSI-System notwendig und wurden in Sovrin Network eingebaut \cite{ID40}:
+\begin{itemize}
+	\item Governance: Alle Stakeholder können dem Netzwerk vollständig vertrauen
+	\item Performance: Das Netzwerk soll auf dem gleichen Level skalieren wie das Internet selber
+	\item Zugänglichkeit: Das Netzwerk ist für jeden zugänglich
+	\item Privatsphäre: Die sichersten Standards werden implementiert
+\end{itemize}
+Ein Mechanismus zum verbessern der Privatsphäre ist das 'pseudonymous by default'-Konzept, welches Sovrin umsetzt. Hierbei wird für jede Relation (beispielsweise PersonX->Arbeitgeber, PersonX->Verkäufer, etc) eine eigene DID verwendet. Somit ist mehr Privatsphäre gegeben und auch die Sicherheit ist verbessert. \\
+Die Sovrin-Blockchain ist eine sog 'permissioned' Blockchain, was bedeutet, dass ein Konten, der Transaktionen tätigen oder validieren möchte (also ein sog. 'Validator-Knoten') eine Erlaubnis braucht. Organisationen, die diese Erlaubnis erhalten haben nennen sich bei Sovrin 'Stewards'. Diese sind global verteilt und aktuell gibt es 50 Stewards in 13 Ländern und 6 Kontinenten \cite{ID43}. 
+\subsection{Technische Grundlagen}
+Sovrin versucht sich an DNS\footnote{Domain Name System} zu orientieren, da DNS knapp eine Milliarde Einträge hat und über 100 Milliarden anfragen pro Tag bearbeitet \cite{ID42}. Übertragen auf den Identitätskontext - unter der Annahme dass Identitäten mehrere DID's besitzten - muss das Netzwerk möglicherweise täglich Trillionen von Anfragen bearbeiten.
+Während DNS keinen Konsensus-Algorithmus verwendet ist dies bei der Sovrin-Blockchain jedoch nicht der Fall. Um dennoch eine gute Skalierung zu implementieren werden zwei verschiedene Arten von Knoten im Netzwerk verwendet:
+\begin{itemize}
+	\item \textbf{Validator-Knoten}: Ist eine kleine Mengen an Knoten im Netzwerk deren Funktion es ist Transaktionen zu akzeptieren
+	\item \textbf{Observer-Knoten}: Eine größere Menge an Knoten, die Lese-Anfragen bearbeiten
+\end{itemize}
+Issuer, Verifier und Holder erreichen diese Knoten über Agenten. Diese Agenden können beispielsweise Mobilanwendungen sein und haben die Aufgabe mit dem Sovrin-Network in Verbindung zu stehen. Agenten können Identitätstransaktionen stellvertretend für den Identitätsträger tätigen und kommunizieren direkt mit anderen Agenten. Dies funktioniert, da der Agent Zugriff auf den privaten Schlüssel hat. Demnach kann beispielsweise DID-Dokumente modifiziert werden oder Transaktionen getätigt werden.
+Zudem werden private Daten (wie Claims) ebenso auf dem Agenten gespeichert, während öffentliche Daten auf der Blockchain abgelegt werden. \\
+Ähnlich wie bei PolygonId kann von ZK-Proofs Gebrauch gemacht werden oder Anfragen modelliert werden.
 
-\section{uPort}
-\blindtext
+\section{ShoCard}
+Die letzte hier vorgestellte Lösung basiert auf der Bitcoin Blockchain. Das besondere hierbei ist, dass Bitcoin keine Möglichkeit bietet Smartcontracts oder ähnliches zu implementieren. Dennoch gibt es einen Prozess, der SSI in der Blockchain implementiert. Hierbei verschachtelt Shocard die DID, ein existierenden Credential und zusätzliche Identitätsattribute in einer Bitcoin-Transaktion \cite{ID46}. Shocard verwendet einen zentralen Server der folgende drei Vorgänge implementiert:
 
-\section{walt.id}
-\blindtext
+\begin{itemize}
+	\item \textbf{Bootstrapping}: Ist der Prozess bei dem eine neue Shocard erstellt wird. Hierbei erstellt die Shocard-App ein neues asymmetrisches Schlüsselpaar und scannt die Credentials über die Kamera. Die Daten werden im Anschluss verschlüsselt und auf dem Gerät gespeichert. Ein signierter Hash wird im Anschluss in einer Bitcoin Transaktion gespeichert, wobei die erhaltene Transaktionsnummer zu der ShoCardID des Anwenders wird. Ebenso wird diese Information in der App gespeichert. Ist dieser Prozess abgeschlossen ,so kann der Identitätsträger mit mit Issuern kommunizieren, um weitere Identitätsattribute anzufragen. Dieser Prozess nennt sich certification
+	\item \textbf{Certification}: Um Identitätsattribute zu erhalten muss der Identitätsträger nachweisen, dass er die Daten kennt, die den Hash generiert hatten (wurde in der App persistiert) und den Schlüssel der zur Signatur verwendet wurde. Als Ergebnis liegt eine neue Transaktion vor, die die Attribute und die ShoCardD gehasht enthält. Da der Provider die Transaktion getätigt hat, muss er die Transaktionsnummer zusammen mit dem signierten Klartext der neuen Attribute mit dem Nutzer teilen. Diese werden erneut in der Applikation lokal gespeichert. Da der Nutzer die Credentials jedoch nicht verlieren möchte im Falle, dass der Zugriff zur Applikation verloren geht, bietet ShoCard die Möglichkeit Credentials verschlüsselt in einem 'Envelop' zu speichern (ein Speicher den ShoCard verwaltet). Der Envelop kennt den Schlüssel zur Verschlüsselung nicht.
+	\item Validation: Dieser Prozess findet statt, wenn ein Identitätsträger den Besitzt von Credentials nachweisen möchte. Hierbei gibt der Nutzer die Referenz des Envelops und den zur Verschlüsselung verwendeten Schlüssel. Somit kann der Verifier die Korrektheit überprüfen. Somit wird klar, dass kein ZK-Proof vorliegt, da dem Verifier sämtliche Informationen des Credentials vorliegen.	
+\end{itemize}
+
+\subsection{Probleme von ShoCard}
+Mit der Verwendung von ShoCard gehen jedoch auch Probleme einher. Beispielsweise wird offensichtlich, dass wenn der \textbf{ShoCard central server} verwendet wird (der die Envelops speichert), dass eine Abhängigkeit zu ShoCard existiert. Sollte das Unternehmen verschwinden und die Server offline nehmen, so verlieren Nutzer ihren Zugang zu den Credentials, wenn sie keine lokale Kopie verwenden. Diese Eigenschaft nimmt ShoCard einen Teil seiner Dezentralität. Zudem existiert das Problem, dass ShoCardIDs nur unidirektional identifizieren (Also Identität -> ShoCardId). Es gibt keine dezentrale Registry, die von einer ShoCardID auf eine DID oder etwas Vergleichbarem auflöst. Zudem gibt es noch mehrere weitere Probleme \cite{ID46}.
