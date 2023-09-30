@@ -1,5 +1,6 @@
 \chapter{Vergleich existierender Lösungen}
 \label{cha:vergleich Lösungen}
+\section{Allgemein}
 In der Folgenden Tabelle werden die Lösungen von \textbf{Luniverse}, \textbf{Dock}, \textbf{Polygon} und \textbf{Sovrin} miteinander verglichen. Betrachtet wird dabei die Blockchain und dessen Konsensus-Algorithmus, ob ein Knoten ohne zusätzliche Erlaubnis ein Validator werden kann, ob ZK-Proofs verfügbar sind und wo die Credentials gespeichert werden. Im Anschluss werden die Transaktionskosten betrachtet und die maximale Transaktionsfrequenz.
 
 \begin{landscape}
@@ -10,8 +11,8 @@ In der Folgenden Tabelle werden die Lösungen von \textbf{Luniverse}, \textbf{Do
 			\textbf{Bezeichung} & {Blockchain} & {Konsensus-Algorithmus} & {Permissionless?}& {ZK-Proofs?} & {Speicherung}\\
 			\midrule
 			\rowcolor{lavender}
-			Luniverse 	& Luniverse-Sidechain 	& LPOA 														& No 									& Yes 															& Wallet\footnote{Wird mit WalletSDK implementiert}					\\
-			Dock      	& Dock-Sidechain		& GRANDPA  													& Yes 									& Yes 															& Wallet\footnote{Wird mit WalletSDK implementiert}					\\
+			Luniverse 	& Luniverse-Sidechain 	& LPOA														& No 									& Yes 															& Wallet\footnote{Wird mit WalletSDK implementiert}					\\
+			Dock      	& Dock-Sidechain		& GRANDPA													& No 									& Yes 															& Wallet\footnote{Wird mit WalletSDK implementiert}					\\
 			\rowcolor{lavender}
 			PolygonId 	& Polygon PoS 			& Proof-of-Stake 											& Yes 									& Yes 															& PolyginId App oder WalletSDK										\\
 			Sovrin 		& Sovrin Network 		& Plenum\footnote{Basiert auf 'Byantine Failt Tolerance'} 	& No 									& Yes 															& WalletSDK															\\
@@ -35,5 +36,58 @@ Transaktionen auf der Blockchain sind Prozesse, die in den verteilten Speicher s
 	\end{itemize}
 	\item Sovrin: Credential und DID-Erstellung sind kostenlos. Für alles andere (also Revokation, Schemas, etc) gibt es jeweils für TestNet und MainNet eigene Preise.
 	\item ShoCard: Transaktionskosten auf der Bitcoin Blockchain werden in Satoshi ($1 * 10^{-6} Bitcoin$) pro Byte berechnet. Demnach kostet die Transaktion mehr, je nachdem viele Daten in die Blockchain geschrieben werden. Im Jahr 2023 betrugen die Kosten für eine Transaktion im Durchschnitt zwischen einen und drei Euro \cite{ID49}. Es ist jedoch anzunehmen, dass Transaktionen, die Data-Anchoring betreiben, mehr kosten, da mehr Daten geschrieben werden.
+	
+\end{itemize}
+
+\section{Konsensus-Algorithmus}
+Konsensus-Algorithmen werden verwendet, um einen einheitlichen Zustand des Netzwerk zwischen den Knoten festzulegen. Hierbei gibt es verschiedene Ausführungen, die im Folgenden betrachtet werden:
+\begin{itemize}
+	\item LPOA: Dieses Akronym steht für "Luniverse's Proof of Authority" \cite{ID50}. Hierbei handelt es sich um einen Proof-of-Authority-Algorithmus, wo ein Validator nicht anhand seiner zur Verfügung gestellten Rechenkraft oder Kryptowährung bemessen wird, sondern an seiner Identität. Potentielle Validatoren (beispielsweise Unternehmen, Institutionen, Regierungen, etc.) müssen sich bei einer Einrichtung oder Organisation, die das PoA-Netzwerk betreibt, bewerben oder eingeladen werden. Diese entscheiden anhand der Reputation und der Vertrauenswürdigkeit des Bewerbers, ob dieser als Validator fungieren darf. Sollte Letzteres erlaubt werden, so werden Verträge verfasst, um die Verantwortlichkeiten im Netzwerk festzulegen. Im Anschluss kann mit dem Validieren von Blöcken begonnen werden. Sollte Fehlverhalten des Validators festgestellt werden, so kann dieser aus dem Netzwerk ausgeschlossen werden \cite{ID51}.
+	\item GRANDPA: Dieser Algorithmus lässt sich ebenso als Proof-of-Authority-Algorithmus klassifizieren
+	\item Proof-of-Stake: Proof of Stake (PoS) ist ein Konsensusmechanismus in Blockchain-Netzwerken, der verwendet wird, um Transaktionen zu validieren und neue Blöcke zur Blockchain hinzuzufügen. Im Gegensatz zu Proof of Work (PoW), bei dem Miner rechenintensive Aufgaben lösen müssen, um Blöcke zu erstellen, basiert PoS auf dem Konzept des "Stakings" oder des Einsatzes von Kryptowährungen.
+	\begin{enumerate}
+		\item \textbf{Validatoren und Staking:} In einem PoS-Netzwerk gibt es keine Miner im herkömmlichen Sinne. Stattdessen gibt es Validatoren. Um ein Validator zu werden, müssen Benutzer eine bestimmte Menge der Kryptowährung des Netzwerks als Einsatz hinterlegen. Dieser dient als Garantie dafür, dass der Validator korrekt arbeitet.
+		
+		\item \textbf{Blockvalidierung:} Wenn eine Transaktion im Netzwerk eingereicht wird, wird ein Validator zufällig ausgewählt, um die Transaktion zu validieren und einen neuen Block hinzuzufügen. Die Wahrscheinlichkeit, ausgewählt zu werden, hängt oft von der Menge des gestakten Vermögens ab, was bedeutet, dass Benutzer mit größeren Stakes eine höhere Chance haben, ausgewählt zu werden.
+		
+		\item \textbf{Belohnungen:} Validator, die korrekt arbeiten und Transaktionen ordnungsgemäß validieren, erhalten Belohnungen in Form von Transaktionsgebühren und neuen Kryptowährungseinheiten, die dem System hinzugefügt werden. Diese Belohnungen werden oft proportional zur Höhe des gestakten Vermögens des Validators verteilt.
+		
+		\item \textbf{Bestrafungen:} Wenn ein Validator betrügerisches Verhalten zeigt oder versucht, das Netzwerk zu schädigen, kann er seine gestakten Vermögenswerte verlieren oder andere Strafen erhalten.
+	\end{enumerate}
+	PoS \cite{ID53}bietet mehrere Vorteile, darunter eine geringere Umweltauswirkung im Vergleich zu PoW, da keine rechenintensiven Aufgaben erforderlich sind, und eine höhere Skalierbarkeit. Trotz der vielen Vorteile von Proof-of-Stake gibt es auch einige Nachteile \cite{ID53}:
+	
+	\begin{enumerate}
+		\item \textbf{Zentralisierungstendenzen:} PoS kann zu einer gewissen Zentralisierung führen, da Teilnehmer mit großen Stakes mehr Einfluss haben und wahrscheinlicher ausgewählt werden, um Transaktionen zu validieren und Blöcke hinzuzufügen. Dies könnte zu einer Konzentration der Netzwerkvalidierungsmacht führen.
+		
+		\item \textbf{Reichtumsungleichheit:} PoS belohnt Benutzer proportional zu ihren gestakten Vermögenswerten. Dies könnte die bestehende Reichtumsungleichheit in Kryptowährungen weiter verstärken, da reichere Benutzer größere Stakes halten können und somit mehr Belohnungen erhalten.
+		
+		\item \textbf{Gefahr von Auslagerung (Staking as a Service):} Einige Benutzer könnten ihre Staking-Aktivitäten an Dritte auslagern, um die Belohnungen zu maximieren. Dies könnte dazu führen, dass reiche Benutzer Dritte beauftragen, um ihre Stakes zu verwalten, was die Dezentralisierung gefährden könnte.
+		
+		\item \textbf{Geringe Anreize für Aktivität:} Einige PoS-Netzwerke könnten Schwierigkeiten haben, Benutzer dazu zu ermutigen, aktiv am Netzwerk teilzunehmen, da sie bereits gestakte Vermögenswerte besitzen und möglicherweise keine zusätzlichen Anreize sehen, aktiv Transaktionen zu validieren.
+		
+		\item \textbf{Schwierigkeiten bei der Wahl der Validatoren:} Die Auswahl von zuverlässigen und ehrlichen Validatoren kann eine Herausforderung darstellen. Es müssen Mechanismen implementiert werden, um sicherzustellen, dass betrügerische oder bösartige Validatoren erkannt und bestraft werden.
+		
+		\item \textbf{Sicherheitsprobleme bei geringer Beteiligung:} PoS-Netzwerke könnten anfällig für Angriffe sein, wenn die Beteiligung gering ist und nur wenige Validatoren vorhanden sind. In solchen Fällen könnten Angreifer leichter die Kontrolle über das Netzwerk erlangen.
+		
+		\item \textbf{Verlust von gestakten Vermögenswerten:} Bei fehlerhaftem Verhalten oder betrügerischen Handlungen können Validatorn Strafen auferlegt werden, einschließlich des Verlusts ihrer gestakten Vermögenswerte.
+	\end{enumerate}
+	
+	\item Proof of Work (PoW) ist ein Konsensusmechanismus, der in vielen Blockchain-Netzwerken verwendet wird. Er dient dazu, Transaktionen zu validieren, neue Blöcke zur Blockchain hinzuzufügen und das Netzwerk vor verschiedenen Arten von Angriffen zu schützen. Im Folgenden sind die Grundlagen von PoW zu betrachten:
+	
+	\begin{enumerate}[label=\arabic*.]
+		\item \textbf{Transaktionen validieren:} Im Netzwerk werden Transaktionen von Benutzern gesammelt und in einen Pool gestellt, der darauf wartet, in einen neuen Block aufgenommen zu werden. Diese Transaktionen müssen validiert werden, um sicherzustellen, dass sie den Regeln des Netzwerks entsprechen.
+		
+		\item \textbf{Rätsellösung:} PoW erfordert von den sogenannten Minern, mathematische Rätsel zu lösen, die als "Proof of Work" bezeichnet werden. Diese Rätsel sind so konzipiert, dass sie eine erhebliche Rechenleistung erfordern und gleichzeitig leicht zu überprüfen sind, sobald sie gelöst sind. Minen ist also ein wettbewerbsfähiger Prozess, bei dem die Miner darum konkurrieren, das Rätsel zu lösen.
+		
+		\item \textbf{Wettbewerb und Belohnungen:} Die Miner verwenden ihre Rechenleistung, um das Rätsel zu lösen. Der erste Miner, der das Rätsel erfolgreich löst, kann einen neuen Block erstellen und ihn mit den validierten Transaktionen füllen. Dieser neue Block wird dann der Blockchain hinzugefügt. Als Belohnung für ihre Arbeit erhalten die Miner neue Kryptowährungseinheiten (z. B. Bitcoin) sowie die Transaktionsgebühren, die von den Benutzern für die Validierung ihrer Transaktionen gezahlt werden.
+		
+		\item \textbf{Sicherheit und Dezentralisierung:} PoW schützt das Netzwerk, indem es für Angreifer sehr teuer macht, die Mehrheit der Rechenleistung im Netzwerk zu kontrollieren. Je mehr Rechenleistung ein Angreifer benötigt, desto schwieriger wird es, das Netzwerk zu übernehmen. Dies trägt zur Sicherheit und Dezentralisierung bei, da viele Miner weltweit am PoW-Prozess teilnehmen.
+		
+		\item \textbf{Schwierigkeitsanpassung:} Das PoW-System passt die Schwierigkeit des zu lösenden Rätsels automatisch an die Gesamtrechenleistung des Netzwerks an. Dies stellt sicher, dass die Zeit zwischen der Erstellung neuer Blöcke ungefähr gleich bleibt, unabhängig davon, wie viele Miner im Netzwerk aktiv sind.
+	\end{enumerate}
+	
+	Obgleich PoW mit vielen Vorteilen einhergeht stehen auch Kritikpunkte im Raum: Unter anderem ist PoW höchst ineffizient, da wie bereits erwähnt nur der erste Miner, der das Rätsel löst belohnt wird, obwohl viele andere Miner gleichzeitig am selben Problem arbeiteten. Dadurch werden große Mengen an Rechenleistung verschwendet. 
+	
+	
 	
 \end{itemize}

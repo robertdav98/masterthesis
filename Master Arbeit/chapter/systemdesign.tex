@@ -1,8 +1,30 @@
 \chapter{System-Design}
 \label{cha:systemdesign}
 
-\section{Architektur des dezentralen Identitätsmanagementsystems Anforderungen}
-\blindtext
+\section{Architektur des dezentralen Identitätsmanagementsystems}
+
+\subsection{Entscheidung über Framework}
+Um sich für eine Architektur festzulegen muss zunächst die Entscheidung über die darunterliegende Plattform getroffen werden. Dabei stehen die in Kapitel 5 betrachteten Lösungen zur Auswahl: Luniverse, Dock, PolygonId, Sovrin und Shocard. Die für den Prototypen ausgewählte Plattform wird PolygonId aus folgenden Gründen:
+\begin{itemize}
+	
+	\item Polygon (als unterliegende Blockchain) zeigt folgende Vorteile auf \cite{ID54}:
+	\begin{itemize}
+		\item Die Blockchain skaliert hervorragend mit einer steigenden Anzahl von Transaktionen
+		\item Geringe Transaktionskosten
+		\item Hohe Interoperabilität mit Ethereum
+		\item Etablierte Plattform und weite Verbreitung im Markt
+	\end{itemize}
+	
+	\item PolygonId:
+	\begin{itemize}
+		\item Möglichkeit zum Widerruf von Informationen gegeben
+		\item Informationen sind überprüfbar
+		\item Selektive-Disclosure implementierbar
+		\item Alle nicht-funktionalen Anforderungen implementierbar
+		\item Unterstützt W3C Standard für VC's
+		\item Credential Exchange erfolgt nach Identity-Foundation Standard
+	\end{itemize}
+\end{itemize}
 
 \section{Komponenten und deren Funktionalitäten}
 Das Identitätsmanagementsystem kann ohne bestimmte Komponenten nicht funktionieren. Es ist definitiv ein DID-Resolver notwendig: Also eine Komponente, die DID's auf deren DID-Dokumente ableitet.
