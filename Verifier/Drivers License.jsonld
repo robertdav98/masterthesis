@@ -1,0 +1,27 @@
+{
+    "@context": [
+        {
+            "@protected": true,
+            "@version": 1.1,
+            "id": "@id",
+            "type": "@type",
+            "DriversLicenseSchemaType": {
+                "@context": {
+                    "@propagate": true,
+                    "@protected": true,
+                    "polygon-vocab": "urn:uuid:c8e986c0-2078-437f-bf7c-561337adaf98#",
+                    "xsd": "http://www.w3.org/2001/XMLSchema#",
+                    "typeOfVehicle": {
+                        "@id": "polygon-vocab:typeOfVehicle",
+                        "@type": "xsd:string"
+                    },
+                    "yearOfReceipt": {
+                        "@id": "polygon-vocab:yearOfReceipt",
+                        "@type": "xsd:double"
+                    }
+                },
+                "@id": "urn:uuid:8ebd077f-2b56-4473-b890-79c3b807cf03"
+            }
+        }
+    ]
+}

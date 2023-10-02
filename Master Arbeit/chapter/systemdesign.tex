@@ -4,7 +4,7 @@
 \section{Architektur des dezentralen Identitätsmanagementsystems}
 
 \subsection{Entscheidung über Framework}
-Um sich für eine Architektur festzulegen muss zunächst die Entscheidung über die darunterliegende Plattform getroffen werden. Dabei stehen die in Kapitel 5 betrachteten Lösungen zur Auswahl: Luniverse, Dock, PolygonId, Sovrin und Shocard. Die für den Prototypen ausgewählte Plattform wird PolygonId aus folgenden Gründen:
+Um sich für eine Architektur festzulegen, muss zunächst die Entscheidung über die darunterliegende Plattform getroffen werden. Dabei stehen die in Kapitel 5 betrachteten Lösungen zur Auswahl: Luniverse, Dock, PolygonId, Sovrin und Shocard. Für die Entwicklung des Prototypen wird im folgenden :
 \begin{itemize}
 	
 	\item Polygon (als unterliegende Blockchain) zeigt folgende Vorteile auf \cite{ID54}:
@@ -25,9 +25,8 @@ Um sich für eine Architektur festzulegen muss zunächst die Entscheidung über 
 		\item Credential Exchange erfolgt nach Identity-Foundation Standard
 	\end{itemize}
 \end{itemize}
-
+Prinzipiell besteht die Architektur aus drei Komponenten: Einem Verifier, einem Issuer und dem Holder. Jede dieser drei Komponenten laufen unabhängig voneinander und können mit fremd-implementierten Instanzen kommunizieren. 
 \section{Komponenten und deren Funktionalitäten}
-Das Identitätsmanagementsystem kann ohne bestimmte Komponenten nicht funktionieren. Es ist definitiv ein DID-Resolver notwendig: Also eine Komponente, die DID's auf deren DID-Dokumente ableitet.
 
 \section{Interaktion zwischen den Komponenten}
 \blindtext
