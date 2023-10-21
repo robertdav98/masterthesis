@@ -29,55 +29,47 @@ app.listen(port, () => {
 // Create a map to store the auth requests and their session IDs
 const requestMap = new Map();
 
-
 async function GetAuthRequest(req,res) {
 
-    // Audience is verifier id
-    const hostUrl = "https://5d42-2a02-908-1990-98e0-987a-97bf-bf82-bcf6.ngrok-free.app"; // <- public ip
+    const hostUrl = "https://6234-2a01-e0a-fb-94e0-a493-e473-8c92-289d.ngrok-free.app"; // <- public ip
     const sessionId = 1;
     const callbackURL = "/api/callback"
-    const audience = "did:polygonid:polygon:mumbai:2qEV3tagFATBNhavzsEpB5e98cAsPn7jKu13AhHtpU" // <- issuer did
-    //const audience = "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
-
-
-    const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
+    const audience = "did:polygonid:polygon:mumbai:2qF57iujBWKeAGc2koCV56yW5S1SfPtFsCgDHzGRdW" // <- did of requester
+const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
 
     // Generate request for basic authentication
     const request = auth.createAuthorizationRequest(
-        'Verify user has a drivers license',
+        'test flow',
         audience,
-        uri
+        uri,
     );
 
-    //request.id = '7f38a193-0918-4a48-9fac-36adfdb8b542';
-    //request.thid = '7f38a193-0918-4a48-9fac-36adfdb8b542';
-    
-    request.id = '7f38a193-0918-4a48-9fac-36adfdb8b5423';
-    request.thid = '7f38a193-0918-4a48-9fac-36adfdb8b5423';
+    request.id = '';
+    request.thid = '';
 
     // Add request for a specific proof
     const proofRequest = {
-      id: 1,
-      circuitId: 'credentialAtomicQuerySigV2',
-      query: {
-        allowedIssuers: ['*'],
-        type: 'DriversLicenseMasterThesis',
-        context: 'https://ipfs.io/ipfs/Qmc7Yt5usPiRMUF2P83PkYVWtZHG8Lyp61UxmupZG2h7nS',
-        credentialSubject: {
-          yearOfReceipt: {
-            $lt: 2000,
+        id: 1,
+        circuitId: 'credentialAtomicQuerySigV2',
+        query: {
+          allowedIssuers: ['*'],
+          type: 'MasterWorkDriversLicense',
+          context: 'https://ipfs.io/ipfs/QmTSd6saivXHysRopQdM1yswp2qyFwobL7fwuFpkVTS8gd',
+          credentialSubject: {
+            YearOfReceipt: {
+              $lt: 2024,
+            },
           },
-        },
-    },
-    };
+      },
+      };
     const scope = request.body.scope ?? [];
     request.body.scope = [...scope, proofRequest];
 
   // Store auth request in map associated with session ID
     requestMap.set(`${sessionId}`, request);
-    console.log(request)
 
     let requestAsString = JSON.stringify(request)
+    console.log(requestAsString)
     let path = './public/qr.png'
 
     QRCode.toFile(path, requestAsString, {

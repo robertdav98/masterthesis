@@ -1,0 +1,4 @@
+node app -a createIdentity
+node app -a createClaim -v Truck -y 1998 -i <identity>
+node app -a getClaimQR -c <claim> -i <identity>
+

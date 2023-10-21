@@ -178,6 +178,7 @@ function getClaimQR(identity, claim){
       .then(function (response) {
         oldUrl = response["data"]["body"]["url"]
         response["data"]["body"]["url"] = issuer_url + oldUrl.substring(24)
+        console.log(response["data"])
         let requestAsString = JSON.stringify(response["data"])
         qrcode.generate(requestAsString, {small: true});
       })
