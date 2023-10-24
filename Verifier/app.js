@@ -31,7 +31,7 @@ const requestMap = new Map();
 
 async function GetAuthRequest(req,res) {
 
-    const hostUrl = "https://6234-2a01-e0a-fb-94e0-a493-e473-8c92-289d.ngrok-free.app"; // <- public ip
+    const hostUrl = "https://55fc-15-188-2-11.ngrok-free.app"; // <- public ip
     const sessionId = 1;
     const callbackURL = "/api/callback"
     const audience = "did:polygonid:polygon:mumbai:2qF57iujBWKeAGc2koCV56yW5S1SfPtFsCgDHzGRdW" // <- did of requester
@@ -57,7 +57,7 @@ const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
           context: 'https://ipfs.io/ipfs/QmTSd6saivXHysRopQdM1yswp2qyFwobL7fwuFpkVTS8gd',
           credentialSubject: {
             YearOfReceipt: {
-              $lt: 2024,
+              $lt: 2020,
             },
           },
       },
@@ -117,7 +117,6 @@ async function Callback(req,res) {
             //ipfsGatewayURL:"https://app.pinata.cloud/gateway/amethyst-official-duck-350?pinataGatewayToken=F5FDkLi66xtMWFQ0BCjZ1EGceaWSvbQ1uvkioaYqi9Iq4lSc8CRpMi-2EXVSa1f"
             }
     );
-
 
   try {
       const opts = {

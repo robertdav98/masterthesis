@@ -22,7 +22,7 @@ const VehicleTypes = {
 }
 
 //issuer api info
-const issuer_url = "https://fb80-164-92-170-18.ngrok-free.app/v1"
+const issuer_url = "https://b377-165-232-124-48.ngrok-free.app/v1"
 const username = "user-issuer"
 const password = "password-issuer"
 

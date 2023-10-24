@@ -1,4 +1,4 @@
-sainzsain\chapter{System-Design}
+\chapter{System-Design}
 \label{cha:systemdesign}
 
 \section{Architektur des dezentralen Identitätsmanagementsystems}
@@ -80,7 +80,7 @@ Es ist zu erkennen, dass der Führerschein für den Prototypen aus zwei Attribut
 		\item Scooter
 		\item Motorcycle
 	\end{itemize}
-\end{itemize}}]
+\end{itemize}
 
 Zum Erstellen der Schemata stellt PolygonId einen Schema-Builder zur Verfügung \footnote{https://schema-builder.polygonid.me/}. \\
 Nachdem der Issuer den Führerschein ausgestellt hat kann der Holder ihn entgegennehmen. Der nächste Schritt ist, dass ein Verifier einen Query definiert, der wie folgt aussehen könnte:
@@ -90,7 +90,7 @@ Nachdem der Issuer den Führerschein ausgestellt hat kann der Holder ihn entgege
 	query: {
 		allowedIssuers: ['*'],
 		type: 'MasterWorkDriversLicense', // im Schema definierter Typ
-		context: 'https://ipfs.io/ipfs/QmTSd6saivXHysRopQdM1yswp2qyFwobL7fwuFpkVTS8gd', // öffentlich gehostes JSON
+		context: 'https://ipfs.io/ipfs/QmTSd6saivXHysRopQdM1yswp2qyFwobL7fwuFpkVTS8gd',
 		credentialSubject: {
 			YearOfReceipt: {
 				$lt: 2022,
@@ -99,8 +99,6 @@ Nachdem der Issuer den Führerschein ausgestellt hat kann der Holder ihn entgege
 	},
 \end{lstlisting}
 Der hier dargestellte Query überprüft primär, ob der Führerschein des Holders älter als vom Jahr 2022 ist. Indirekt fragt er ebenso ab, ob der Nutzer den beschriebenen Credential besitzt und ob dieser noch gültig ist. Ist dies der Fall, so wird der zk-Proof an den Verifier gesendet.
-\section{Komponenten und deren Funktionalitäten}
-
 \section{Interaktion zwischen den Komponenten}
 \blindtext
 
