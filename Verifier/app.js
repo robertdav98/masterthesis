@@ -31,7 +31,7 @@ const requestMap = new Map();
 
 async function GetAuthRequest(req,res) {
 
-    const hostUrl = "https://55fc-15-188-2-11.ngrok-free.app"; // <- public ip
+    const hostUrl = " https://df4c-165-1-191-123.ngrok-free.app"; // <- public ip
     const sessionId = 1;
     const callbackURL = "/api/callback"
     const audience = "did:polygonid:polygon:mumbai:2qF57iujBWKeAGc2koCV56yW5S1SfPtFsCgDHzGRdW" // <- did of requester
@@ -59,6 +59,9 @@ const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
             YearOfReceipt: {
               $lt: 2020,
             },
+            TypeOfVehicle:{
+              $eq: "Motorcycle"
+            }
           },
       },
       };
@@ -90,7 +93,7 @@ async function Callback(req,res) {
     const raw = await getRawBody(req);
     const tokenStr = raw.toString().trim();
 
-    const ethURL = 'https://endpoints.omniatech.io/v1/matic/mumbai/public';
+    const ethURL = 'https://polygon-mumbai.g.alchemy.com/v2/D1s0R1PGRyeFLL0P4aqSU_LdAjvGy5L0';
     const contractAddress = "0x134B1BE34911E39A8397ec6289782989729807a4"
     const keyDIR = "../keys"
 
