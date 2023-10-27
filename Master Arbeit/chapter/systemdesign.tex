@@ -126,11 +126,88 @@ Der Issuer kann im Polygon-Framework auf zwei Weisen realisiert werden:
 	 \end{figure}
 	 
 	 Es ist zu erkennen, dass die DID vom Issuer/Receiptient und die im CLI angegeben Attribute im Credential nachzuverfolgen sind.
+	\end{itemize}
 	 
 \section{Der Verifier}
-\blindtext
-	
+Der Verifier hat die Funktion die Credentials zu überprüfen. Hierbei wird zunächst überprüft, ob der Nutzer den Credential besitzt und ob er noch gültig ist, im Falle dass ein Auslaufdatum angegeben wurde oder der Credential widerrufen wurde. Drei Typen von Anfragen können gestellt werden:
+\begin{itemize}
+	\item Ohne Query: Entspricht einer Anfrage, die lediglich überprüft, ob der Credential existiert und valide ist
+	\item Mit Query:
+		\begin{itemize}
+			\item Für Abfrage-Operatoren ungleich 'eq' (lt , gt, in, etc)
+			\item Für Abfrage-Operation gleich 'eq'(entspricht ==). Dieser Typ von Anfragen wird auch als 'Selective Disclosure' bezeichnet.
+		\end{itemize}
 \end{itemize}
+Gebaut werden können diese Anfragen mittels einem vom Polygon zur Verfügung gestellten Tool \cite{ID57}. Hierbei wird das Schema des Credentials geladen und über ein UI können die Attribute und Operatoren ausgewählt werden und ein JSON-Objekt wird als Ergebnis zurückgegeben.
+
+Der oben beschriebe Query wird statisch im Programmcode festgehalten. \\
+Über eine REST-API (gehostet auf port 8080) werden zwei Schnittstellen zur Verfügung gestellt:
+\begin{itemize}
+	\item /api: Dieser Endpunkt macht ist dafür zuständig den Request-Body zu bauen und zu speichern (wird später erneut benötigt). Zudem wird ein QRCode von dem Request abgespeichert, der mit der PolygonId-App gescannt werden kann. Der Request-Body sieht wie folgt aus:
+	
+\begin{lstlisting}[language=json,firstnumber=1]
+{
+	"from": "did:polygonid:polygon:mumbai:2qF57iujBWKeAGc2koCV56yW5S1SfPtFsCgDHzGRdW",
+	"typ": "application/iden3comm-plain-json",
+	"type": "https://iden3-communication.io/authorization/1.0/request",
+	"body": {
+		"reason": "Check if year of receipt is older than 2020",
+		"callbackUrl": " https://df4c-165-1-191-123.ngrok-free.app/api/callback?sessionId=1",
+		"scope": [
+		{
+			"id": 1,
+			"circuitId": "credentialAtomicQuerySigV2",
+			"query": {
+				"allowedIssuers": ["*"],
+				"type": "MasterWorkDriversLicense",
+				"context": "https://ipfs.io/ipfs/QmTSd6saivXHysRopQdM1yswp2qyFwobL7fwuFpkVTS8gd",
+				"credentialSubject": {
+					"YearOfReceipt": {
+						"$lt": 2020
+					}
+				}
+			}
+		}
+		]
+	}
+}
+\end{lstlisting}	
+	\item /qr: dient als Endpunkt, um die QR-Codes zu lesen
+\end{itemize}
+Nachdem der Code von der App gescannt wurde, wird die Anfrage angezeigt. Ebenso wird die URL des Issuers angezeigt und der Name des Credentials. Der Holder initiert die Verifizierung durch das Drücken des "Approve"-Buttons. Dadurch kontaktiert die App die URL, die im Request-Body unter 'callbackUrl' angegeben wurde. An dieser Stelle führt der Server die tatsächliche Verifikation aus. Als Ergebnis wird ein zk-Proof erstellt und abgespeichert. Der Ablauf hierfür wird im folgenden Code beschrieben:
+\begin{lstlisting}[language = JavaScript , frame = trBL , firstnumber = last , escapeinside={(*@}{@*)}]
+	const ethURL = 'https://polygon-mumbai.g.alchemy.com/v2/PRIVATE_API_KEY';
+	const contractAddress = "0x134B1BE34911E39A8397ec6289782989729807a4" //public verification contract adress
+	
+	const ethStateResolver = new resolver.EthStateResolver(
+	ethURL,
+	contractAddress,
+	);
+	
+	const resolvers = {
+		['polygon:mumbai']: ethStateResolver,
+	};
+	
+	
+	// fetch authRequest from sessionID
+	const authRequest = requestMap.get(`${sessionId}`);
+	
+	// EXECUTE VERIFICATION
+	let path_full = path.join(__dirname, './circuits-dir')
+	const verifier = await auth.Verifier.newVerifier(
+	{
+		stateResolver: resolvers,
+		circuitsDir: path_full,
+		ipfsGatewayURL:"https://app.pinata.cloud/gateway/amethyst-official-duck-350?pinataGatewayToken=F5FDkLi66xtMWFQ0BCjZ1EGceaWSvbQ1uvkioaYqi9Iq4lSc8CRpMi-2EXVSa1f" // gateway used to save the ZK-Proof
+	}
+);
+\end{lstlisting}
+Man kann erkennen, dass Pinata nicht nur verwendet um die Schemata zu speichern, sondern auch als Gateway um die zk-Proofs abzulegen. Auch ist zu erkenne, dass eine URL für einen Polygon-Knoten notwendig ist, da zum einen auf Widerruf geprüft wird und zum anderen der unter 'contractAddress' gespeicherte Smart-Contract kontaktiert wird. Der Holder erhält im Anschluss die Information, dass mit Erfolg verifiziert wurde.
+
+//explain on-chain verify alternative
+//holder erklären
+//interaktion
+//integration von DLT in das Systemdesign
 \section{Interaktion zwischen den Komponenten}
 \blindtext
 
