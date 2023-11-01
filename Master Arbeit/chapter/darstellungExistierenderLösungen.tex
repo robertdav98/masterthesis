@@ -80,7 +80,7 @@ PolygonId dient als Identitätsinfrastruktur auf der Polygon-Blockchain, welche 
 \end{itemize}
 Zusätzlich bietet das Polygon weitere Mechanismen an, wobei im Folgenden nur solche genannt werden, die für das Implementieren von SSI-IDPs von Bedeutung sind oder werden könnten:
 \begin{itemize}
-	\item Polygon POS Chain \cite{ID36}: Ist die Hauptkomponente der Polygon-Plattform und ist eine Proof-of-Stake Blockchain (zuvor auch Matic Network genannt). In der Kryptowährung Matic (MATIC) werden die Transaktionsgebühren gezahlt. Die über PolygonID getätigten Transaktionen finden hier statt und profitieren von Skalierbarkeit, hoher Geschwindigkeit, Benutzerfreundlichkeit und Konnektivität zu Ethereum. Auch wenn es sich hierbei um eine Sidechain handelt ist es bisher \textbf{nicht} möglich DIDs von Polygon auf Ethereum zu übertragen, was bedeutet, dass VP's nur innerhalb von Polygon existieren und andere Ethereum-basierende Lösung diese nicht verifizieren können. Am 21.Juli 2023 wurde angekündigt, dass durch eine Partnerschaft PolygonId auch auf der Ethereum-Blockchain verwendet werden kann \cite{ID36}.
+	\item Polygon POS Chain \label{PolygonPOS} \cite{ID36}: Ist die Hauptkomponente der Polygon-Plattform und ist eine Proof-of-Stake Blockchain (zuvor auch Matic Network genannt). In der Kryptowährung Matic (MATIC) werden die Transaktionsgebühren gezahlt. Die über PolygonID getätigten Transaktionen finden hier statt und profitieren von Skalierbarkeit, hoher Geschwindigkeit, Benutzerfreundlichkeit und Konnektivität zu Ethereum. Auch wenn es sich hierbei um eine Sidechain handelt ist es bisher \textbf{nicht} möglich DIDs von Polygon auf Ethereum zu übertragen, was bedeutet, dass VP's nur innerhalb von Polygon existieren und andere Ethereum-basierende Lösung diese nicht verifizieren können. Am 21.Juli 2023 wurde angekündigt, dass durch eine Partnerschaft PolygonId auch auf der Ethereum-Blockchain verwendet werden kann \cite{ID36}.
 	\item Polygon Bridge: Ist ein Mechanismus um Vermögenswerte (also Kryptowährungen) zwischen Ethereum und Polygon-Sidechains zu bewegen. Dies kann von Bedeutung sein, wenn beispielsweise beim Anfordern eines VC eine Gebühr bezahlt werden muss (was in der analogen Welt regelmäßig stattfindet) und die Vermögenswerte nicht auf einer Blockchain abgesperrt werden sollen.
 	\item Zusätzlich gibt es mehrere Tools für Software-Entwickler eigene Sidechains zu implementieren (Polygon SDK) oder ein Testnetz, um Smartcontracts und ähnliches zu deployen und zu testen bevor auf dem Mainnet gearbeitet wird.
 	
@@ -172,6 +172,7 @@ Die Anfrage kann on-chain und off-chain formuliert und sieht wie folgt aus (erst
 Das Ergebnis der Anfrage ist ein Objekt, welches 'zero-knowledge-proof-information' speichert und dem Verifier zusichert, dass der zu verifizierende Nutzer den Claim tatsächlich besitzt.
 
 \section{Sovrin}
+\label{sovrin}
 Sovrin (Foundation) \footnote{https://sovrin.org/} ist eine gemeinnützige Organisation, die etabliert wurde, um das Governance-Framework 'Sovrin Network' zu administrieren, welches ein öffentlicher Dienstleistungsservice ist zum ermöglichen der SSI \cite{ID39}. Dabei ist die Funktion der Sovrin Foundation das Sicherstellen des öffentlichen und global zugänglichen Sovrin-Identity-Systems.
 Der verteilte Speicher des Netzwerks ist die eigen entwickelte Blockchain, die vollständig darauf abzielt SSI zu implementieren. Folgende vier Eigenschaften seien für ein erfolgreiches SSI-System notwendig und wurden in Sovrin Network eingebaut \cite{ID40}:
 \begin{itemize}
@@ -203,4 +204,5 @@ Die letzte hier vorgestellte Lösung basiert auf der Bitcoin Blockchain. Das bes
 \end{itemize}
 
 \subsection{Probleme von ShoCard}
+\label{shocard}
 Mit der Verwendung von ShoCard gehen jedoch auch Probleme einher. Beispielsweise wird offensichtlich, dass wenn der \textbf{ShoCard central server} verwendet wird (der die Envelops speichert), dass eine Abhängigkeit zu ShoCard existiert. Sollte das Unternehmen verschwinden und die Server offline nehmen, so verlieren Nutzer ihren Zugang zu den Credentials, wenn sie keine lokale Kopie verwenden. Diese Eigenschaft nimmt ShoCard einen Teil seiner Dezentralität. Zudem existiert das Problem, dass ShoCardIDs nur unidirektional identifizieren (Also Identität -> ShoCardId). Es gibt keine dezentrale Registry, die von einer ShoCardID auf eine DID oder etwas Vergleichbarem auflöst. Zudem gibt es noch mehrere weitere Probleme \cite{ID46}.

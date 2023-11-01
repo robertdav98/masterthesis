@@ -2,13 +2,150 @@
 \label{cha:evaluation}
 
 \section{Festlegen der Evaluations Metriken}
-\blindtext
+Folgende Metriken werden im folgenden Betrachtet:
+\begin{itemize}
+	\item Laufzeit
+	\item Sicherheit
+\end{itemize}
+\subsection{Metrik - Laufzeit}
+Um die Laufzeit der Operationen zu messen wurde ein Python-Script entwickelt, welches die Operationen 'createIdentity', 'getIdentity', 'createClaim' und 'getClaimQR' jeweils 100 mal ausführt. Jeder Aufruf startet einen eigenen Subprozess mit dem Python Framework 'subprocess', welcher mit dem Framework 'timeit' gemessen wird. Gemessen wird der Durchschnitt und der Median bei jeweils 100 Ausführungen einer Operation. Die gemessenen Werte sehen wie folgt aus:
 
-\section{Durchführen der Tests}
-\blindtext
+\begin{center}
+	\begin{tabular}{ c c c }
+		Operation\_Name & Durchschnitt & Median \\
+		createClaim & 1.2098522 & 1.0454559 \\
+		createIdentity & 1.1128388 & 1.1019622  \\
+		getClaimQR & 1.5566253 & 1.2646243 \\
+		getIdentity & 1.1031939 & 1.0355741 \\
+	\end{tabular}
+\end{center}
+Es ist zu erkennen, dass der Median in jedem Fall geringer ausfällt als der Durchschnitt. Dies muss damit zusammenhängen, dass ein Teil der Aufrufe unverhältnismäßig länger dauern.\\
+
+Der folgenede Code zeigt wie die Messung der Laufzeit stattgefunden haben.
+
+\begin{lstlisting}[language=python]
+	def runMeasurement(command, cache):
+		runs = 100
+		key = command.split()[3]  # "node app -a createIdentity" -> createIdentity
+		try:
+			runtime = timeit(stmt="subprocess.call('{}')".format(command), setup="import subprocess", number=runs, )
+			durations = repeat(stmt="subprocess.call('{}')".format(command), setup="import subprocess", number=1, repeat=runs)
+		
+			cache[key + "_median"] = calcMedian(durations)
+			runtime = checkisFloat(runtime)
+			if runtime:
+				cache[key + "_average"] = runtime
+		except:
+			pass  # the error here can be ignored
+			
+	cache = {}
+	runMeasurement(create_identity_command, cache)
+	runMeasurement(get_identities_command, cache)
+	runMeasurement(create_claim_command.format("Truck", "2000", first_identifier), cache)
+	runMeasurement(get_claim_command.format(first_claim, first_identifier), cache)	
+\end{lstlisting}	
 
 \section{Sicherheitsevaluierung}
-\blindtext
+Die Komponente, die den größten Schutz in der Implementierung benötigt ist der Issuer. Das SSI-Konzept ist abhängig davon, wie vertrauenswürdig der Issuer ist. Daher findet eine Security-Analyse nach dem STRIDE-Modell \cite{ID59}.
 
+\subsection{Spoofing}
+\label{Spoofing}
+Dieser Angriff beschreibt unberechtigten Zugriff auf die Komponente. Hiergegen wurde implementiert, dass der Zugriff (der über ngrok stattfindet) nur authentifiziert passieren kann: --basic-auth 'ngrok:issecure' --basic-auth='username:password'. Zusätzlich besitzt die verwendete REST-API eine Basic-Authentifikation. Daher ist diese Komponente doppelt geschützt. Es wird stark empfohlen, dass die Passwörter den Richtlinien des BSI entsprechen \cite{ID60}.
+
+\subsection{Tampering}
+Dieser Angriff beschreibt die ungewollte Manipulation von Daten. Prinzipiell gibt können zwei Komponenten Daten verändern:
+\begin{enumerate}
+	\item Der Holder: Als Besitzer der Daten hat der Holder die Möglichkeit seine Credentials zu löschen. Dieser Prozess würde über die Applikation passieren, welche zunächst über ein potentielles Password des Geräts und zum anderen durch das Passwort der PolygonId-App geschützt ist.
+	\item Der Issuer: Der Issuer kann ebenso Credentials revoken (widderufen). Aber wie bereits im Kapitel \ref{Spoofing} beschrieben ist der Issuer geschützt.
+	\item Der Verifier: Hat keine Möglichkeit Credentials zu modifizieren und ist daher nicht weiter zu betrachten
+\end{enumerate}
+
+\subsection{Repudiation}
+\label{Repudiation}
+Dieser Angriff beschreibt, dass ein Nutzer eine Aktivität abstreiten kann. Gegen diese Attacke schützt die Blockchain, die jede Transaktion in der Blockchain speichert. Durch das Monitoring-Tool von Alchemy oder im Blockchain-Browser können diese Transaktionen betrachtet werden. Eine solche Transaktion kann wie folgt aussehen:
+
+\begin{lstlisting}[language=json,firstnumber=1]
+{
+	"jsonrpc": "2.0",
+	"id": 0,
+	"method": "eth_call",
+	"params": [
+	{
+		"from": "0x0000000000000000000000000000000000000000",
+		"to": "0x134b1be34911e39a8397ec6289782989729807a4",
+		"data": "0x7c1a66de0a79f724bb72300544255781fc350952acb21cb77ea9a719c8eebb7d1a055ad0"
+	},
+	"latest"
+	]
+}
+\end{lstlisting}	
+Es ist zu sehen, dass sowohl übertragene Daten, als auch involvierte Adressen gespeichert werden. Das Schreiben ist ebenso kryptographisch geschützt.
+
+\subsection{Information disclosure}
+\label{disclosure}
+Dieser Angriff beschreibt das ungewollte Veröffentlichen von Daten. In diesem Prototypen gibt es vier Typen von Daten:
+\begin{enumerate}
+	\item Daten im Issuer: Diese Daten sind streng geheim und werden unter anderem in '.env' Dateien oder in einem Vault gespeichert. Darunter sind private Schlüssel, API-Schlüssel für Alchemy, Nutzernamen und Passwörter für UI und API. Zusätzlich liegen alle diese Daten in einer virtuellen Maschine, die mit 2-Faktor-Authentifizierung und einem 20-Stellen Root-Passwort geschützt sind.
+	\item Daten in der Blockchain: Diese Daten sind bereits öffentlich.
+	\item Daten im Holder: Die Daten werden in der Wallet-App gespeichert. Darunter sind private Schlüssel und die Credentials, welche durch ein Passwort in der Polygon-App geschützt sind.
+	\item Daten im Verifier: Der Verifier benötigt lediglich Zugang zu den Schemas, welche öffentlich gespeichert sind, und einen RPC-Node, welcher in Umgebungsvariablen lokal gespeichert ist.
+\end{enumerate}
+Daher lässt sich erkennen, dass private Daten sicher gespeichert sind und nicht veröffentlicht werde können.
+
+\subsection{Denial of service}
+Denial of Service beschreibt eine Attacke, in die komplette Software oder Teile davon ungewollt außer Betrieb genommen werden. Dieser Angriff findet in dem Prototypen nur Anwendung in dem Verifier, da andere Komponenten entweder lokal sind, oder nur der Nutzer Zugriff hat. Im Verifier könnte ein Angreifer probieren den RPC-Node zu überlasten. Jedoch hat Alchemy hiergegen Mechanismen entwickelt \cite{ID61}.
+
+\subsection{Evelation of priviledge}
+Dieses Konzept beschreibt, dass ein Nutzer ungewollt seine Rechte auf ein höheres Level setzten kann, um autorisiert zu sein neue Aktivitäten auszuführen. Diese Art der Attacke findet jedoch keine Anwendung, da es keine Levels an Rechten gibt.
+
+\subsection{Zusammenfassung - STRIDE}
+\begin{center}
+	\begin{tabular}{ c c }
+		KATEGORIE & Abgesichert? \\
+		Spoofing & \checkmark \\
+		Tampering (Manipulation) & \checkmark \\
+		Repudiation (Nichtanerkennung) & \checkmark\\
+		Information disclosure (Veröffentlichung von Informationen) &\checkmark\\
+		Denial of service & \checkmark\\
+		Evelation of priviledge (Erhöhung von Rechten) & \checkmark \\
+	\end{tabular}
+\end{center}
+Es ist zu erkennen, dass der Prototyp sicher ist im Rahmen des STRIDE-Modells.
+
+\section{Beantworten der Forschungsfragen}
+Im Folgenden werden die in Kapitel \ref{forschungsfragen} gestellten Fragen beantwortet:
+\begin{enumerate}
+	\item Es ist möglich Daten privat und öffentlich zu speichern. Dies passiert zum einen bei Shocard in dem Prozess des Bootstrapping (siehe \ref{shocard}) und zum andere bei zk-Proofs in PolygonId. Jedoch ist es zu empfehlen, private Daten wie Credentials auch privat zu speichern, wie es bereits in verschiedenen Lösungen angewandt wird.
+	\item Dies hängt von dem Typ der Daten ab (siehe \ref{disclosure}
+	\item Der Nutzer ist nun in der Lage zum einen eigene Credentials auszustellen und zum anderen diese zu verifizieren.
+	\item Ja das Problem der Fake-User kann hiermit gelöst werden. Beispielsweise kann bei der Registrierung die Verifizierung eines Credentials erfolgen, wobei dieser Credential nur von einer autorisierten Instanz ausgestellt werden kann.
+	\item Sollte der Nutzer den privaten Schlüssel seines Identity-Wallets verlieren, so existiert eine Recovery-Option, bei welcher der User - die bei der Erstellung angezeigten Passwörter - erneut angeben muss. Sollte der Nutzer den privaten Schlüssel an einen Angreifer preisgeben, dann ist der Wallet unbrauchbar.
+	\item Revokation kann der User selber oder der Issuer durchführen
+	\item Dieser Faktor stellt sich nicht als Problem, sondern sogar als Feature heraus. Nutzer (auch Issuer) können mehrere DIDs besitzen. Bei Sovrin (siehe \ref{sovrin}) wird pro Interaktion eine neue DID verwendet, um maximale Privatsphäre zu gewährleisten.
+	\begin{enumerate}
+		\item Proof-of-Stake stellte sich als passender Algorithmus herraus (siehe \ref{PolygonPOS})
+		\item PolygonId verwendet eine öffentliche Blockchain (siehe \ref{PolygonPOS})
+		\item Private Schlüssel des Issuers befinden sich in einem Vault (siehe \ref{vault}) und private Schlüssel des Users befinden sich in der Applikation des Mobilgeräts.
+		\item Es wird eine permissionless Blockchain verwendet (siehe \ref{PolygonPOS})
+		\item Ja, die Credentialausstellung ist leicht erweiterbar mit der Zustellung eines NFTs. Dies könnte sowohl on-chain im smartcontract geschehen oder in der REST-API des Issuers. Beide Komponenten sich beliebig erweiterbar.
+		\item zk-Proofs werden vom Holder erstellt und an den Verifier gesendet, welcher diese überprüfen kann
+	\end{enumerate}
+\end{enumerate}
+
+\section{Erfüllung der Anforderungen}
+Die in Kapitel \ref{cha:anforderungsanalyse} gestellten Anforderungen werden die folgt erfüllt:
+\begin{enumerate}
+	\item Widerruf: Wird durch den Holder und Issuer ermöglicht
+	\item Überprüfbarkeit: Der Holder kann zk-Proofs ausstellen, die der Verifier überprüfen kann
+	\item Selektive Veröffentlichung: Wird zum einen durch 'selective disclosure' und zum anderen durch speichern von Credentials im öffentlichen Profil ermöglicht.
+	\item Vertraulich: Mittels Passwörter und kryptographischen Verfahren ist diese Anwendung vertraulich
+	\item Non-Replay: Jede Transaktion/Operation erfolgt authentifiziert und ist daher nicht reproduzierbar
+	\item Nichtabstreitbarkeit: Ist gegeben (siehe \ref{Repudiation})
+	\item Diebstahlschutz: Ist gegeben (siehe \ref{Spoofing} und \ref{disclosure}
+	\item W3C-Standard : Wird erfüllt (auch ersichtlich im Schema 'xsd: http://www.w3.org/2001/XMLSchema')
+\end{enumerate}
+Es wird also ersichtlich, dass alle Anforderungen erfüllt wurden.
 \section{Analyse der Ergebnisse}
-\blindtext
+Als Ergebnis der Analyse lässt sich sagen, dass eine Anwendung implementiert wurde, die zum einen sicher ist gegen verschiedene Typen an Attacken ist und zum anderen Performant, wobei erwähnt werden muss, dass die Performance größtenteils abhängig ist von der Performance der Issuer-Node-API und der Transaktionsgeschwindigkeit der Blockchain. Davon abgesehen sind alle Security-Richtlinien, Funktionalen/Nicht-Funktionalen/Technischen Anforderungen erfüllt.
+
+

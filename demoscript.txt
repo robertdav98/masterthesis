@@ -1,4 +1,6 @@
 node app -a createIdentity
-node app -a createClaim -v Truck -y 1998 -i <identity>
-node app -a getClaimQR -c <claim> -i <identity>
+node app -a getIdentity <i
+node app -a createClaim -v Motorcycle -y 2017 -i did:polygonid:polygon:mumbai:2qGpeUPpUKZkogDmjJ3wDKy2mwvrsorCjYrhdJjMCZ
+node app -a getClaimQR -c 7b219657-7445-11ee-b5e3-0242ac120005 -i did:polygonid:polygon:mumbai:2qGpeUPpUKZkogDmjJ3wDKy2mwvrsorCjYrhdJjMCZ
+
 

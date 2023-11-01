@@ -25,9 +25,10 @@ Statistiken \cite{ID11} zeigen, dass 82\% der Unternehmen unter gefälschten Nut
 
 Ein weiteres Problem ist, dass ein Nutzer im Status Quo keine Macht über seine Daten besitzt. Er ist stets davon abhängig dem Anbieter zu vertrauen, dass die Daten bei Anfrage gelöscht werden, sicher gespeichert sind, nicht ungefragt weitergegeben werden, etc. Ebenso ist keinerlei Transparenz darüber gegeben, wofür die Daten im Detail verwendet oder wofür sie gebraucht werden. Alles in einem besteht keine Autonomie für den Nutzer über die Daten, die er bei einem Online-Service angeben muss.
 
-Angesichts dieser Herausforderungen ist die Notwendigkeit einer verbesserten Identitätsverwaltung im Internet offensichtlich. Es werden Lösungen erforscht, die auf dezentralen Identitätsplattformen und Blockchain-Technologie basieren. Solche Ansätze könnten dazu beitragen, die Sicherheit, Privatsphäre und Benutzerfreundlichkeit im Internet zu verbessern, indem sie eine effizientere und sicherere Möglichkeit bieten, Identitäten zu verwalten und zu überprüfen.
+Analgesics dieser Herausforderungen ist die Notwendigkeit einer verbesserten Identitätsverwaltung im Internet offensichtlich. Es werden Lösungen erforscht, die auf dezentralen Identitätsplattformen und Blockchain-Technologie basieren. Solche Ansätze könnten dazu beitragen, die Sicherheit, Privatsphäre und Benutzerfreundlichkeit im Internet zu verbessern, indem sie eine effizientere und sicherere Möglichkeit bieten, Identitäten zu verwalten und zu überprüfen.
 
 \section{Zielsetzung der Arbeit}
+\label{zielsetzung}
 Als Ziel soll ein Konzept erarbeitet werden, dass dem Nutzer erlaubt Herrscher seiner
 Daten zu sein. Er soll eigenständig in der Lage seine Informationen hinzuzufügen, zu
 teilen, zu modifizieren und Berechtigungen zu erteilen/entfernen. Verwirklicht werden
@@ -36,40 +37,30 @@ soll eine Anwendung implementiert werden, die es erlaubt einem Nutzer seine Date
 zu pflegen und Anfragen zu genehmigen/abzulehnen. Dabei sind unter anderem die
 Anforderungen: Sicherheit (Security), Kontrollierbarkeit, Übertragbarkeit und Skalierbarkeit.
 
-Ein möglicher Anwendungsfall ist, dass ein Nutzer ein Profil anlegt mit Informationen, die er potentiell freigeben möchte (Bankinformation, Adresse, etc.). Diese werden so gespeichert, dass es - abgesehen für den Nutzer - unmöglich ist diese zu lesen. Nun kann eine Organisation oder Person (beispielsweise der Arbeitgeber um das Gehalt zu überweisen) Information anfragen. Diese Anfrage liegt dem Nutzer vor, welche er akzeptieren oder ablehnen kann. Passiert ersteres, so erhält der Anfragende die Informationen. Anderenfalls werden alle Informationen vorenthalten.
+Ein möglicher Anwendungsfall ist, dass ein Nutzer ein Profil. Nun kann er Informationen anfragen, wie zB seine Konto-Daten oder Gesundheitsdokumente. Sollte nun der Arbeitgeber die Daten verlangen, so sollte er diese frei geben können. Auch sollte die Krankenkasse in der Lage sein Anfragen zu stellen, z.B. ob der Nutzer seit mehr als 2 Jahren krank ist oder nicht.
 
 \section{Forschungsfragen}
+\label{forschungsfragen}
 Folgende Forschungsfragen werden in dieser Arbeit beantwortet:
-
-\begin{itemize}
+\begin{enumerate}
 	\item Ist es möglich Daten privat aber öffentlich zu speichern?
 	\item Wie werden die Daten gespeichert? (Hash, Verschlüsselt, etc.) 
 	\item Welcher Mehrwert wird generiert für den User und die Online-Dienste?
 	\item Kann das Problem der Fake-user hiermit gelöst werden?
-	\item Welche Service-Level-Agreements könnten angegeben werden?
 	\item Was passiert im Falle einer Kompromittierung?  Recovery-Optionen?
 	\item Wie sollen Informationen wieder ungültig gemacht werden? (Revokation)
-	\begin{itemize}
-		\item Wieviel kostet der Betrieb?
-		\item Wie teuer sind solche Dienste in der Regel für den User/Online-Dienst?
-		
-	\end{itemize}
 	\item Wie kann sichergestellt werden, dass die Identität wirklich der Person zuzuordnen ist?
 	\item Wie soll das Problem gelöst werden, dass man evtl. verschiedene Identitäten auf verschiedenen Plattformen verwenden möchte (Reddit-Account-Identität vs Online-Banking-Account)
 	\item Blockchain-Forschungsfragen:
-	\begin{itemize}
+	\begin{enumerate}
 		\item Welcher Consensus-Algorithmus ist am passensten für das entwickelte Identitätsmanagementsystem?
 		\item Soll eine private oder eine öffentliche Blockchain verwendet werden?
 		\item Wie und wo werden die privaten Schlüssel speichern?
 		\item Sollen 'permissioned' oder 'permissionless' Blockchains verwendet werden?
-		\item Sind Authentifikations-Graphen valide Lösungsansätze?
 		\item Können die Dokumente als NFT's gespeichert werden?
 		\item Welche Rolle spielen Zero-Knowledge-Proofs für die Entwicklung eines Identitätsmanagementsystems?
-	\end{itemize}
-	
-	
-	
-\end{itemize}
+	\end{enumerate}	
+\end{enumerate}
 
 \section{Aufbau der Arbeit}
-\blindtext
+Zunächst werden die Grundlagen dieser Arbeit gesetzt, indem auf die Historie von Identitätsmanagementsystemen eingegangen wird. Daraufhin werden die Grundlagen von Distributed Ledger Technology erläutert und deren Bedeutung für Identitätsmanagementsysteme angeführt. Im Anschluss werden die Anforderungen formuliert und existierende Lösungen zunächst vorgestellt und im nächsten Schritt verglichen. Nachdem erklärt wurde, warum Polygon die passende Plattform ist, wird ein System-Design vorgestellt, welches im nächsten Schritt implementiert wird. Im vorletzten Schritt werden Metriken festgelegt und evaluiert. Zum Abschluss findet eine Diskussion statt.

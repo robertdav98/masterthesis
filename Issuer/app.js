@@ -22,7 +22,7 @@ const VehicleTypes = {
 }
 
 //issuer api info
-const issuer_url = "https://b377-165-232-124-48.ngrok-free.app/v1"
+const issuer_url = "https://3728-138-197-178-100.ngrok-free.app/v1"
 const username = "user-issuer"
 const password = "password-issuer"
 
@@ -131,7 +131,8 @@ function getClaim(identity, claim){
 
     axios.get(url, {auth: {username: username,password: password}})
       .then(function (response) {
-        console.log(response["data"]);
+        //console.log(response["data"]);
+        console.log(JSON.stringify(response["data"]["proof"][0]));
       })
       .catch(function (error) {
         console.log(error);
@@ -158,7 +159,8 @@ function createClaim(vehicleType, yearOfReceipt, identity){
     }
     axios.post(url, rq, {auth: {username: username,password: password}})
       .then(function (response) {
-        console.log(response["data"]);
+        //console.log(JSON.stringify(response["data"]));
+        console.log(JSON.stringify(response['data']));
       })
       .catch(function (error) {
         console.log(error);
@@ -176,10 +178,11 @@ function getClaimQR(identity, claim){
 
     axios.get(url, {auth: {username: username,password: password}})
       .then(function (response) {
-        oldUrl = response["data"]["body"]["url"]
-        response["data"]["body"]["url"] = issuer_url + oldUrl.substring(24)
-        console.log(response["data"])
+        //console.log(response["data"]["body"]["url"])
+        //oldUrl = response["data"]["body"]["url"]
+        //response["data"]["body"]["url"] = issuer_url  + "/agent"
         let requestAsString = JSON.stringify(response["data"])
+        console.log(requestAsString)
         qrcode.generate(requestAsString, {small: true});
       })
       .catch(function (error) {

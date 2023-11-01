@@ -2,6 +2,7 @@ const express = require('express');
 const {auth, resolver, protocol} = require('@iden3/js-iden3-auth')
 const getRawBody = require('raw-body')
 const QRCode = require('qrcode');
+const qrcode = require('qrcode-terminal');
 const path = require('path');
 
 const app = express();
@@ -31,11 +32,60 @@ const requestMap = new Map();
 
 async function GetAuthRequest(req,res) {
 
+  // Audience is verifier id
+  const hostUrl = "https://31ab-165-1-187-202.ngrok-free.app";
+  const sessionId = 1;
+  const callbackURL = "/api/callback"
+  const audience = "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
+
+  const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
+
+  // Generate request for basic authentication
+  const request = auth.createAuthorizationRequest(
+      'test flow',
+      audience,
+      uri,
+  );
+
+  request.id = '7f38a193-0918-4a48-9fac-36adfdb8b542';
+  request.thid = '7f38a193-0918-4a48-9fac-36adfdb8b542';
+
+  // Add request for a specific proof
+  const proofRequest = {
+      id: 1,
+      circuitId: 'credentialAtomicQuerySigV2',
+      query: {
+        allowedIssuers: ['*'],
+        type: 'MasterWorkDriversLicense',
+        context: 'https://ipfs.io/ipfs/QmQLZUJqTguEG5LAaHiDQeAYqD3Z22BtTT9dXEVHd8ABoF',
+        credentialSubject: {
+          YearOfReceipt: {
+            $lt: 2023,
+          },
+        },
+    },
+    };
+  const scope = request.body.scope ?? [];
+  request.body.scope = [...scope, proofRequest];
+
+  // Store auth request in map associated with session ID
+  requestMap.set(`${sessionId}`, request);
+  let requestAsString = JSON.stringify(request)
+  qrcode.generate(requestAsString, {small: true});
+  console.log(requestAsString)
+
+  return res.status(200).set('Content-Type', 'application/json').send(request);
+}
+
+
+/*
+async function GetAuthRequest(req,res) {
+
     const hostUrl = " https://df4c-165-1-191-123.ngrok-free.app"; // <- public ip
     const sessionId = 1;
     const callbackURL = "/api/callback"
     const audience = "did:polygonid:polygon:mumbai:2qF57iujBWKeAGc2koCV56yW5S1SfPtFsCgDHzGRdW" // <- did of requester
-const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
+    const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
 
     // Generate request for basic authentication
     const request = auth.createAuthorizationRequest(
@@ -74,7 +124,7 @@ const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
     let requestAsString = JSON.stringify(request)
     console.log(requestAsString)
     let path = './public/qr.png'
-
+    qrcode.generate(requestAsString, {small: true});
     QRCode.toFile(path, requestAsString, {
       errorCorrectionLevel: 'H'
     }, function(err) {
@@ -83,7 +133,7 @@ const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
       res.redirect('/qr.png');
     });
 }
-
+*/
 async function Callback(req,res) {
     console.log("Called CallBack-Func")
     // Get session ID from request
@@ -92,6 +142,7 @@ async function Callback(req,res) {
     // get JWZ token params from the post request
     const raw = await getRawBody(req);
     const tokenStr = raw.toString().trim();
+    console.log(tokenStr)
 
     const ethURL = 'https://polygon-mumbai.g.alchemy.com/v2/D1s0R1PGRyeFLL0P4aqSU_LdAjvGy5L0';
     const contractAddress = "0x134B1BE34911E39A8397ec6289782989729807a4"
@@ -114,13 +165,11 @@ async function Callback(req,res) {
     let path_full = path.join(__dirname, './circuits-dir')
     console.log(path_full)
     const verifier = await auth.Verifier.newVerifier(
-            {
+          {
             stateResolver: resolvers,
             circuitsDir: path_full
-            //ipfsGatewayURL:"https://app.pinata.cloud/gateway/amethyst-official-duck-350?pinataGatewayToken=F5FDkLi66xtMWFQ0BCjZ1EGceaWSvbQ1uvkioaYqi9Iq4lSc8CRpMi-2EXVSa1f"
-            }
+          }
     );
-
   try {
       const opts = {
           AcceptedStateTransitionDelay: 5 * 60 * 1000, // 5 minute

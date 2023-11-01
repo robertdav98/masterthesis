@@ -1,21 +1,10 @@
 {
-  "name": "verifier",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@iden3/js-iden3-auth": "^1.0.2",
-    "cache-manager": "^5.2.3",
+    "@iden3/js-iden3-auth": "^1.0.3",
+    "argparse": "^2.0.1",
+    "axios": "^1.6.0",
     "express": "^4.18.2",
-    "http-status-codes": "^2.3.0",
-    "qrcode": "^1.5.3"
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.1"
+    "qrcode": "^1.5.3",
+    "qrcode-terminal": "^0.12.0"
   }
 }
