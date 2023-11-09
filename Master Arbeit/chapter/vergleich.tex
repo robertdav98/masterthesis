@@ -1,37 +1,68 @@
 \chapter{Vergleich existierender Lösungen}
 \label{cha:vergleich Lösungen}
 \section{Allgemein}
-In der Folgenden Tabelle werden die Lösungen von \textbf{Luniverse}, \textbf{Dock}, \textbf{Polygon} und \textbf{Sovrin} miteinander verglichen. Betrachtet wird dabei die Blockchain und dessen Konsensus-Algorithmus, ob ein Knoten ohne zusätzliche Erlaubnis ein Validator werden kann, ob ZK-Proofs verfügbar sind und wo die Credentials gespeichert werden. Im Anschluss werden die Transaktionskosten betrachtet und die maximale Transaktionsfrequenz.
+In der Folgenden Tabelle werden die Lösungen von \textbf{Luniverse}, \textbf{Dock}, \textbf{Polygon} und \textbf{Sovrin} miteinander verglichen. Betrachtet wird dabei die Blockchain und dessen Konsensus-Algorithmus, ob ein Knoten ohne zusätzliche Erlaubnis ein Validator werden kann, ob ZK-Proofs verfügbar sind und wo die Credentials gespeichert werden. Im Anschluss werden die Transaktionskosten betrachtet.
 
-\begin{landscape}
-	\begin{table}[h]
-		\centering
-		\begin{tabular}{cccccc}
-			\toprule
-			\textbf{Bezeichung} & {Blockchain} & {Konsensus-Algorithmus} & {Permissionless?}& {ZK-Proofs?} & {Speicherung}\\
-			\midrule
-			\rowcolor{lavender}
-			Luniverse 	& Luniverse-Sidechain 	& LPOA														& No 									& Yes 															& Wallet\footnote{Wird mit WalletSDK implementiert}					\\
-			Dock      	& Dock-Sidechain		& GRANDPA													& No 									& Yes 															& Wallet\footnote{Wird mit WalletSDK implementiert}					\\
-			\rowcolor{lavender}
-			PolygonId 	& Polygon PoS 			& Proof-of-Stake 											& Yes 									& Yes 															& PolyginId App oder WalletSDK										\\
-			Sovrin 		& Sovrin Network 		& Plenum\footnote{Basiert auf 'Byantine Failt Tolerance'} 	& No 									& Yes 															& WalletSDK															\\
-			\rowcolor{lavender}
-			ShoCard 	& Bitcoin				& Proof-of-Work 											& Yes 									& No 															& Blockchain, ShoCard central server, App							\\
-			\bottomrule
-		\end{tabular}
-	\end{table}
-\end{landscape}
+\begin{itemize}
+	
+	
+	
+	\item Luniverse
+	\begin{itemize}
+		\item Blockchain: Luniverse-Blockchain
+		\item Konsensus-Algorithmus: LPOA
+		\item Permissionless?: No
+		\item ZK-Proofs?: Yes
+		\item Speicherung: Wallet, Blockchain
+	\end{itemize}
+	
+	\item Dock
+	\begin{itemize}
+		\item Blockchain: Dock-Sidechain
+		\item Konsensus-Algorithmus: GRANDPA
+		\item Permissionless?: No
+		\item ZK-Proofs?: Yes
+		\item Speicherung: Wallet, Blockchain
+	\end{itemize}
+	
+	\item PolygonId
+	\begin{itemize}
+		\item Blockchain: Polygon PoS
+		\item Konsensus-Algorithmus: Proof-of-Stake
+		\item Permissionless?: Yes
+		\item ZK-Proofs?: Yes
+		\item Speicherung: Wallet oder WalletSDK, Blockchain
+	\end{itemize}
+	
+	\item Sovrin
+	\begin{itemize}
+		\item Blockchain: Sovrin-Network
+		\item Konsensus-Algorithmus: Plenum
+		\item Permissionless?: No
+		\item ZK-Proofs?: Yes
+		\item Speicherung: WalletSDK, Blockchain
+	\end{itemize}
+	
+	\item Shocard
+	\begin{itemize}
+		\item Blockchain: Bitcoin-Blockchain
+		\item Konsensus-Algorithmus: Proof-of-work
+		\item Permissionless?: Yes
+		\item ZK-Proofs?: No
+		\item Speicherung: Blockchain, Shocard central server, App
+	\end{itemize}
+\end{itemize}
+
 
 
 \section{Transaktionskosten}
 Transaktionen auf der Blockchain sind Prozesse, die in den verteilten Speicher schreiben. Da Transaktionen von Validator-Knoten überprüft werden, muss an das Netzwerk eine Gebühr gezahlt werden. Diese variiert je nach Blockchain, Zustand der Blockchain und Auslastung.
 \begin{itemize}
 	\item Luniverse: Luniverse gibt an, dass keine Transaktionsgebühren existieren.
-	\item Dock: Gibt an, dass keine Gebühren anfallen für die Credentialerstellung. Transaktionen für das erstellen von Schemas oder Credentials widerrufen seien sehr gering \cite{ID44}
+	\item Dock: Gibt an, dass keine Gebühren anfallen für die Credentialerstellung. Transaktionen für das Erstellen von Schemas oder Widerrufen von Credentials seien sehr gering \cite{ID44}
 	\item Polygon: Bei Polygon lassen sich die Transaktionskosten sehr genau berechnen. Dabei hängt es von zwei Faktoren ab, wie teuer die Transaktion wird \cite{ID45}:
 	\begin{itemize}
-		\item Menge an Gas: Das ist eine Metrik für die Leistung, die das Netzwerk für das Ausführen der Transaktion zur Verfügung stellt. Im Falle vom Polygon wird die 'Ethereum Virtual Machine' (EVM) verwendet, welche Platten-Verwendung, CPU-Verwendung, etc. misst und so die Menge an Gas berechnet.
+		\item Menge an Gas: Dies ist eine Metrik für die Leistung, die das Netzwerk für das Ausführen der Transaktion zur Verfügung stellt. Im Falle vom Polygon wird die 'Ethereum Virtual Machine' (EVM) verwendet, welche Platten-Verwendung, CPU-Verwendung, etc. misst und so die Menge an Gas berechnet.
 		\item Gaspreis: Dieser Faktor hängt von der Netzwerkauslastung ab. Prinzipiell gibt es drei Modelle zwischen denen man entscheiden muss: Standard, Fast und Rapid. Dabei wird aufsteigend die Transaktionsdauer geringer (30-10 bei Standard und 5-10 bei Rapid). Analog dazu steigt auch der Gaspreis. Auf PolygonScan\footnote{https://polygonscan.com/gastracker} können die Gaspreise historisch betrachtet werden.
 	\end{itemize}
 	\item Sovrin: Credential und DID-Erstellung sind kostenlos. Für alles andere (also Revokation, Schemas, etc) gibt es jeweils für TestNet und MainNet eigene Preise.
@@ -42,19 +73,19 @@ Transaktionen auf der Blockchain sind Prozesse, die in den verteilten Speicher s
 \section{Konsensus-Algorithmus}
 Konsensus-Algorithmen werden verwendet, um einen einheitlichen Zustand des Netzwerk zwischen den Knoten festzulegen. Hierbei gibt es verschiedene Ausführungen, die im Folgenden betrachtet werden:
 \begin{itemize}
-	\item LPOA: Dieses Akronym steht für "Luniverse's Proof of Authority" \cite{ID50}. Hierbei handelt es sich um einen Proof-of-Authority-Algorithmus, wo ein Validator nicht anhand seiner zur Verfügung gestellten Rechenkraft oder Kryptowährung bemessen wird, sondern an seiner Identität. Potentielle Validatoren (beispielsweise Unternehmen, Institutionen, Regierungen, etc.) müssen sich bei einer Einrichtung oder Organisation, die das PoA-Netzwerk betreibt, bewerben oder eingeladen werden. Diese entscheiden anhand der Reputation und der Vertrauenswürdigkeit des Bewerbers, ob dieser als Validator fungieren darf. Sollte Letzteres erlaubt werden, so werden Verträge verfasst, um die Verantwortlichkeiten im Netzwerk festzulegen. Im Anschluss kann mit dem Validieren von Blöcken begonnen werden. Sollte Fehlverhalten des Validators festgestellt werden, so kann dieser aus dem Netzwerk ausgeschlossen werden \cite{ID51}.
+	\item LPOA: Dieses Akronym steht für "Luniverse's Proof of Authority" \cite{ID50}. Hierbei handelt es sich um einen Proof-of-Authority-Algorithmus, wobei ein Validator nicht anhand seiner zur Verfügung gestellten Rechenkraft oder Kryptowährung bemessen wird, sondern an seiner Identität. Potentielle Validatoren (beispielsweise Unternehmen, Institutionen, Regierungen, etc.) müssen sich bei einer Einrichtung oder Organisation, die das PoA-Netzwerk betreibt, bewerben oder eingeladen werden. Diese entscheiden anhand der Reputation und der Vertrauenswürdigkeit des Bewerbers, ob dieser als Validator fungieren darf. Sollte Letzteres erlaubt werden, so werden Verträge verfasst, um die Verantwortlichkeiten im Netzwerk festzulegen. Im Anschluss kann mit dem Validieren von Blöcken begonnen werden. Sollte Fehlverhalten des Validators festgestellt werden, kann dieser aus dem Netzwerk ausgeschlossen werden \cite{ID51}.
 	\item GRANDPA: Dieser Algorithmus lässt sich ebenso als Proof-of-Authority-Algorithmus klassifizieren
-	\item Proof-of-Stake: Proof of Stake (PoS) ist ein Konsensusmechanismus in Blockchain-Netzwerken, der verwendet wird, um Transaktionen zu validieren und neue Blöcke zur Blockchain hinzuzufügen. Im Gegensatz zu Proof of Work (PoW), bei dem Miner rechenintensive Aufgaben lösen müssen, um Blöcke zu erstellen, basiert PoS auf dem Konzept des "Stakings" oder des Einsatzes von Kryptowährungen.
+	\item Proof-of-Stake: Proof of Stake (PoS) ist ein Konsensusmechanismus in Blockchain-Netzwerken, der verwendet wird, um Transaktionen zu validieren und neue Blöcke zur Blockchain hinzuzufügen. Im Gegensatz zu Proof of Work (PoW), bei dem Miner rechenintensive Aufgaben lösen müssen, um Blöcke zu erstellen, basiert PoS auf dem Konzept des 'Stakings' oder des Einsatzes von Kryptowährungen.
 	\begin{enumerate}
 		\item \textbf{Validatoren und Staking:} In einem PoS-Netzwerk gibt es keine Miner im herkömmlichen Sinne. Stattdessen gibt es Validatoren. Um ein Validator zu werden, müssen Benutzer eine bestimmte Menge der Kryptowährung des Netzwerks als Einsatz hinterlegen. Dieser dient als Garantie dafür, dass der Validator korrekt arbeitet.
 		
 		\item \textbf{Blockvalidierung:} Wenn eine Transaktion im Netzwerk eingereicht wird, wird ein Validator zufällig ausgewählt, um die Transaktion zu validieren und einen neuen Block hinzuzufügen. Die Wahrscheinlichkeit, ausgewählt zu werden, hängt oft von der Menge des gestakten Vermögens ab, was bedeutet, dass Benutzer mit größeren Stakes eine höhere Chance haben, ausgewählt zu werden.
 		
-		\item \textbf{Belohnungen:} Validator, die korrekt arbeiten und Transaktionen ordnungsgemäß validieren, erhalten Belohnungen in Form von Transaktionsgebühren und neuen Kryptowährungseinheiten, die dem System hinzugefügt werden. Diese Belohnungen werden oft proportional zur Höhe des gestakten Vermögens des Validators verteilt.
+		\item \textbf{Belohnungen:} Validatoren, die korrekt arbeiten und Transaktionen ordnungsgemäß validieren, erhalten Belohnungen in Form von Transaktionsgebühren und neuen Kryptowährungseinheiten, die dem System hinzugefügt werden. Diese Belohnungen werden oft proportional zur Höhe des gestakten Vermögens des Validators verteilt.
 		
-		\item \textbf{Bestrafungen:} Wenn ein Validator betrügerisches Verhalten zeigt oder versucht, das Netzwerk zu schädigen, kann er seine gestakten Vermögenswerte verlieren oder andere Strafen erhalten.
+		\item \textbf{Bestrafungen:} Wenn ein Validator betrügerisches Verhalten zeigt oder versucht, das Netzwerk zu schädigen, kann er seine gestakten Vermögenswerte verlieren.
 	\end{enumerate}
-	PoS \cite{ID53}bietet mehrere Vorteile, darunter eine geringere Umweltauswirkung im Vergleich zu PoW, da keine rechenintensiven Aufgaben erforderlich sind, und eine höhere Skalierbarkeit. Trotz der vielen Vorteile von Proof-of-Stake gibt es auch einige Nachteile \cite{ID53}:
+	PoS \cite{ID53}bietet mehrere Vorteile, darunter eine geringere Umweltauswirkung im Vergleich zu PoW, da keine rechenintensiven Aufgaben erforderlich sind und eine höhere Skalierbarkeit. Trotz der vielen Vorteile von Proof-of-Stake gibt es auch einige Nachteile \cite{ID53}:
 	
 	\begin{enumerate}
 		\item \textbf{Zentralisierungstendenzen:} PoS kann zu einer gewissen Zentralisierung führen, da Teilnehmer mit großen Stakes mehr Einfluss haben und wahrscheinlicher ausgewählt werden, um Transaktionen zu validieren und Blöcke hinzuzufügen. Dies könnte zu einer Konzentration der Netzwerkvalidierungsmacht führen.
@@ -72,7 +103,7 @@ Konsensus-Algorithmen werden verwendet, um einen einheitlichen Zustand des Netzw
 		\item \textbf{Verlust von gestakten Vermögenswerten:} Bei fehlerhaftem Verhalten oder betrügerischen Handlungen können Validatorn Strafen auferlegt werden, einschließlich des Verlusts ihrer gestakten Vermögenswerte.
 	\end{enumerate}
 	
-	\item Proof of Work (PoW) ist ein Konsensusmechanismus, der in vielen Blockchain-Netzwerken verwendet wird. Er dient dazu, Transaktionen zu validieren, neue Blöcke zur Blockchain hinzuzufügen und das Netzwerk vor verschiedenen Arten von Angriffen zu schützen. Im Folgenden sind die Grundlagen von PoW zu betrachten:
+	\item Proof of Work (PoW) ist ein Konsensusmechanismus, der in mehreren Blockchain-Netzwerken verwendet wird. Er dient dazu, Transaktionen zu validieren, neue Blöcke zur Blockchain hinzuzufügen und das Netzwerk vor verschiedenen Arten von Angriffen zu schützen. Im Folgenden sind die Grundlagen von PoW zu betrachten:
 	
 	\begin{enumerate}[label=\arabic*.]
 		\item \textbf{Transaktionen validieren:} Im Netzwerk werden Transaktionen von Benutzern gesammelt und in einen Pool gestellt, der darauf wartet, in einen neuen Block aufgenommen zu werden. Diese Transaktionen müssen validiert werden, um sicherzustellen, dass sie den Regeln des Netzwerks entsprechen.

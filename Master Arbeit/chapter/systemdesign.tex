@@ -1,10 +1,14 @@
-\chapter{System-Design}
+\chapter{System-Design und Implementierung}
 \label{cha:systemdesign}
 
 \section{Architektur des dezentralen Identitätsmanagementsystems}
 
+\subsection{Von Anforderungen zum System-Design}
+Den Anforderungen nach soll ein dezentrales Identitätsmanagementsystem entwickelt werden, dass die Möglichkeit bietet Credentials (wie z.B. Ausweisdokumente) auszustellen, zu überprüfen und selektiv zu veröffentlichen unter den - in Kapitel \ref{cha:anforderungsanalyse} genannten - Bedingungen. Daher werden zwei der drei Komponenten (Issuer, Verifier, Holder) implementiert. Der Issuer wird als CLI (Command-Line-Interface) implementiert und der Verifier als REST-API. Der Holder muss nicht implementiert werden werden, da die Plattformen jeweils Identity-Wallets anbieten. Als Use-Case wird die Erstellung eines Führerscheins illustriert. Dieser Führerschein (der Credential) wird von einer Autorität (Issuer) ausgestellt und kann von einem beliebigen Kontrolleur/Polizist/etc. (Verifier) überprüft werden.\\
+Die in Kapitel \ref{cha:existierende Lösungen} angeführten Lösungen können alle diese Funktionen implementieren, daher wird anhand anderer Faktoren entschieden, welches Framework verwendet wird.
+
 \subsection{Entscheidung über Framework}
-Um sich für eine Architektur festzulegen, muss zunächst die Entscheidung über die darunterliegende Plattform getroffen werden. Dabei stehen die in Kapitel 5 betrachteten Lösungen zur Auswahl: Luniverse, Dock, PolygonId, Sovrin und Shocard. Für die Entwicklung des Prototypen wird im folgenden :
+Um sich für eine Architektur festzulegen, muss zunächst die Entscheidung über die darunterliegende Plattform getroffen werden. Dabei stehen die in Kapitel 5 betrachteten Lösungen zur Auswahl: Luniverse, Dock, PolygonId, Sovrin und Shocard. Für die Entwicklung des Prototypen wird PolygonID aus folgenden Gründen verwendet:
 \begin{itemize}
 	
 	\item Polygon (als unterliegende Blockchain) zeigt folgende Vorteile auf \cite{ID54}:
@@ -26,22 +30,24 @@ Um sich für eine Architektur festzulegen, muss zunächst die Entscheidung über
 	\end{itemize}
 \end{itemize}
 \subsection{Grobe Architektur}
-Prinzipiell besteht die Architektur aus drei Komponenten: Einem Verifier, einem Issuer und dem Holder. Jede dieser drei Komponenten laufen unabhängig voneinander und können mit fremd-implementierten Instanzen kommunizieren. Das hier dargestellte Szenario ist das Erstellen, Übertragen und Verifizieren von einem digitalen Führerschein auf der Blockchain. Die System-Architektur sieht dabei wie folgt aus:
-\begin{figure}[h]
+Prinzipiell besteht die Architektur aus drei Komponenten: Einem Verifier, einem Issuer und dem Holder. Jede dieser drei Komponenten laufen unabhängig voneinander und können mit fremd-implementierten Instanzen kommunizieren. Das hier dargestellte Szenario ist das Erstellen, Übertragen und Verifizieren von einem digitalen Führerschein auf der Blockchain. Die System-Architektur kann in der Grafik \ref{fig:design} betrachtet werden.
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{media/system-design}
 	\caption{System-Design des Prototyps}
-	\label{fig:meine-grafik}
+	\label{fig:design}
 \end{figure}
-Es ist zu erkennen, dass der Issuer die zentrale Komponente ist. Um den Issuer zu hosten wird eine virtuelle Maschine von DigitalOcean \footnote{https://www.digitalocean.com/} verwendet. VMs werden bei DigitalOcean auch Droplets genannt, wobei das Droplet für den Prototypen wie folgt konfiguriert ist:
-\begin{figure}[h]
-	\centering
+Es ist zu erkennen, dass der Issuer die zentrale Komponente ist. Um den Issuer zu hosten wird eine virtuelle Maschine von DigitalOcean \footnote{https://www.digitalocean.com/} verwendet. VMs werden bei DigitalOcean auch Droplets genannt, wobei das Droplet für den Prototypen in Grafik \ref{fig:digOcean} betrachtet werden kann.
+
+\begin{figure}[H]
+	\centering	
 	\includegraphics[scale=0.4]{media/config}
 	\caption{Konfiguration des DigitalOcean-Droplets}
-	\label{fig:meine-grafik}
+	\label{fig:digOcean}
 \end{figure}
-Auf dem Droplet läuft ein Docker der alle in der Grafik darstellen Container orchestriert. Der einzige Container, der auch von extern erreichbar sein muss ist der 'issuer-api'-Container, da er die REST-API Anfragen erhält. Für Letzteres wird 'ngrok' \footnote{https://ngrok.com/} verwendet, wobei ein Tunnel von einer öffentlichen IP auf den Lokalhost des Droplets gebaut wird. Dieser Tunnel wird vom NodeJs-Cli verwendet, um Anfragen über die API an den - von Alchemy \footnote{https://www.alchemy.com/} gehosteten - Netzwerk-Knoten weiterzuleiten. Die Schemas müssen öffentlich zugänglich sein, da sie unter anderem im Verifier und Issuer referenziert werden. Um dem ursprünglichen Gedanken der Dezentralität treu zu bleiben werden auch die Schemas dezentral - über IPFS \footnote{https://ipfs.tech/} - gespeichert. Als Schnittstelle zwischen IPFS und der Anwendung wird Pinata \footnote{https://www.pinata.cloud/} verwendet. Das dort gehostete Schema sieht hierbei wie folgt aus:
-\begin{lstlisting}[language=json,firstnumber=1]	
+
+Auf dem Droplet läuft eine Docker-Instanz, die alle in der Grafik darstellen Container orchestriert. Der einzige Container, der auch von extern erreichbar sein muss ist der 'issuer-api'-Container, da dieser die REST-API Anfragen erhält. Für Letzteres wird 'ngrok' \footnote{https://ngrok.com/} verwendet, wobei ein Tunnel von einer öffentlichen IP auf den Lokalhost des Droplets gebaut wird. Dieser Tunnel wird vom NodeJs-Cli verwendet, um Anfragen über die API an den - von Alchemy \footnote{https://www.alchemy.com/} gehosteten - Netzwerk-Knoten weiterzuleiten. Die Schemas müssen öffentlich zugänglich sein, da sie unter anderem im Verifier und Issuer referenziert werden. Um dem ursprünglichen Gedanken der Dezentralität treu zu bleiben werden auch die Schemas dezentral - über IPFS \footnote{https://ipfs.tech/} - gespeichert. Als Schnittstelle zwischen IPFS und der Anwendung wird Pinata \footnote{https://www.pinata.cloud/} verwendet. Das dort gehostete Schema ist in Grafik \ref{schema} illustriert.
+\begin{lstlisting}[language=json,firstnumber=1, caption=Schema des Credentials, label=schema]	
 		[...]
 		"MasterWorkDriversLicense": {
 			"@context": {
@@ -104,21 +110,31 @@ Nachdem der Issuer den Führerschein ausgestellt hat kann der Holder ihn entgege
 \end{lstlisting}
 Der hier dargestellte Query überprüft primär, ob der Führerschein des Holders älter als vom Jahr 2022 ist. Indirekt fragt er ebenso ab, ob der Nutzer den beschriebenen Credential besitzt und ob dieser noch gültig ist. Ist dies der Fall, so wird der zk-Proof an den Verifier gesendet.
 
+\section{Kommunikation des Komponenten}
+Die Kommunikation der Komponenten ist in Abbildung \ref{fig:komm} dargestellt.
+
+\begin{figure}[H]
+	\centering	
+	\includegraphics[scale=0.5]{media/ablaufdiagram.drawio}
+	\caption{Kommunikationsdiagramm des Issuers, Holder und der Blockchain}
+	\label{fig:komm}
+\end{figure}
+Dabei sind jeweils die Prozesse zum Erstellen einer Identität, Erstellen und Zuweisen von Credentials und das Widerrufen von Credentials illustriert. Die drei Akteure sind jeweils der User/Holder (in diesem Falle die PolygonID-App), das Issuer-CLI (mit Node-JS implementiert) und der Issuer-Node (über DigitalOcean gehostet).
 \section{Der Issuer}
 Der Issuer kann im Polygon-Framework auf zwei Weisen realisiert werden:
 \begin{itemize}
 	\item 'On-Chain': Das Ausgabe der Credentials geschieht hierbei 'on-chain', also innerhalb der Blockchain. Implementiert wird die Logik mittels Smart-Contracts, was bedeutet, dass die Logik beliebig erweitert werden kann. Die anzuwendende Programmiersprache ist Solidity \footnote{https://soliditylang.org/}, was der gleichen Sprache entspricht wie im Ethereum Ökosystem. Durch die Smartcontracts werden - die in \nameref{technischeDatenPolygon} erwähnten - Zustandsbäume gespeichert. Auch Identitäten können so generiert  werden. In der Dokumentation werden zwei Szenarien besprochen: öffentliche und private Anwendungsfälle, die beide in der Blockchain realisiert werden können. Auch wenn der Issue-Prozess in der Blockchain stattfindet, so werden private Credentials nicht on-chain generiert. Dies passiert offline und ein Beweis für die Validität wird in der Blockchain gespeichert.
-	\item  'Off-Chain': Hierbei werden die Credentials in einem Issuer-Knoten erstellt, der eine API zur Verfügung stellt. Um den Knoten zu hosten wird ein Droplet von 'Digital Ocean' verwendet,  welches sich in Frankfurt befindet. Nachdem die Knoten-Software installiert wurde und alle Parameter konfiguriert wurden (privater Schlüssel von Issuer, CPU-Typ, URL's, Export von Variablen, RPC-Endpunkt-URL, usw). Für letzteren Endpunkt können öffentliche Knoten verwendet werden wie etwa 'https://rpc-mumbai.matic.today'. Dieser ist jedoch vergleichweise langsam und es gehen Vorteile von privaten Endpunkten verloren wie Monitoring und bessere Debugging-Möglichkeiten. Aus diesen Gründen wird Alchemy (https://www.alchemy.com/) verwendet. Der private Schlüssel wird aus Sicherheitsgründen in einem Tool zur Speicherung sensibler Daten verwendet (Vault by HashiCorp \label{vault}). Redis (https://redis.io/) wird als Cache verwendet. Letzten drei Komponenten sind jeweils in einem Container in Docker (https://www.docker.com/). In einem vierten Container befindet sich ein Server, der über eine REST-API Endpunkte zur Verfügung stellt. Die für diesen Prototypen relevanten Aktivitäten sind das Generieren und Lesen von Identitäten, Das Erstellen und Schreiben von Claims und das generieren von QR-Codes, die der potentielle Holder mit seiner Wallet-App scannen kann. Alle die zuletzt genannten Funktionen wurden in einem CLI (Command Line Interface) in Python zur Verfügung gestellt. Dabei werden in Abbildung \ref{fig:CLI} die Befehle mit einem jeweiligen Beispiel illustriert.
+	\item  'Off-Chain': Hierbei werden die Credentials in einem Issuer-Knoten erstellt, der eine API zur Verfügung stellt. Um den Knoten zu hosten wird ein Droplet von 'Digital Ocean' verwendet,  welches sich in Frankfurt befindet. Nachdem die Knoten-Software installiert wurde und alle Parameter konfiguriert wurden (privater Schlüssel von Issuer, CPU-Typ, URL's, Export von Variablen, RPC-Endpunkt-URL, usw.) kann der Knoten in Betrieb genommen werden. Für letzteren Endpunkt können öffentliche Knoten verwendet werden wie etwa 'https://rpc-mumbai.matic.today'. Dieser ist jedoch vergleichweise langsam und es gehen Vorteile von privaten Endpunkten verloren, wie Monitoring und bessere Debugging-Möglichkeiten. Aus diesen Gründen wird Alchemy (https://www.alchemy.com/) verwendet. Der private Schlüssel wird aus Sicherheitsgründen in einem Tool zur Speicherung sensibler Daten verwendet \footnote{Vault by HashiCorp \label{vault}}. Redis \footnote{https://redis.io/} dient als Cache. Alle drei Komponenten befinden sich jeweils in einem Container in Docker \footnote{https://www.docker.com/}. In einem vierten Container befindet sich ein Server, der über eine REST-API Endpunkte zur Verfügung stellt. Die für diesen Prototypen relevanten Aktivitäten sind das Generieren und Lesen von Identitäten, das Erstellen und Schreiben von Claims und das Generieren von QR-Codes, die der potentielle Holder mit seiner Wallet-App scannen kann. Alle die zuletzt genannten Funktionen wurden in einem CLI (Command Line Interface) in Python zur Verfügung gestellt. Dabei werden in Abbildung \ref{fig:CLI} die Befehle mit einem jeweiligen Beispiel illustriert.
 	
-	\begin{figure}[t]
+	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.7]{media/CLI}
+		\includegraphics[scale=0.7]{media/CLI3}
 		\caption{CLI Beispiele}
 		\label{fig:CLI}
 	\end{figure}
 	
-	Alle Implementierungen verwenden intern die REST-API des Issuer-Knoten, der über ngrok öffentlich zugänglich ist. Alternativ ist es möglich dem Droplet eine 'reserved IP' zuzuweisen. Mittels PolygonScan (https://mumbai.polygonscan.com) und dem Monitoring Tool bei Alchemy sind die Aktivitäten auch als Transaktionen einsehbar. Nachdem der QR-Code gescannt wurde, kann man in der App den Credential einsehen, was in Abbildung \ref{fig:appCredential} ersichtlich wird.
-	 \begin{figure}[t]
+	Alle Implementierungen verwenden intern die REST-API des Issuer-Knoten. Alternativ ist es möglich dem Droplet eine 'reserved IP' zuzuweisen. Mittels PolygonScan (https://mumbai.polygonscan.com) und dem Monitoring Tool bei Alchemy sind die Aktivitäten auch als Transaktionen einsehbar. Nachdem der QR-Code gescannt wurde, kann man in der App den Credential einsehen, was in Abbildung \ref{fig:appCredential} ersichtlich wird.
+	 \begin{figure}[H]
 	 	\centering
 	 	\includegraphics[scale=0.2]{media/appCredential}
 	 	\caption{App Credential Beispiel}
@@ -172,9 +188,10 @@ Der oben beschriebe Query wird statisch im Programmcode festgehalten. \\
 	}
 }
 \end{lstlisting}	
-	\item /qr: dient als Endpunkt, um die QR-Codes zu lesen
+	\item /qr: Dient als Endpunkt, um die QR-Codes zu lesen
+	\item /callback: Dieser Endpunkt von dem Identity-Wallet kontaktiert, um einen zk-Proof entgegenzunehmen und diesen zu verifizieren.
 \end{itemize}
-Nachdem der Code von der App gescannt wurde, wird die Anfrage angezeigt. Ebenso wird die URL des Issuers angezeigt und der Name des Credentials. Der Holder initiert die Verifizierung durch das Drücken des "Approve"-Buttons. An dieser Stelle wird ein zk-Proof generiert und an den Verifier geschickt. Der Holder schickt hierfür einen POST-Request an die angegebene 'callbackURL'. An dieser Stelle führt der Server die tatsächliche Verifikation des zk-Proofs aus. Der Ablauf hierfür wird im folgenden Code beschrieben:
+Nachdem der QR-Code von der App gescannt wurde, wird die Anfrage illustriert. Ebenso wird die URL des Issuers angezeigt und der Name des Credentials. Der Holder initiert die Verifizierung durch das Drücken des "Approve"-Buttons. An dieser Stelle wird ein zk-Proof generiert und an den Verifier geschickt. Der Holder schickt hierfür einen POST-Request an die angegebene 'callbackURL'. An dieser Stelle führt der Server die tatsächliche Verifikation des zk-Proofs aus. Der Ablauf hierfür wird im folgenden Code beschrieben:
 \begin{lstlisting}[language = JavaScript , frame = trBL , firstnumber = last , escapeinside={(*@}{@*)}]
 	const ethURL = 'https://polygon-mumbai.g.alchemy.com/v2/PRIVATE_API_KEY';
 	const contractAddress = "0x134B1BE34911E39A8397ec6289782989729807a4" //public verification contract adress
@@ -207,12 +224,8 @@ Man kann erkennen, dass Pinata nicht nur verwendet um die Schemata zu speichern,
 \subsection{On-Chain Verifikation}
 An dieser Stelle sollte kurz erwähnt werden, dass es ebenso möglich wäre die Verifikation 'on-chain', also als Smart-Contract in der Blockchain ablaufen zu lassen. Analog dazu gibt es die Alternative auch den Issuer 'on-chain' zu implementieren.
 
-//holder erklären
-//interaktion
-//integration von DLT in das Systemdesign
-
 \section{Der Holder}
-Der Holder ist die Komponente mit der geringsten Relevanz für diesen Prototypen. Es gibt jeweils eine App für Android und IOS, die folgende Funktionen haben \cite{ID58}:
+Der Holder ist die Komponente mit der geringsten Relevanz für diesen . Es gibt jeweils eine App für Android und IOS, die folgende Funktionen haben \cite{ID58}:
 \begin{itemize}
 	\item SSI implementieren
 	\item Credential entgegennehmen, speichern und warten
@@ -220,16 +233,17 @@ Der Holder ist die Komponente mit der geringsten Relevanz für diesen Prototypen
 	\item mit Issuer und Verifier kommunizieren
 	\item Recovery-Funktion mittels 'seed-phrase'
 \end{itemize}
+
 Wenn ein Entwickler seinen eigenen 'Identity Wallet' implementieren möchte, hat er die Auswahl zwischen der Flutter-SDK (https://flutter.dev/) und einer Android SDK. Auch steht eine REST-API verschiedener Anbieter zur Verfügung, die Funktionen anbieten, die der Wallet benötigt, wie das Erstellen von Identitäten oder zk-Proofs.
 Für diesen Prototypen wurde kein eigener Identity-Wallet implementiert, da der von Polygon-ID zur Verfügung gestellte Wallet bereits allen Anforderungen genügt und eine eigene Implementierung keinen Mehrwert liefert.
 
 \section{Interaktion zwischen den Komponenten}
-Um die Interaktion zwischen den Komponenten zu illustrieren wird folgende Grafik verwendet \ref{fig:trust}:
+Um die Interaktion zwischen den Komponenten zu illustrieren wird folgende Grafik verwendet \ref{fig:trust}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{media/trust}
-	\caption{Interaktion zwischen den Komponenten}
+	\caption{Interaktion zwischen den Komponenten \cite{ID63}}
 	\label{fig:trust}
 \end{figure}
 
@@ -242,10 +256,10 @@ Bei der Abbildung \ref{fig:trust} handelt es sich zunächst um das Konzept 'Tria
 \end{itemize} 
 Daher ist die Korrektheit des Issuer von elementarer Bedeutung. \\
 Ein schematischer Ablauf von der Erstellung der Identität des Issuer hin zur erfolgreichen Verifikation eines Credential des Holder sieht wie folgt aus \ref{fig:kommunikation}.
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{media/kommunikation}
 	\caption{Schematischer Ablauf des Prozesses}
 	\label{fig:kommunikation}
 \end{figure}
-Rote Aktivitäten beinhalten Transaktionen in der Blockchain und blaue Aktivitäten beinhalten Schreibprozesse.
+Rote Aktivitäten beinhalten Transaktionen in der Blockchain und blaue Aktivitäten beinhalten Schreibprozesse. Außerdem ist zu sehen, dass viele Prozesse auf anderen Speichern arbeiten, wie z.B. verteile Speicher oder der lokale App-Speicher. Ein Unterschied zu Abbildung \ref{fig:komm} ist, dass der Verifier ebenso dargestellt ist und zwischen Lese- und Schreibzugriffen auf dem DLT unterschieden wird.

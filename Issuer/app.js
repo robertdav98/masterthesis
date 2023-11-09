@@ -13,6 +13,7 @@ const GET_IDENTITY_ACTION = "getIdentity";
 const CREATE_CLAIM_ACTION = "createClaim";
 const GET_CLAIM_ACTION = "getClaim";
 const GET_CLAIM_QR_ACTION = "getClaimQR";
+const REVOKE_CLAIM = "revokeClaim";
 
 const VehicleTypes = {
 	Car: "Car",
@@ -22,7 +23,7 @@ const VehicleTypes = {
 }
 
 //issuer api info
-const issuer_url = "https://3728-138-197-178-100.ngrok-free.app/v1"
+const issuer_url = "https://af8e-164-92-142-47.ngrok-free.app/v1"
 const username = "user-issuer"
 const password = "password-issuer"
 
@@ -36,6 +37,7 @@ parser.add_argument('-y', '--year', {help: "Year of Receipt of license. Must be 
 parser.add_argument('-i', '--identity', { help: 'Identity' });
 parser.add_argument('-r', '--receiver', { help: 'Receiver' });
 parser.add_argument('-c', '--claim', { help: 'Claim' });
+parser.add_argument('-n', '--nonce', { help: 'Nonce' });
 
 parsed_args = parser.parse_args();
 switch(parsed_args["action"]){
@@ -54,6 +56,10 @@ switch(parsed_args["action"]){
     case GET_CLAIM_QR_ACTION:
         getClaimQR(parsed_args["identity"], parsed_args["claim"])
         break;
+    case REVOKE_CLAIM:
+      console.log(parsed_args)
+      revokeClaim(parsed_args["identity"], parsed_args["nonce"])
+      break
 }
 
 
@@ -178,9 +184,6 @@ function getClaimQR(identity, claim){
 
     axios.get(url, {auth: {username: username,password: password}})
       .then(function (response) {
-        //console.log(response["data"]["body"]["url"])
-        //oldUrl = response["data"]["body"]["url"]
-        //response["data"]["body"]["url"] = issuer_url  + "/agent"
         let requestAsString = JSON.stringify(response["data"])
         console.log(requestAsString)
         qrcode.generate(requestAsString, {small: true});
@@ -188,4 +191,22 @@ function getClaimQR(identity, claim){
       .catch(function (error) {
         console.log(error);
       });
+}
+function revokeClaim(identity, nonce){
+  if(!identity || !nonce){
+    console.error("Please provide identity 'identity' and nonce 'nonce'")
+    return
+  }
+
+  const url = `${issuer_url}/${identity}/claims/revoke/${nonce}`
+  console.log(url)
+  axios.post(url, {}, {auth: {username: username,password: password}})
+    .then(function (response) {
+      response["data"]
+      console.log("Claim revoked");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
 }

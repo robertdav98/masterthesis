@@ -15,7 +15,9 @@ Die selbstbestimmte Identität oder Self-Sovereign Identity (SSI) stellt den neu
 \section{Self-Sovereign-Identity}
 
 \subsection{Das Konzept hinter SSI}	
-	Das Konzept der Self-Sovereign Identity \cite{SOV1} basiert auf den folgenden Prinzipien:
+	Das Konzept der Self-Sovereign Identity \cite{SOV1} basiert auf den folgenden Prin
+	
+	zipien:
 	
 	\begin{enumerate}
 		\item Benutzerkontrolle: Der Benutzer hat die ultimative Kontrolle über seine Identität und die damit verbundenen Daten. Der Benutzer kann bestimmen, welche Informationen er teilen möchte, mit wem und zu welchen Bedingungen.
@@ -24,7 +26,7 @@ Die selbstbestimmte Identität oder Self-Sovereign Identity (SSI) stellt den neu
 		
 		\item Interoperabilität: SSI strebt nach Interoperabilität zwischen verschiedenen Identitätsplattformen und -systemen. Das bedeutet, dass Identitätsdaten zwischen verschiedenen Diensten und Organisationen ausgetauscht und verifiziert werden können, ohne dass eine zentrale Instanz benötigt wird.
 		
-		\item Vertrauensmodelle: SSI nutzt kryptografische Technologien, wie digitale Signaturen und Blockchain, um die Integrität und Vertrauenswürdigkeit von Identitätsdaten zu gewährleisten. Es ermöglicht auch das Prinzip der Verifizierung von Ansprüchen, bei dem die Authentizität bestimmter Daten von anderen Parteien bestätigt werden kann.
+		\item Vertrauensmodelle: SSI nutzt kryptografische Technologien, wie digitale Signaturen und Blockchains, um die Integrität und Vertrauenswürdigkeit von Identitätsdaten zu gewährleisten. Es ermöglicht auch das Prinzip der Verifizierung von Informationen, bei dem die Authentizität bestimmter Daten von anderen Parteien bestätigt werden kann.
 		
 		\item Datenschutz und Privatsphäre: SSI legt großen Wert auf Datenschutz und Privatsphäre. Der Benutzer hat die Kontrolle darüber, welche Informationen freigegeben werden und welche nicht. Es ermöglicht auch selektive Offenlegung, bei der nur die notwendigen Informationen für einen bestimmten Zweck oder Kontext offengelegt werden.
 	\end{enumerate}
@@ -42,7 +44,7 @@ Im Gegensatz dazu bezieht sich die Partial/Strong Identity auf eine Identität, 
 
 Beide Identitätskonzepte haben ihre eigenen Vor- und Nachteile in Bezug auf Datenschutz, Sicherheit und Benutzerkontrolle. Die Entscheidung für eine bestimmte Identität hängt von den individuellen Anforderungen, dem Kontext und den Präferenzen des Benutzers ab. SSI strebt jedoch nach Flexibilität und Wahlfreiheit für Benutzer, um die Identität zu wählen, die ihren Bedürfnissen am besten entspricht und gleichzeitig die Sicherheit und den Schutz ihrer Daten gewährleistet.
 
-In den folgenden Kapiteln wird in der Konzeption und Implementierung ein Minimum an Daten preisgegeben, also eine schwache Identität. Jedoch werden auch Anwendungsfälle berücksichtigt, wo Informationen zur Identität benötigt werden
+In den folgenden Kapiteln wird in der Konzeption und Implementierung ein Minimum an Daten preisgegeben, also eine schwache Identität. Jedoch werden auch Anwendungsfälle berücksichtigt, wo Informationen zur Identität benötigt werden.
 
 \subsection{Technische Grundlagen}
 Um das Konzept der Self-Sovereign Identity (SSI) aus technologischer Sicht zu verstehen und anzuwenden, sind folgende Kernkonzepte erforderlich \cite{ID16} \cite{ID17}:
@@ -52,12 +54,12 @@ Um das Konzept der Self-Sovereign Identity (SSI) aus technologischer Sicht zu ve
 	
 	\item Kryptografische Schlüssel: Diese übertragen die Kontrolle über digitale Identitäten und ermöglichen grundlegende Funktionen wie Verschlüsselung und Authentifizierung. Hierbei handelt es sich um klassische private/öffentliche Schlüsselpaare, die im Falle von der Bitcoin-Blockchain 48 Byte / 256 Bit lang sind \cite{ID15} und dem Verschlüsseln/Entschlüsseln/Signieren von Daten dienen.
 	
-	\item Dezentrale Identifikatoren (DIDs): DIDs sind globale und einzigartige Identifikatoren, die keine zentrale Register zur Speicherung benötigen. Sie unterscheiden sich zu UUIDs in dem Sinne, dass DIDs auf sog. DID-Documents zurückzuführen sind und mit kryptographischen Mechanismen Eigentumsverhältnisse zeigen. DID's sind aufgebaut wie folgt:\\
+	\item Dezentrale Identifikatoren (DIDs): DIDs sind globale und einzigartige Identifikatoren, die keine zentralen Register zur Speicherung benötigen. Sie unterscheiden sich zu UUIDs in dem Sinne, dass DIDs auf sog. DID-Documents zurückzuführen sind und mit kryptographischen Mechanismen Eigentumsverhältnisse zeigen. DID's sind aufgebaut wie folgt:\\
 	\textsl{"did:" \textlangle Methodenname\textrangle ":" \textlangle methodenspefizische-ID\textrangle\\
 	Beispiel:"did:btcr:abcd-1234-wxyz:789"}\\
 	Dabei zeigt ein DID immer auf ein DID-Dokument, welches im JSON-Format Metadaten wie öffentliche Schlüssel oder Authentifizierungsmethoden beinhaltet.
 	
-	Aussehen tut ein DID-Document wie folgt:
+	Ein DID-Document sieht wie folgt aus:
 	\begin{lstlisting}[language=json,firstnumber=1]	
 {
 	"id": "did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w",
@@ -98,7 +100,7 @@ Um das Konzept der Self-Sovereign Identity (SSI) aus technologischer Sicht zu ve
 }
 	\end{lstlisting}
 	
-	Es ist zu erkennen, dass dieses DID-Document festlegt für welche Services dieses Dokument die Authentifikation definiert (in diesem Falle LinkedIn und Github). Unter 'verificationMethod' wird der Typ "EcdsaSecp256k1VerificationKey2019" angegeben, was einer Public-Key-Authentifikation entspricht, welche Elliptic-Curve-Kryptographie verwendet.
+	Es ist zu erkennen, dass dieses DID-Document festlegt für welche Services dieses Dokument die Authentifikation definiert (in diesem Falle LinkedIn und Github). Unter 'verificationMethod' wird der Typ 'EcdsaSecp256k1VerificationKey2019' angegeben, was einer Public-Key-Authentifikation entspricht, welche Elliptic-Curve-Kryptografie verwendet.
 	
 	\item Verifizierbare Nachweise (VCs): VCs sind digitale Identitätsdokumente, die von jedem auf ihre Gültigkeit, Integrität, Authentizität und Herkunft hin überprüft werden können. Sie beinhalten sog. \textsl{Claims}, also Informationen/Behauptungen über die Entität (beispielsweise den Namen, Geburtsdatum, etc.). Wichtig ist, dass VCs aus Datenschutz- und Compliance-Gründen niemals auf einer Blockchain gespeichert werden. Ein VC kann wie folgt aussehen:
 	
@@ -125,27 +127,29 @@ Um das Konzept der Self-Sovereign Identity (SSI) aus technologischer Sicht zu ve
 
 Diese Kernkonzepte bilden die Grundlage der SSI-Technologie. Sie ermöglichen es Einzelpersonen, die Kontrolle über ihre digitalen Identitäten zu haben, verifizierbare Nachweise sicher zu teilen und vertrauenswürdige Interaktionen mit anderen durchzuführen.
 
+
 Das grobe Zusammenspiel der Komponenten sieht dabei wie folgt aus:
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{media/zusammenspiel.png}
-	\caption{Zusammenspiel von Issuer, Holder und Verifier}
+	\caption{Zusammenspiel von Issuer, Holder und Verifier \cite{ID62}}
 	\label{fig:meine-grafik}
 \end{figure}
 
-Es ist zu erkennen, dass sowohl Issuer, Holder und Verifier Eigentümer von einem Wallet sind. Der Issuer (Beispielsweise eine Bank) stellt VC's aus, die der Holder (Beispielsweise eine Privatperson) in seinem Wallet speichert. Muss sich dieser nun ausweisen, so reicht er dem Verifier (Beispielsweise der Arbeitgeber) eine VC-Representation ein. Diese VC-Representation (oder auch Verifiable Presentation \textsl{VP} genannt) beinhaltet in der Regel ein VC, kann jedoch in komplexeren Szenarien mehrere VC's enthalten. Zudem ist der jeder (insbesondere der Verifier) in der Lage die Authentizität des VP zu überprüfen.\\
+Es ist zu erkennen, dass sowohl Issuer, Holder und Verifier Eigentümer von einem Wallet sind. Der Issuer (beispielsweise eine Bank) stellt VC's aus, die der Holder (Beispielsweise eine Privatperson) in seinem Wallet speichert. Muss sich dieser nun ausweisen, so reicht er dem Verifier (Beispielsweise der Arbeitgeber) eine VC-Representation ein. Diese VC-Representation (oder auch Verifiable Presentation \textsl{VP} genannt) beinhaltet in der Regel ein VC, kann jedoch in komplexeren Szenarien mehrere VC's enthalten. Zudem sind alle Akteure (insbesondere der Verifier) in der Lage die Authentizität des VP zu überprüfen.\\
 
 Issuer, Holder und Verifier können jeweils alle drei Rollen annehmen, besitzen eine DID und sind DID-Subjects. Folgende Zusammenhänge existieren zwischen dem DID-Subject, DID, DID-URL, DID-Controller, DID-Document und der Verifiable Data Registry:
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.9]{media/DID.PNG}
-	\caption{Zusammenspiel von Issuer, Holder und Verifier \cite{ID18}}
+	\caption{DID-Objekte und deren Zusammenhänge \cite{ID18}}
 	\label{fig:meine-grafik}
 \end{figure}
 
-Die DID-URL beinhaltet die DID und erweitert die Syntax um die URI-Komponenten wie Pfade oder Anfrage-Parameter. Sowohl DID's als auch DID-Documents werden auf einem Verifiable Data Registry persistiert. Diese werden beispielsweise als Datenbanken oder dezentrale Dateisysteme realisiert. In diesem Kontext sind jedoch distributed Ledger die Speicher der Wahl. Das DID-Dokument wird durch die DID-URL (de-)referenziert und durch die DID auf sich verwiesen. Der DID-Controller ist die Entität, die das DID-Document modifizieren kann. In der Regel ist diese Entität das DID-Subject der DID, es kann jedoch auch ein ein oder mehrere andere DID-Subjecte sein.
+Die DID-URL beinhaltet die DID und erweitert die Syntax um die URI-Komponenten wie Pfade oder Anfrage-Parameter. Sowohl DID's als auch DID-Documents werden auf einem Verifiable Data Registry persistiert. Diese werden beispielsweise als Datenbanken oder dezentrale Dateisysteme realisiert. In diesem Kontext sind jedoch distributed Ledger die Speicher der Wahl. Das DID-Dokument wird durch die DID-URL (de-)referenziert und durch die DID auf sich verwiesen. Der DID-Controller ist die Entität, die das DID-Document modifizieren kann. In der Regel ist diese Entität das DID-Subject der DID, es kann jedoch auch
+ ein oder mehrere andere DID-Subjekte sein.
 
 
 \section{Politik, Recht und Ethik in Bezug auf SSI}
@@ -170,3 +174,26 @@ Ein weiterer Punkt ist die Diskrepanz zwischen SSI im sozialen und im technische
 	\item Risiko, dass eine Partei nicht wie erwartet agiert
 \end{itemize}
 Alle diese drei Charakteristika unterscheiden sich, je nachdem ob es sich um IoT-Geräte, Software oder Menschen handelt. 
+
+
+\section{Merkmale und Vorteile von DLT}
+Distributed Ledger ist - wie der Titel bereits beschreibt - eine , für diese Arbeit, bedeutende Technologie. Dabei sind folgende Merkmale und Vorteile der DTL relevant \cite{ID19}:
+\begin{itemize}
+	\item DLT ermöglicht das Betreiben einer hochverfügbaren Datenbank (eines 'Ledgers'), da nicht eine zentrale Instanz für die Verfügbarkeit verantwortlich ist, sondern die Gesamtheit der Knoten in dem Netzwerk.
+	
+	\item Ebenso ermöglicht die Dezentralität des DLT eine verteilte Speicherung und Verarbeitung.
+	
+	\item Manipulationsresistenz wird durch kryptographische Verfahren innerhalb der Blockchain sichergestellt. Im Fall  der Blockchain sind diese in der Regel asymmetrische Verfahren, was bedeutet, dass private/öffentliche Schlüssel zum Ent- oder Verschlüsseln der Daten verwendet werden, wobei 'Integer Factorization', "Discrete Logarithm' oder 'Elliptic Curves' verwendet werden können \cite{ID23}
+	
+	\item Zensurresistenz kann gewährleistet, indem beispielsweise alle Knoten die gleichen Berechtigungen haben und somit keine machthabende Instanz existiert. Alle Teilnehmer im Netzwerk werden als Knoten (Nodes) bezeichnet und besitzen jeweils eine lokale Kopie des Ledgers. Änderungen werden nun auf der Kopie ausgeführt und im Anschluss in dem Netzwerk synchronisiert. Das Netzwerk gilt als 'untrustworthy' (nicht vertrauenswürdig), wenn willkürliche einzelne Knoten sog. 'Byzantine-Failures' \cite{ID20} \cite{ID21} erzeugen können. Dies bedeutet, dass versucht wird beliebig falsches Verhalten im System zu erzeugen (unauthentische Daten, Zusammensturz des Systems, etc). Der Resistenzgrad des Netzwerks gegenüber diesen Angriffen wird als 'Byzantine-Toleranz' bezeichnet und wird in der Regel durch Abstimmungen im Netzwerk (Beispielsweise Konsensus-Algorithmen) verhindert. Beispiele im Blockchain-Kontext sind 'Proof-of-Work' oder "Proof-of-Stake' \cite{ID22} angewandte Algorithmen.
+	
+	\item Möglichkeit zur 'Demokratisierung' von Daten: Durch DLT kann ermöglicht werden, dass Individuen und/oder Organisationen kooperativ Kontrolle über Daten ausüben
+	
+\end{itemize}
+
+\section{Anwendung von DLT im Bereich der digitalen Identität}
+Die oben genannten Eigenschaften sind für das Betreiben eines Identitätsmanagementsystems optimal, da diese hochverfügbar sein sollten, mit möglichst kurzen oder nicht existierenden Downtimes. Auch ist eine verteilte Speicherung und Verarbeitung eine effiziente Möglichkeit große Menge an Anfragen zu bearbeiten oder eine Vielzahl an Identitätsdaten zu speichern. Zusätzlich ist Manipulationsresistenz von großer Bedeutung, da die Identitätsdaten stets authentisch sein müssen, um beispielsweise Dokumentenfälschung oder Identitätsdiebstahl zu vermeiden. Ebenso können finanzielle Transaktionen hiermit abgewickelt werden, was in der analogen Welt oft im Zusammenhang mit der Dokumentenausstellung stattfinden. Ein Beispiel hierfür sind die Gebühren beim Beantragen eines Reisepasses oder die Strafgebühr für das zu späte Neubeantragen eines abgelaufenen Ausweises.
+Die Möglichkeit sog. 'smart contracts' - also eigene Programme - zu schreiben ist eine Eigenschaft, die nicht in allen DLT's gegeben ist. Dennoch wird diese Eigenschaft an dieser Stelle erwähnt, da einige Blockchains wie Ethereum Letzteres unterstützen und somit einem Software-Entwickler die Chance geben fehlende Software im Identitätsmanagementsystems zu implementieren.
+
+Diese Merkmale von DLT machen es zu einer idealen Technologie für die Umsetzung von Self-Sovereign-Identity. Sie ermöglicht eine sichere, vertrauenswürdige und selbstbestimmte Verwaltung von Identitätsinformationen, wodurch Benutzer die Kontrolle über ihre Identität zurückerlangen und die Notwendigkeit von zentralen, vertrauenswürdigen Dritten verringert wird.
+

@@ -33,7 +33,7 @@ const requestMap = new Map();
 async function GetAuthRequest(req,res) {
 
   // Audience is verifier id
-  const hostUrl = "https://31ab-165-1-187-202.ngrok-free.app";
+  const hostUrl = "https://7b65-208-127-57-7.ngrok-free.app";
   const sessionId = 1;
   const callbackURL = "/api/callback"
   const audience = "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
@@ -60,7 +60,7 @@ async function GetAuthRequest(req,res) {
         context: 'https://ipfs.io/ipfs/QmQLZUJqTguEG5LAaHiDQeAYqD3Z22BtTT9dXEVHd8ABoF',
         credentialSubject: {
           YearOfReceipt: {
-            $lt: 2023,
+            $lt: 2012,
           },
         },
     },
@@ -77,63 +77,6 @@ async function GetAuthRequest(req,res) {
   return res.status(200).set('Content-Type', 'application/json').send(request);
 }
 
-
-/*
-async function GetAuthRequest(req,res) {
-
-    const hostUrl = " https://df4c-165-1-191-123.ngrok-free.app"; // <- public ip
-    const sessionId = 1;
-    const callbackURL = "/api/callback"
-    const audience = "did:polygonid:polygon:mumbai:2qF57iujBWKeAGc2koCV56yW5S1SfPtFsCgDHzGRdW" // <- did of requester
-    const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
-
-    // Generate request for basic authentication
-    const request = auth.createAuthorizationRequest(
-        'test flow',
-        audience,
-        uri,
-    );
-
-    request.id = '';
-    request.thid = '';
-
-    // Add request for a specific proof
-    const proofRequest = {
-        id: 1,
-        circuitId: 'credentialAtomicQuerySigV2',
-        query: {
-          allowedIssuers: ['*'],
-          type: 'MasterWorkDriversLicense',
-          context: 'https://ipfs.io/ipfs/QmTSd6saivXHysRopQdM1yswp2qyFwobL7fwuFpkVTS8gd',
-          credentialSubject: {
-            YearOfReceipt: {
-              $lt: 2020,
-            },
-            TypeOfVehicle:{
-              $eq: "Motorcycle"
-            }
-          },
-      },
-      };
-    const scope = request.body.scope ?? [];
-    request.body.scope = [...scope, proofRequest];
-
-  // Store auth request in map associated with session ID
-    requestMap.set(`${sessionId}`, request);
-
-    let requestAsString = JSON.stringify(request)
-    console.log(requestAsString)
-    let path = './public/qr.png'
-    qrcode.generate(requestAsString, {small: true});
-    QRCode.toFile(path, requestAsString, {
-      errorCorrectionLevel: 'H'
-    }, function(err) {
-      if (err) throw err;
-      console.log('QR code saved!');
-      res.redirect('/qr.png');
-    });
-}
-*/
 async function Callback(req,res) {
     console.log("Called CallBack-Func")
     // Get session ID from request
@@ -146,7 +89,6 @@ async function Callback(req,res) {
 
     const ethURL = 'https://polygon-mumbai.g.alchemy.com/v2/D1s0R1PGRyeFLL0P4aqSU_LdAjvGy5L0';
     const contractAddress = "0x134B1BE34911E39A8397ec6289782989729807a4"
-    const keyDIR = "../keys"
 
     const ethStateResolver = new resolver.EthStateResolver(
         ethURL,

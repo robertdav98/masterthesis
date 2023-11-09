@@ -54,7 +54,7 @@
 \usepackage{booktabs}
 \usepackage{setspace} % to use \singlespacing\onehalfspacing\doublespacing
 \usepackage{mathtools}
-
+\usepackage{float}
 \usepackage{rotating} % For sidewayfigures
 \usepackage{caption} % For centering the Captions if more than one Line
 \captionsetup{justification=centering,margin=3em} % Set centering for captions as default
@@ -75,6 +75,9 @@ style=alphabetic
 ]{biblatex}
 \bibliography{literatur}
 
+%\usepackage{filecontents}
+%\usepackage{multibib}
+%\newcites{supp}{Supplementary References}
 %----------------- EPIGRAPH ----------------- %
 \usepackage{epigraph}
 \setlength{\epigraphwidth}{0.7\textwidth} % Epigraph ist 70% der Textbreite breit
@@ -342,10 +345,11 @@ style=alphabetic
 \include{chapter/einfuehrung}
 
 %----------------- KAPITEL : Grundlagen  ---------------- %
+
 \include{chapter/grundlagen}
 
 %----------------- KAPITEL : Distributed ledger Technology  ----------------- %
-\include{chapter/distributedLedgerTechnology}
+%\include{chapter/distributedLedgerTechnology}
 
 %----------------- KAPITEL : Anforderungsanalyse  ----------------- %
 \include{chapter/anforderungsanalyse}
@@ -364,7 +368,7 @@ style=alphabetic
 \include{chapter/evaluation}
 
 %----------------- KAPITEL : Diskussion  --------------------- %	
-\include{chapter/diskussion}
+%\include{chapter/diskussion}
 
 %----------------- KAPITEL : Fazit  --------------------- %	
 \include{chapter/fazit}
@@ -376,8 +380,10 @@ style=alphabetic
 
 
 %----------------- Literaturverzeichnnis ------------------%
-\printbibliography
+\printbibliography[title={Literatur}, type={article}]
+\printbibliography[title={Online-Quellen}, type={online}]
 \addcontentsline{toc}{chapter}{Literatur}
-
-
+\addcontentsline{toc}{chapter}{Online-Quellen}
+%\bibliographystylesupp{plain}
+%\bibliographysupp{literatur-online}
 \end{document}
