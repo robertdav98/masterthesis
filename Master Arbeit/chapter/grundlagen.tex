@@ -102,7 +102,7 @@ Um das Konzept der Self-Sovereign Identity (SSI) aus technologischer Sicht zu ve
 	
 	Es ist zu erkennen, dass dieses DID-Document festlegt für welche Services dieses Dokument die Authentifikation definiert (in diesem Falle LinkedIn und Github). Unter 'verificationMethod' wird der Typ 'EcdsaSecp256k1VerificationKey2019' angegeben, was einer Public-Key-Authentifikation entspricht, welche Elliptic-Curve-Kryptografie verwendet.
 	
-	\item Verifizierbare Nachweise (VCs): VCs sind digitale Identitätsdokumente, die von jedem auf ihre Gültigkeit, Integrität, Authentizität und Herkunft hin überprüft werden können. Sie beinhalten sog. \textsl{Claims}, also Informationen/Behauptungen über die Entität (beispielsweise den Namen, Geburtsdatum, etc.). Wichtig ist, dass VCs aus Datenschutz- und Compliance-Gründen niemals auf einer Blockchain gespeichert werden. Ein VC kann wie folgt aussehen:
+	\item Verifizierbare Nachweise (VCs): VCs sind digitale Identitätsdokumente, die von jedem auf ihre Gültigkeit, Integrität, Authentizität und Herkunft hin überprüft werden können. Sie beinhalten sog. \textsl{Claims}, also Informationen/Behauptungen über die Entität (beispielsweise den Namen, Geburtsdatum, etc.). Wichtig ist, dass VCs aus Datenschutz- und Compliance-Gründen niemals unverschlüsselt auf einer Blockchain gespeichert werden. Ein VC kann wie folgt aussehen:
 	
 	\begin{lstlisting}[language=json,firstnumber=1]
 {
@@ -196,4 +196,23 @@ Die oben genannten Eigenschaften sind für das Betreiben eines Identitätsmanage
 Die Möglichkeit sog. 'smart contracts' - also eigene Programme - zu schreiben ist eine Eigenschaft, die nicht in allen DLT's gegeben ist. Dennoch wird diese Eigenschaft an dieser Stelle erwähnt, da einige Blockchains wie Ethereum Letzteres unterstützen und somit einem Software-Entwickler die Chance geben fehlende Software im Identitätsmanagementsystems zu implementieren.
 
 Diese Merkmale von DLT machen es zu einer idealen Technologie für die Umsetzung von Self-Sovereign-Identity. Sie ermöglicht eine sichere, vertrauenswürdige und selbstbestimmte Verwaltung von Identitätsinformationen, wodurch Benutzer die Kontrolle über ihre Identität zurückerlangen und die Notwendigkeit von zentralen, vertrauenswürdigen Dritten verringert wird.
+
+\section{Warum SSI Lösungen überlegen sind}
+Es gibt zahlreiche Argumente für das Verwenden von SSI-Lösungen (Sovrin, uPort, etc), da diese viele Nachteile von herkömmlichen (internationalen [Google, Facebook, Amazon, etc] oder lokalen [Verimi, netID, etc]) Identitätsplattformen kompensieren \cite{ID28}
+
+\begin{itemize}
+	\item Kontrolle: Sowohl lokale als auch internationale IDP's geben dem Nutzer kaum Kontrolle/Einfluss über seine Daten, während SSI Lösungen dem Nutzer die alleinige Kontrolle geben und dieser somit in der Lage ist seine Daten beliebig zu modifizieren oder Zugriff einzuschränken.
+	
+	\item Datenablage: Sowohl bei internationalen als auch bei nationalen IDP's werden die Daten zentral beim IDP abgelegt. Der Unterschied hierbei ist, das bei nationalen IDP's die Daten innerhalb der EU liegen, da diese an rechtliche Rahmenbedingungen gebunden sind. Bei SSI-IDP's liegen die Daten global verteilt in den Knoten des Netzwerks.
+	
+	\item Sicherheit: Bei herkömmlichen IDP's würde ein erfolgreicher Angriff sämtliche Daten kompromittieren, was bei SSI-IDP's aufgrund der Dezentralität nicht (oder nur sehr schwer) möglich ist.
+	
+	\item Datenschutz: Bei internationalen IDP's wird die DSGVO nicht eingehalten, was bei nationalen IDP's und SSI-IDP's nicht zutrifft.
+	
+	\item Standards: Alle gegebene IDP's erfüllen in der Regel Standards.
+	
+	\item Vertrauen: Ist lediglich bei SSI-IDP's vollständig gegeben, wenn der Nutzer informiert ist.  
+\end{itemize}
+
+Es ist zu erkennen, dass SSI-IDP's in den meisten Fällen überlegen sind, jedoch gibt es auch einen großen Vorteil: Der Nutzer muss sich bereit erklären auf neue Technologien zuzugreifen und diese auch zu verstehen, um nicht Opfer von Angriffen zu werden. Dazu gehört das Verwenden von Wallets, Verständnis von Prozessen über das Anfragen/Austellen von VC's und erstellen von VP's. Auch sollte nicht vernachlässigt werden, dass das Erstellen von Transaktionen (Schreiben in der Blockchain) in der Regel mit Gebühren einhergeht. In den folgenden Subkapiteln werden verschiedene SSI-Lösungen vorgestellt und im Anschluss miteinander verglichen.
 

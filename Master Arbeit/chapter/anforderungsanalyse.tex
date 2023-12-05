@@ -1,31 +1,27 @@
 \chapter{Anforderungsanalyse}
+
+\section{Use-Case}
+Der zu implementierende Use-Case ist, dass eine Autorität in der Lage sein muss einen Führerschein an einen Nutzer auszustellen. Der Führerschein darf für Niemand anderen als den Nutzer einsehbar sein. Es muss jedoch die Möglichkeit geben, dass eine andere Autorität den Führer auf Authentizität überprüft oder herausfinden kann, ob der Führerschein für die richtige Fahrzeugart ist oder wann der Fahrer den Führerschein erhalten hat. Von Bedeutung ist, dass nicht der ganze Führerschein gezeigt werden muss, sondern dass selektiv entweder einzelne Attribute einsehbar gemacht werden oder Anfragen bejaht/verneint werden. Sollte der Fahrer Fehlverhalten zeigen, so kann die Autorität den Führerschein wieder entziehen.
+
 \label{cha:anforderungsanalyse}
 Folgende Anforderungen gelten für das Identitätsmanagementsystem und entsprechen den von der OECD festgelegten Eigenschaften \cite{ID25} \cite{ID26}.
 \section{Funktionale Anforderungen}
-
 \begin{itemize}
-	\item Widerruf: Informationen müssen widerruflich sein
-	\item Überprüfbarkeit: Es muss dem Nutzer möglich sein die Daten über sich zu überprüfen. Dazu gehört: Welche Daten stehen zur Verfügung und warum, Wer hat Zugriff auf diese Daten und wann wurden die Daten in das System eingetragen.
-	\item Selektive-Veröffentlichung: Dem Nutzer muss es möglich sein nur einzelne Claims zu veröffentlichen
+	\item Widerruf: Nachdem ein Credential ausgestellt wurde muss die Möglichkeit existieren diesen zu widerrufen. Dies kann durch den Holder oder Issuer des Credentials geschehen. Dazu gehört auch, dass Credentials nach einer bestimmten automatisch ungültig sein können.
+	\item Überprüfbarkeit: Es muss möglich sein, dass ein Verifier Credentials überprüfen kann. Auch muss nachverfolgbar sein wann der Credential durch wen erstellt wurde. Wenn beispielsweise ein Führerschein als Credential ausgestellt wurde, so muss ein Kontrolleur in der Lage zu sein diesen auf Gültigkeit und korrekte Attribute zu prüfen.
+	\item Selektive-Veröffentlichung: Dem Nutzer muss es möglich sein lediglich einzelne Claims zu veröffentlichen. In der analogen Welt zeigt der Kunde beispielsweise den kompletten Ausweis, obgleich nur das Alter überprüft werden möchte. Demnach soll die Funktion existieren ausschließlich eine Submenge von Informationen eines Credentials offen zu legen.
 \end{itemize}
 
 \section{Nicht-Funktionale Anforderungen}
 
 \begin{itemize}
-	\item Vertraulichkeit: Eigenschaften einer Identität müssen vor unautorisierten Offenlegung geschützt werden
-	\item Integrität: Informationen dürften nur autorisiert modifiziert werden
-	\item Non-Replay: Operationen dürfen nicht erneut ausführbar sein
-	\item Nichtabstreitbarkeit: Das Senden von Daten durch den Nutzer kann im Nachhinein nicht abgesprochen werden
-	\item Diebstahlschutz: Die Daten dürften nicht von Unbefugten lesbar sein
+	\item Vertraulichkeit: Credentials müssen vor unbefugten Zugriffen geschützt sein. Gemeint ist hiermit, dass unberechtigte Nutzer Credentials weder schreiben noch lesen sollten.
+	\item Integrität: Credentials dürften nur autorisiert modifiziert werden. Dies betrifft Claims eines Credentials oder den gesammten Credential.
+	\item Non-Replay: Operationen dürfen nicht erneut ausführbar sein. Dies bedeutet, dass beispielsweise die Credential-Zuweisung nicht mehrfach ausgeführt werden kann, da ansonsten ein Holder entweder doppelte Credentials erhält oder ein zweiter (und somit unberechtigter) Holder ebenso den Credential fälschlicherweise empfangen kann.
+	\item Nichtabstreitbarkeit: Die Transaktionen müssen dokumentiert sein, sodass Aktivitäten nicht abgesprochen werden können. Beispielsweise sollte der Issuer nicht in der Lage sein abzustreiten, dass ein Credential erstellt wurde.
 	
 \end{itemize}
 
 \section{Technische Anforderungen}
-Als technische Anforderung wird lediglich festgelegt, dass eine DLT verwendet werden soll, was in dieser Arbeit durch die Blockchain realisiert wird. Davon abgesehen werden Komponenten und Schnittstellen verwendet, die die oben genannten (Nicht-) funktionalen Anforderungen erfüllen.
-Auch gilt sich in dem Design und Implementierung an möglichst viele Standards zu halten:
-\begin{itemize}
-	\item W3C Standard für Verifiable Credentials: https://www.w3.org/TR/vc-data-model/
-\end{itemize}
-
-\section{Use-Case}
-Der zu implementierende Use-Case ist, dass eine Autorität in der Lage sein muss einen Führerschein an einen Nutzer auszustellen. Der Führerschein darf für niemand anderen als den Nutzer einsehbar sein. Es muss jedoch, die Möglichkeit geben, dass eine andere Autorität den Führer auf Authentizität überprüft oder herausfinden kann, ob der Führerschein für die richtige Fahrzeugart ist oder wann der Fahrer den Führerschein erhalten hat. Von Bedeutung ist, dass nicht der ganze Führerschein gezeigt werden muss, sondern dass selektiv entweder einzelne Attribute einsehbar gemacht werden oder Anfragen bejaht/verneint werden.
+Als technische Anforderung wird lediglich festgelegt, dass eine DLT verwendet werden soll, was in dieser Arbeit durch die Blockchain realisiert wird.
+Bei den Templates für die Credentials, die beschrieben welche Attribute ein Dokument hat (z.B. Fahrzeugtyp im Führerschein) muss sich an den \textsl{W3C Standard für Verifiable Credentials} \footnote{https://www.w3.org/TR/vc-data-model/} gehalten werden. 

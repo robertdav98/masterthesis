@@ -115,21 +115,57 @@ Es ist zu erkennen, dass der Prototyp sicher ist im Rahmen des STRIDE-Modells.
 
 \section{Beantworten der Forschungsfragen}
 Im Folgenden werden die in Kapitel \ref{forschungsfragen} gestellten Fragen beantwortet:
+
+
+
 \begin{enumerate}
-	\item Können Daten privat aber öffentlich gespeichert werden? - Es ist möglich Daten privat und öffentlich zu speichern. Dies passiert zum einen bei Shocard in dem Prozess des Bootstrapping (siehe \ref{shocard}) und zum andere bei zk-Proofs in PolygonId. Jedoch ist es zu empfehlen, private Daten wie Credentials auch privat zu speichern, wie es bereits in verschiedenen Lösungen angewandt wird.
-	\item Wie werden Daten gespeichert? - Dies hängt von dem Typ der Daten ab (Öffentliche Schemata vs private Schlüssel vs Credentials etc.)
-	\item  Welcher Mehrwert wird generiert für den User und die Online-Dienste? - Der Nutzer ist nun in der Lage zum einen eigene Credentials auszustellen und zum anderen diese zu verifizieren.
-	\item Kann das Problem der Fake-user hiermit gelöst werden? - Ja das Problem der Fake-User kann hiermit gelöst werden. Beispielsweise kann bei der Registrierung die Verifizierung eines Credentials erfolgen, wobei dieser Credential nur von einer autorisierten Instanz ausgestellt werden kann.
-	\item Was passiert im Falle einer Kompromittierung?  Recovery-Optionen? - Sollte der Nutzer den privaten Schlüssel seines Identity-Wallets verlieren, so existiert eine Recovery-Option, bei welcher der User - die bei der Erstellung angezeigten Passwörter - erneut angeben muss. Sollte der Nutzer den privaten Schlüssel an einen Angreifer preisgeben, dann ist der Wallet unbrauchbar.
-	\item Wie sollen Informationen wieder ungültig gemacht werden? - Revokation kann der User selber oder der Issuer durchführen.
-	\item Wie kann sichergestellt werden, dass die Identität wirklich der Person zuzuordnen ist? - Dieser Faktor stellt sich nicht als Problem, sondern sogar als Feature heraus. Nutzer (auch Issuer) können mehrere DIDs besitzen. Bei Sovrin (siehe \ref{sovrin}) wird pro Interaktion eine neue DID verwendet, um maximale Privatsphäre zu gewährleisten.
+	\item Wie erfolgt die Speicherung verschiedener Typen an Daten innerhalb eines Identitätsmanagementsystems?
 	\begin{enumerate}
-		\item Welcher Konsensus-Algorithmus ist am passendsten für das entwickelte Identitätsmanagementsystem? - Proof-of-Stake stellte sich als passender Algorithmus herraus (siehe \ref{PolygonPOS})
-		\item Soll eine private oder eine öffentliche Blockchain verwendet werden? - PolygonId verwendet eine öffentliche Blockchain (siehe \ref{PolygonPOS})
-		\item Wie und wo werden die privaten Schlüssel speichern? - Private Schlüssel des Issuers befinden sich in einem Vault (siehe \ref{vault}) und private Schlüssel des Users befinden sich in der Applikation des Mobilgeräts.
-		\item Sollen 'permissioned' oder 'permissionless' Blockchains verwendet werden? - Es wird eine permissionless Blockchain verwendet (siehe \ref{PolygonPOS})
-		\item Können die Dokumente als NFT's gespeichert werden? - Ja, die Credentialausstellung ist leicht erweiterbar mit der Zustellung eines NFTs. Dies könnte sowohl on-chain im smartcontract geschehen oder in der REST-API des Issuers. Beide Komponenten sich beliebig erweiterbar.
-		\item Welche Rolle spielen Zero-Knowledge-Proofs für die Entwicklung eines Identitätsmanagementsystems? - ZK-Proofs werden vom Holder erstellt und an den Verifier gesendet, welcher diese überprüfen kann.
+		\item Wie kann die technische Machbarkeit erreicht werden, Daten sowohl öffentlich zugänglich als auch privat zu speichern? - Es ist möglich Daten privat und öffentlich zu speichern. Dies passiert zum einen bei Shocard in dem Prozess des Bootstrapping (siehe \ref{shocard}) und zum andere bei zk-Proofs in PolygonId. Jedoch ist es zu empfehlen, private Daten wie Credentials auch privat zu speichern, wie es bereits in verschiedenen Lösungen angewandt wird.
+		
+		\item Welche kryptografischen Technologien, wie zum Beispiel Hashing oder Verschlüsselung, sind optimal für die sichere Speicherung von Identitätsdaten geeignet? - Sowohl Hashing als auch (asymmetrische) Verschlüsslung werden für die Speicherung von Identitätsdaten verwendet, je nachdem welche Lösung angewandt wird.
+		
+		 
+		\item Welche Sicherheitsmaßnahmen sind im Falle einer Datenkompromittierung zu ergreifen, und welche Wiederherstellungsoptionen sind verfügbar? - Sollte der Nutzer den privaten Schlüssel seines Identity-Wallets verlieren, so existiert eine Recovery-Option, bei welcher der User - die bei der Erstellung angezeigten - Passwörter erneut angeben muss. Sollte der Nutzer den privaten Schlüssel an einen Angreifer preisgeben, so ist der Wallet unbrauchbar.
+		
+		\item Wie lässt sich die sichere und effektive Ungültigmachung von Informationen (Revokation) gewährleisten? - Die Revokation kann auf drei Weisen geschehen.
+		
+		\begin{itemize}
+			
+			\item Es kann bei der Credential-Zuweisung eine maximale Gültigkeitsdauer angegeben werden. Läuft diese aus, so wird der Credential widerrufen
+			
+			\item als Issuer besteht die Möglichkeit Credentials zu wiederrufen
+			
+			\item als Holder besteht die Möglichkeit Credentials aus dem Identity-Wallet zu löschen und somit zu widerrufen
+			
+		\end{itemize}
+		 
+	\end{enumerate}
+	
+	\item Welchen Nutzer oder Service-Mehrwert generiert ein dezentrales Identitätsmanagementsystem basierend auf DLT?
+	\begin{enumerate}
+		
+		\item Welche konkreten Vorteile ergeben sich für Nutzer und Online-Dienste durch die Implementierung des vorgeschlagenen Identitätsmanagementsystems? - Als Vorteil entpuppt sich für den Nutzer, dass er Herrscher seiner Daten ist und diese eigenständig verwalten kann. Dazu gehört, dass der Nutzer selber entscheiden kann, welche Daten er freigibt. Als Vorteil ergibt sich für einen Online-Dienst, dass er keine eigene personenbezogenen Daten speichern muss und Attribute von Nutzern überprüfen kann, die beispielsweise zum Kauf berechtigen oder Vergünstigungen anbieten.
+		
+		\item Inwiefern trägt das System zur Lösung der Problematik von Fake-Usern bei? - Ja das Problem der Fake-User kann hiermit gelöst werden. Beispielsweise kann bei der Registrierung die Verifizierung eines Credentials erfolgen, wobei dieser Credential nur von einer autorisierten Instanz ausgestellt werden kann.
+	\end{enumerate}
+	
+	\item Wie erfolgt die Identitätszuordnung innerhalb des Identitätsmanagementsystems?
+	
+	\begin{enumerate}
+		\item Wie kann eine verlässliche Zuordnung von Identitäten zu Personen auf hohem Sicherheitsniveau erreicht werden? - Diese Aufgabe liegt bei dem Issuer. Dieser muss sicherstellen, dass er keine Credentials zuweist an Autoritäten, denen er nicht vertrauen kann. Um Vertrauen aufzubauen kann beispielsweise  ein Know-Your-Customer-Prozess durchgeführt werden.
+		
+		\item Welche Ansätze können entwickelt werden, um das Problem zu lösen, dass Nutzer möglicherweise verschiedene Identitäten auf verschiedenen Plattformen verwenden möchten? - Dieser Faktor stellt sich nicht als Problem, sondern sogar als Feature heraus. Nutzer (auch Issuer) können mehrere DIDs besitzen. Bei Sovrin (siehe \ref{sovrin}) wird pro Interaktion eine neue DID verwendet, um maximale Privatsphäre zu gewährleisten.
+		
+	\end{enumerate}
+	
+	\item Welche technologischen Spezifika sind im Bezug auf die Blockchain als DLT im Identitätsmanagementsystem zu entscheiden?
+	\begin{enumerate}
+		\item Welcher Konsensus-Algorithmus ist am besten geeignet, um die Anforderungen des entwickelten Identitätsmanagementsystems zu erfüllen? - Proof-of-Stake stellte sich als passender Algorithmus herraus (siehe \ref{PolygonPOS})		
+		\item Wie können private Schlüssel sicher gespeichert werden, um unbefugten Zugriff zu verhindern? - Private Schlüssel des Issuers befinden sich in einem Vault (siehe \ref{vault}) und private Schlüssel des Users befinden sich in der Applikation des Mobilgeräts.
+		\item Inwiefern können Identitätsdokumente erfolgreich als NFTs gespeichert werden, und welche Implikationen ergeben sich daraus? - Ja, die Credentialausstellung ist leicht erweiterbar mit der Zustellung eines NFTs. Dies könnte sowohl on-chain im smartcontract geschehen oder in der REST-API des Issuers. Beide Komponenten sich beliebig erweiterbar.
+		
+		\item Welche Rolle spielen Zero-Knowledge-Proofs bei der Entwicklung eines sicheren Identitätsmanagementsystems? - ZK-Proofs werden vom Holder erstellt und an den Verifier gesendet, welcher diese überprüfen kann. Dies hat den Vorteil, dass der Verifier einen Beweis für den Besitzt eines Claims erhält ohne Details zu kennen.
 	\end{enumerate}
 \end{enumerate}
 
@@ -138,6 +174,7 @@ Die in Kapitel \ref{cha:anforderungsanalyse} gestellten Anforderungen werden die
 \begin{enumerate}
 	\item Widerruf: Wird durch den Holder und Issuer ermöglicht
 	\item Überprüfbarkeit: Der Holder kann zk-Proofs ausstellen, die der Verifier überprüfen kann
+	
 	\item Selektive Veröffentlichung: Wird zum einen durch 'selective disclosure' und zum anderen durch speichern von Credentials im öffentlichen Profil ermöglicht.
 	\item Vertraulich: Mittels Passwörter und kryptographischen Verfahren ist diese Anwendung vertraulich
 	\item Non-Replay: Jede Transaktion/Operation erfolgt authentifiziert und ist daher nicht reproduzierbar
@@ -146,7 +183,4 @@ Die in Kapitel \ref{cha:anforderungsanalyse} gestellten Anforderungen werden die
 	\item W3C-Standard : Wird erfüllt \footnote{auch ersichtlich im Schema 'xsd: http://www.w3.org/2001/XMLSchema'}
 \end{enumerate}
 Es wird also ersichtlich, dass alle Anforderungen erfüllt wurden.
-\section{Analyse der Ergebnisse}
-Als Ergebnis der Analyse lässt sich sagen, dass eine Anwendung implementiert wurde, die zum einen sicher ist gegen verschiedene Typen an Attacken ist und zum anderen Performant, wobei erwähnt werden muss, dass die Performance größtenteils abhängig ist von der Performance der Issuer-Node-API und der Transaktionsgeschwindigkeit der Blockchain. Davon abgesehen sind alle Security-Richtlinien, Funktionalen/Nicht-Funktionalen/Technischen Anforderungen erfüllt.
-
 

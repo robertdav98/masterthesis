@@ -7,7 +7,7 @@ Das Internet hat sich als disruptive Technologie erwiesen, die die Art und Weise
 
 Ein weiteres Problem ist die Benutzerfreundlichkeit für den Anwender. Dieser ist gezwungen für jeden Online-Dienst sichere Login-Daten zu selektieren. Sind diese immer identisch, so stellt dies ein Sicherheitsrisiko dar, denn wenn einmalig ein Password kompromittiert ist, sind alle anderen Dienste in Gefahr. Besser wäre demnach für jeden Online-Dienst unterschiedliche Login-Daten zu verwenden, was jedoch das Merken schwer macht.
 
-Darüber hinaus stellt die Identitätsproblematik im Internet einen potenziellen Angriffsvektor dar. Cyberkriminelle können Schwachstellen in den Authentifizierungssystemen ausnutzen, um unbefugten Zugriff auf Konten zu erlangen oder Identitätsdiebstahl zu begehen. Dies birgt Risiken für die Privatsphäre und Sicherheit der Nutzer. In den USA werden 25 Personen pro Minute Opfer von Identitätsdiebstahl, wobei sich die durchschnittlichen Kosten für einen Online-Händler pro gestohlenem Datensatz personenbezogener/sensibler Daten auf 165 USD belaufen \cite{ID10}. Im Vorjahr 2015 betrug die Menge 105 USD.
+Darüber hinaus stellt die Identitätsproblematik im Internet einen potenziellen Angriffsvektor dar. Cyberkriminelle können Schwachstellen in den Authentifizierungssystemen ausnutzen, um unbefugten Zugriff auf Konten zu erlangen oder Identitätsdiebstahl zu begehen. Dies birgt Risiken für die Privatsphäre und Sicherheit der Nutzer. In den USA werden 25 Personen pro Minute Opfer von Identitätsdiebstahl, wobei sich die durchschnittlichen Kosten für einen Online-Händler pro gestohlenem Datensatz personenbezogener/sensibler Daten auf 164 USD belaufen (2023) \cite{ID64}. Drei Jahre zuvor lag dieser Wert noch bei 146 USD.
 
 Statistiken \cite{ID11} zeigen, dass 82\% der Unternehmen unter gefälschten Nutzerkonten leiden. Diese Fake-User verursachen nicht nur finanzielle Schäden, sondern können auch den Ruf eines Unternehmens schädigen. Darüber hinaus werden etwa 18\% der Einkaufswagen aufgrund von Problemen mit den Anmeldedaten aufgegeben. Dies führt zu Umsatzeinbußen für Unternehmen und frustriert potentielle Kunden.
 
@@ -32,24 +32,34 @@ Ein möglicher Anwendungsfall wäre, das ein Nutzer ein Dokument von einer Behö
 \label{forschungsfragen}
 Folgende Forschungsfragen werden in dieser Arbeit beantwortet:
 \begin{enumerate}
-	\item Ist es möglich Daten privat aber öffentlich zu speichern?
-	\item Wie werden die Daten gespeichert? (Hash, Verschlüsselt, etc.) 
-	\item Welcher Mehrwert wird generiert für den User und die Online-Dienste?
-	\item Kann das Problem der Fake-user hiermit gelöst werden?
-	\item Was passiert im Falle einer Kompromittierung?  Recovery-Optionen?
-	\item Wie sollen Informationen wieder ungültig gemacht werden? (Revokation)
-	\item Wie kann sichergestellt werden, dass die Identität wirklich der Person zuzuordnen ist?
-	\item Wie soll das Problem gelöst werden, dass ein Nutzer evtl. verschiedene Identitäten auf verschiedenen Plattformen verwenden möchte (Reddit-Account-Identität vs Online-Banking-Account)
-	\item Blockchain-Forschungsfragen:
-	\begin{enumerate}
-		\item Welcher Konsensus-Algorithmus ist am passendsten für das entwickelte Identitätsmanagementsystem?
-		\item Soll eine private oder eine öffentliche Blockchain verwendet werden?
-		\item Wie und wo werden die privaten Schlüssel speichern?
-		\item Sollen 'permissioned' oder 'permissionless' Blockchains verwendet werden?
-		\item Können die Dokumente als NFT's gespeichert werden?
-		\item Welche Rolle spielen Zero-Knowledge-Proofs für die Entwicklung eines Identitätsmanagementsystems?
-	\end{enumerate}	
+\item Wie erfolgt die Speicherung verschiedener Typen an Daten innerhalb eines Identitätsmanagementsystems?
+\begin{enumerate}
+	\item Wie kann die technische Machbarkeit erreicht werden, Daten sowohl öffentlich zugänglich als auch privat zu speichern?
+	\item Welche kryptografischen Technologien, wie zum Beispiel Hashing oder Verschlüsselung, sind optimal für die sichere Speicherung von Identitätsdaten geeignet?
+	\item Welche Sicherheitsmaßnahmen sind im Falle einer Datenkompromittierung zu ergreifen, und welche Wiederherstellungsoptionen sind verfügbar?
+	\item Wie lässt sich die sichere und effektive Ungültigmachung von Informationen (Revokation) gewährleisten?
+\end{enumerate}
+
+\item Welchen Nutzer oder Service-Mehrwert generiert ein dezentrales Identitätsmanagementsystem basierend auf DLT?
+\begin{enumerate}
+	\item Welche konkreten Vorteile ergeben sich für Nutzer und Online-Dienste durch die Implementierung des vorgeschlagenen Identitätsmanagementsystems?
+	\item Inwiefern trägt das System zur Lösung der Problematik von Fake-Usern bei?
+\end{enumerate}
+
+\item Wie erfolgt die Identitätszuordnung innerhalb des Identitätsmanagementsystems?
+\begin{enumerate}
+	\item Wie kann eine verlässliche Zuordnung von Identitäten zu Personen auf hohem Sicherheitsniveau erreicht werden?
+	\item Welche Ansätze können entwickelt werden, um das Problem zu lösen, dass Nutzer möglicherweise verschiedene Identitäten auf verschiedenen Plattformen verwenden möchten?
+\end{enumerate}
+
+\item Welche technologischen Spezifika sind im Bezug auf die Blockchain als DLT im Identitätsmanagementsystem zu entscheiden?
+\begin{enumerate}
+	\item Welcher Konsensus-Algorithmus ist am besten geeignet, um die Anforderungen des entwickelten Identitätsmanagementsystems zu erfüllen?
+	\item Wie können private Schlüssel sicher gespeichert werden, um unbefugten Zugriff zu verhindern?
+	\item Inwiefern können Identitätsdokumente erfolgreich als NFTs gespeichert werden, und welche Implikationen ergeben sich daraus?
+	\item Welche Rolle spielen Zero-Knowledge-Proofs bei der Entwicklung eines sicheren Identitätsmanagementsystems?
+\end{enumerate}
 \end{enumerate}
 
 \section{Aufbau der Arbeit}
-Zunächst werden die Grundlagen dieser Arbeit gesetzt, indem auf die Historie von Identitätsmanagementsystemen eingegangen wird. Daraufhin werden die Grundlagen von Distributed Ledger Technology erläutert und deren Bedeutung für Identitätsmanagementsysteme angeführt. Im Anschluss werden die Anforderungen formuliert und existierende Lösungen zunächst vorgestellt und im nächsten Schritt verglichen. Nachdem erklärt wurde, warum Polygon die passende Plattform ist, wird ein System-Design vorgestellt, welches im nächsten Schritt implementiert wird. Im vorletzten Schritt werden Metriken festgelegt und evaluiert. Zum Abschluss wird ein Fazit verfasst.
+Zunächst werden die Grundlagen dieser Arbeit gesetzt, indem auf die Historie von Identitätsmanagementsystemen eingegangen wird. Dabei werden der zentrale, föderierte, Nutzer-zentrierte und selbstbestimmte Ansatz erläutert. Daraufhin werden die Grundlagen von Distributed Ledger Technology erläutert und deren Bedeutung für Identitätsmanagementsysteme angeführt. Im Anschluss werden die Anforderungen formuliert - die in funktionale/nicht-funktionale und technische Anforderungen gegliedert sind - und existierende Lösungen zunächst vorgestellt und im nächsten Schritt verglichen. Im Fokus stehen hierbei Luniverse, Dock, Sovrin, ShoCard und PolygonId. Nachdem erklärt wurde, warum Polygon die passende Plattform ist, wird ein System-Design vorgestellt, welches im nächsten Schritt implementiert wird. Hierbei wird zunächst das Grobe Design skizziert und im Anschluss jede Komponente einzeln illustriert. Im vorletzten Schritt werden Metriken festgelegt (Laufzeit,Sicherheit) und evaluiert. Zum Abschluss wird ein Fazit verfasst, es wird überprüft, ob alle Anforderungen erfüllt wurden und eine Diskussion findet statt. Auch werden zukünftige Forschungsrichtungen aufgeführt und der Beitrag zur Forschung illustriert.

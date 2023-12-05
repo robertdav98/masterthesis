@@ -1,36 +1,17 @@
 \chapter{Darstellung existierender Lösungen}
 \label{cha:existierende Lösungen}
 
-\section{Warum SSI Lösungen überlegen sind}
-Es gibt zahlreiche Argumente für das Verwenden von SSI-Lösungen (Sovrin, uPort, etc), da diese viele Nachteile von herkömmlichen (internationalen [Google, Facebook, Amazon, etc] oder lokalen [Verimi, netID, etc]) Identitätsplattformen kompensieren \cite{ID28}
-
-\begin{itemize}
-	\item Kontrolle: Sowohl lokale als auch internationale IDP's geben dem Nutzer kaum Kontrolle/Einfluss über seine Daten, während SSI Lösungen dem Nutzer die alleinige Kontrolle geben und dieser somit in der Lage ist seine Daten beliebig zu modifizieren oder Zugriff einzuschränken.
-	
-	\item Datenablage: Sowohl bei internationalen als auch bei nationalen IDP's werden die Daten zentral beim IDP abgelegt. Der Unterschied hierbei ist, das bei nationalen IDP's die Daten innerhalb der EU liegen, da diese an rechtliche Rahmenbedingungen gebunden sind. Bei SSI-IDP's liegen die Daten global verteilt in den Knoten des Netzwerks.
-	
-	\item Sicherheit: Bei herkömmlichen IDP's würde ein erfolgreicher Angriff sämtliche Daten kompromittieren, was bei SSI-IDP's aufgrund der Dezentralität nicht (oder nur sehr schwer) möglich ist.
-	
-	\item Datenschutz: Bei internationalen IDP's wird die DSGVO nicht eingehalten, was bei nationalen IDP's und SSI-IDP's nicht zutrifft.
-
-	\item Standards: Alle gegebene IDP's erfüllen in der Regel Standards.
-	
-	\item Vertrauen: Ist lediglich bei SSI-IDP's vollständig gegeben, wenn der Nutzer informiert ist.  
-\end{itemize}
-
-Es ist zu erkennen, dass SSI-IDP's in den meisten Fällen überlegen sind, jedoch gibt es auch einen großen Vorteil: Der Nutzer muss sich bereit erklären auf neue Technologien zuzugreifen und diese auch zu verstehen, um nicht Opfer von Angriffen zu werden. Dazu gehört das Verwenden von Wallets, Verständnis von Prozessen über das Anfragen/Austellen von VC's und erstellen von VP's. Auch sollte nicht vernachlässigt werden, dass das Erstellen von Transaktionen (Schreiben in der Blockchain) in der Regel mit Gebühren einhergeht. In den folgenden Subkapiteln werden verschiedene SSI-Lösungen vorgestellt und im Anschluss miteinander verglichen.
-
-
 \section{Luniverse}
 Luniverse \cite{ID27} ist eine Firma, die im Mai 2018 gegründet wurde und BaaS (Blockchain as a Service) anbietet, indem ein umfassendes Portfolio an Blockchain Lösungen angeboten wird, die verschiedene Problematiken der "Blockchain-Umstellung" lösen. 2022 bedient Luniverse nach eigenen Angaben über 2000 Firmenkunden. Dabei gibt es vier Kategorien, die allesamt das Sidechain-Konzept implementieren. \\
 Dabei ist eine Sidechain \cite{ID29} \cite{ID33} eine separate Blockchain, die 
 \begin{itemize}
-	\item parallel zur ursprünglichen Blockchain läuft
-	\item bidirektional mit dem Mainnet verknüpft ist
-	\item ihren eigenen Konsensus-Algorithmus hat
-	\item ihre Sicherheit \textbf{"nicht"} von der Elternkette erbt
-	\item erweiterte Funktionen implementieren kann
-	\item neue Anwendungsfälle umsetzt
+	\item parallel zur ursprünglichen Blockchain läuft. Dies bedeutet, dass die Knoten der Hauptkette und Knoten der SideChain unabhängig voneinander agieren.
+	\item bidirektional mit dem Mainnet verknüpft ist. Dies hat den Vorteil, dass Informationen zwischen der SideChain und der Hauptkette in beide Richtungen transportiert werden können. Letzteres passiert beispielsweise dadurch, dass die Hauptkette Vermögenswerte blockiert ('lockt'), um diese auf der SideChain zugänglich zu machen. Diese Aktion kann in beide Richtungen erfolgen.
+	
+	\item ihren eigenen Konsensus-Algorithmus hat. Ein Beispiel hierfür ist, dass die Hauptkette Proof-of-Stake verwendet und die SideChain Proof-of-Authority.
+	\item ihre Sicherheit \textbf{"nicht"} von der Elternkette erbt (hängt unter anderem mit dem oberen Punkt zusammen)
+	\item erweiterte Funktionen implementieren kann. So ist es möglich, dass die SideChain beispielsweise 'zero-knowledge-proofs' anbietet auch wenn die Hauptkette diese Funktion nicht besitzt.
+	\item neue Anwendungsfälle umsetzt. Während die Hauptkette evtl. nur ein Gerüst mit den Standard-Funktionen anbietet (Transaktionen von Vermögenswerten) kann es sein, dass die SideChain sich auf Supply-Chain-Management speziallisiert oder Finanzoperationen abbildet (Vermögenswerte leihen, Zinsen, etc)
 \end{itemize}
 ohne dabei die Elternkette zu beeinträchtigen.
 
@@ -113,7 +94,7 @@ Es ist zu erkennen, dass Polygon SDK's für Entwickler zur Verfügung stellt um 
 	\item einem Cache-Service (Bespielsweise zum Zwischenspeichern von Templates, die einmalig von IPFS gedownloaded werden)
 	\item einer Datenbank zum persistieren aller operativen Daten
 \end{itemize}
-
+\label{merkle}
 Die Identitätsdaten bestehen aus folgenden drei Informationen, die jeweils in sog. 'Sparse Merkle Trees' gespeichert werden:
 \begin{enumerate}
 	\item \textbf{Claims Tree}: Ist ein Baum, der Informationen über ausgestellte Claims einer Identität \textbf{öffentlich} speichert.
@@ -206,3 +187,126 @@ Die letzte hier vorgestellte Lösung basiert auf der Bitcoin Blockchain. Das bes
 \subsection{Probleme von ShoCard}
 \label{shocard}
 Mit der Verwendung von ShoCard gehen jedoch auch Probleme einher. Beispielsweise wird offensichtlich, dass - wenn der \textbf{ShoCard central server} verwendet wird (der die Envelops speichert) - eine Abhängigkeit zu ShoCard existiert. Sollte das Unternehmen verschwinden und die Server offline nehmen, so verlieren Nutzer ihren Zugang zu den Credentials, wenn sie keine lokale Kopie besitzen. Diese Eigenschaft nimmt ShoCard einen Teil seiner Dezentralität. Zudem existiert das Problem, dass ShoCardIDs nur unidirektional identifizieren (Also Identität -> ShoCardId). Es gibt keine dezentrale Registry, die von einer ShoCardID auf eine DID oder etwas Vergleichbarem auflöst. Zudem gibt es noch mehrere weitere Probleme \cite{ID46}.
+
+\section{Vergleich existierender Lösungen}
+\label{cha:vergleich Lösungen}
+In der Folgenden Tabelle werden die Lösungen von \textbf{Luniverse}, \textbf{Dock}, \textbf{Polygon} und \textbf{Sovrin} miteinander verglichen. Betrachtet wird dabei die Blockchain und dessen Konsensus-Algorithmus, ob ein Knoten ohne zusätzliche Erlaubnis ein Validator werden kann, ob ZK-Proofs verfügbar sind und wo die Credentials gespeichert werden. Im Anschluss werden die Transaktionskosten betrachtet.
+
+\begin{itemize}
+	
+	
+	
+	\item Luniverse
+	\begin{itemize}
+		\item Blockchain: Luniverse-Blockchain
+		\item Konsensus-Algorithmus: LPOA
+		\item Permissionless?: No
+		\item ZK-Proofs?: Yes
+		\item Speicherung: Wallet, Blockchain
+	\end{itemize}
+	
+	\item Dock
+	\begin{itemize}
+		\item Blockchain: Dock-Sidechain
+		\item Konsensus-Algorithmus: GRANDPA
+		\item Permissionless?: No
+		\item ZK-Proofs?: Yes
+		\item Speicherung: Wallet, Blockchain
+	\end{itemize}
+	
+	\item PolygonId
+	\begin{itemize}
+		\item Blockchain: Polygon PoS
+		\item Konsensus-Algorithmus: Proof-of-Stake
+		\item Permissionless?: Yes
+		\item ZK-Proofs?: Yes
+		\item Speicherung: Wallet oder WalletSDK, Blockchain
+	\end{itemize}
+	
+	\item Sovrin
+	\begin{itemize}
+		\item Blockchain: Sovrin-Network
+		\item Konsensus-Algorithmus: Plenum
+		\item Permissionless?: No
+		\item ZK-Proofs?: Yes
+		\item Speicherung: WalletSDK, Blockchain
+	\end{itemize}
+	
+	\item Shocard
+	\begin{itemize}
+		\item Blockchain: Bitcoin-Blockchain
+		\item Konsensus-Algorithmus: Proof-of-work
+		\item Permissionless?: Yes
+		\item ZK-Proofs?: No
+		\item Speicherung: Blockchain, Shocard central server, App
+	\end{itemize}
+\end{itemize}
+
+
+
+\section{Transaktionskosten}
+Transaktionen auf der Blockchain sind Prozesse, die in den verteilten Speicher schreiben. Da Transaktionen von Validator-Knoten überprüft werden, muss an das Netzwerk eine Gebühr gezahlt werden. Diese variiert je nach Blockchain, Zustand der Blockchain und Auslastung.
+\begin{itemize}
+	\item Luniverse: Luniverse gibt an, dass keine Transaktionsgebühren existieren.
+	\item Dock: Gibt an, dass keine Gebühren anfallen für die Credentialerstellung. Transaktionen für das Erstellen von Schemas oder Widerrufen von Credentials seien sehr gering \cite{ID44}
+	\item Polygon: Bei Polygon lassen sich die Transaktionskosten sehr genau berechnen. Dabei hängt es von zwei Faktoren ab, wie teuer die Transaktion wird \cite{ID45}:
+	\begin{itemize}
+		\item Menge an Gas: Dies ist eine Metrik für die Leistung, die das Netzwerk für das Ausführen der Transaktion zur Verfügung stellt. Im Falle vom Polygon wird die 'Ethereum Virtual Machine' (EVM) verwendet, welche Platten-Verwendung, CPU-Verwendung, etc. misst und so die Menge an Gas berechnet.
+		\item Gaspreis: Dieser Faktor hängt von der Netzwerkauslastung ab. Prinzipiell gibt es drei Modelle zwischen denen man entscheiden muss: Standard, Fast und Rapid. Dabei wird aufsteigend die Transaktionsdauer geringer (30-10 bei Standard und 5-10 bei Rapid). Analog dazu steigt auch der Gaspreis. Auf PolygonScan\footnote{https://polygonscan.com/gastracker} können die Gaspreise historisch betrachtet werden.
+	\end{itemize}
+	\item Sovrin: Credential und DID-Erstellung sind kostenlos. Für alles andere (also Revokation, Schemas, etc) gibt es jeweils für TestNet und MainNet eigene Preise.
+	\item ShoCard: Transaktionskosten auf der Bitcoin Blockchain werden in Satoshi ($1 * 10^{-6} Bitcoin$) pro Byte berechnet. Demnach kostet die Transaktion mehr, je nachdem viele Daten in die Blockchain geschrieben werden. Im Jahr 2023 betrugen die Kosten für eine Transaktion im Durchschnitt zwischen einen und drei Euro \cite{ID49}. Es ist jedoch anzunehmen, dass Transaktionen, die Data-Anchoring betreiben, mehr kosten, da mehr Daten geschrieben werden.
+	
+\end{itemize}
+
+\section{Konsensus-Algorithmus}
+Konsensus-Algorithmen werden verwendet, um einen einheitlichen Zustand des Netzwerk zwischen den Knoten festzulegen. Hierbei gibt es verschiedene Ausführungen, die im Folgenden betrachtet werden:
+\begin{itemize}
+	\item LPOA: Dieses Akronym steht für "Luniverse's Proof of Authority" \cite{ID50}. Hierbei handelt es sich um einen Proof-of-Authority-Algorithmus, wobei ein Validator nicht anhand seiner zur Verfügung gestellten Rechenkraft oder Kryptowährung bemessen wird, sondern an seiner Identität. Potentielle Validatoren (beispielsweise Unternehmen, Institutionen, Regierungen, etc.) müssen sich bei einer Einrichtung oder Organisation, die das PoA-Netzwerk betreibt, bewerben oder eingeladen werden. Diese entscheiden anhand der Reputation und der Vertrauenswürdigkeit des Bewerbers, ob dieser als Validator fungieren darf. Sollte Letzteres erlaubt werden, so werden Verträge verfasst, um die Verantwortlichkeiten im Netzwerk festzulegen. Im Anschluss kann mit dem Validieren von Blöcken begonnen werden. Sollte Fehlverhalten des Validators festgestellt werden, kann dieser aus dem Netzwerk ausgeschlossen werden \cite{ID51}.
+	\item GRANDPA: Dieser Algorithmus lässt sich ebenso als Proof-of-Authority-Algorithmus klassifizieren
+	\item Proof-of-Stake: Proof of Stake (PoS) ist ein Konsensusmechanismus in Blockchain-Netzwerken, der verwendet wird, um Transaktionen zu validieren und neue Blöcke zur Blockchain hinzuzufügen. Im Gegensatz zu Proof of Work (PoW), bei dem Miner rechenintensive Aufgaben lösen müssen, um Blöcke zu erstellen, basiert PoS auf dem Konzept des 'Stakings' oder des Einsatzes von Kryptowährungen.
+	\begin{enumerate}
+		\item \textbf{Validatoren und Staking:} In einem PoS-Netzwerk gibt es keine Miner im herkömmlichen Sinne. Stattdessen gibt es Validatoren. Um ein Validator zu werden, müssen Benutzer eine bestimmte Menge der Kryptowährung des Netzwerks als Einsatz hinterlegen. Dieser dient als Garantie dafür, dass der Validator korrekt arbeitet.
+		
+		\item \textbf{Blockvalidierung:} Wenn eine Transaktion im Netzwerk eingereicht wird, wird ein Validator zufällig ausgewählt, um die Transaktion zu validieren und einen neuen Block hinzuzufügen. Die Wahrscheinlichkeit, ausgewählt zu werden, hängt oft von der Menge des gestakten Vermögens ab, was bedeutet, dass Benutzer mit größeren Stakes eine höhere Chance haben, ausgewählt zu werden.
+		
+		\item \textbf{Belohnungen:} Validatoren, die korrekt arbeiten und Transaktionen ordnungsgemäß validieren, erhalten Belohnungen in Form von Transaktionsgebühren und neuen Kryptowährungseinheiten, die dem System hinzugefügt werden. Diese Belohnungen werden oft proportional zur Höhe des gestakten Vermögens des Validators verteilt.
+		
+		\item \textbf{Bestrafungen:} Wenn ein Validator betrügerisches Verhalten zeigt oder versucht, das Netzwerk zu schädigen, kann er seine gestakten Vermögenswerte verlieren.
+	\end{enumerate}
+	PoS \cite{ID53}bietet mehrere Vorteile, darunter eine geringere Umweltauswirkung im Vergleich zu PoW, da keine rechenintensiven Aufgaben erforderlich sind und eine höhere Skalierbarkeit. Trotz der vielen Vorteile von Proof-of-Stake gibt es auch einige Nachteile \cite{ID53}:
+	
+	\begin{enumerate}
+		\item \textbf{Zentralisierungstendenzen:} PoS kann zu einer gewissen Zentralisierung führen, da Teilnehmer mit großen Stakes mehr Einfluss haben und wahrscheinlicher ausgewählt werden, um Transaktionen zu validieren und Blöcke hinzuzufügen. Dies könnte zu einer Konzentration der Netzwerkvalidierungsmacht führen.
+		
+		\item \textbf{Reichtumsungleichheit:} PoS belohnt Benutzer proportional zu ihren gestakten Vermögenswerten. Dies könnte die bestehende Reichtumsungleichheit in Kryptowährungen weiter verstärken, da reichere Benutzer größere Stakes halten können und somit mehr Belohnungen erhalten.
+		
+		\item \textbf{Gefahr von Auslagerung (Staking as a Service):} Einige Benutzer könnten ihre Staking-Aktivitäten an Dritte auslagern, um die Belohnungen zu maximieren. Dies könnte dazu führen, dass reiche Benutzer Dritte beauftragen, um ihre Stakes zu verwalten, was die Dezentralisierung gefährden könnte.
+		
+		\item \textbf{Geringe Anreize für Aktivität:} Einige PoS-Netzwerke könnten Schwierigkeiten haben, Benutzer dazu zu ermutigen, aktiv am Netzwerk teilzunehmen, da sie bereits gestakte Vermögenswerte besitzen und möglicherweise keine zusätzlichen Anreize sehen, aktiv Transaktionen zu validieren.
+		
+		\item \textbf{Schwierigkeiten bei der Wahl der Validatoren:} Die Auswahl von zuverlässigen und ehrlichen Validatoren kann eine Herausforderung darstellen. Es müssen Mechanismen implementiert werden, um sicherzustellen, dass betrügerische oder bösartige Validatoren erkannt und bestraft werden.
+		
+		\item \textbf{Sicherheitsprobleme bei geringer Beteiligung:} PoS-Netzwerke könnten anfällig für Angriffe sein, wenn die Beteiligung gering ist und nur wenige Validatoren vorhanden sind. In solchen Fällen könnten Angreifer leichter die Kontrolle über das Netzwerk erlangen.
+		
+		\item \textbf{Verlust von gestakten Vermögenswerten:} Bei fehlerhaftem Verhalten oder betrügerischen Handlungen können Validatorn Strafen auferlegt werden, einschließlich des Verlusts ihrer gestakten Vermögenswerte.
+	\end{enumerate}
+	
+	\item Proof of Work (PoW) ist ein Konsensusmechanismus, der in mehreren Blockchain-Netzwerken verwendet wird. Er dient dazu, Transaktionen zu validieren, neue Blöcke zur Blockchain hinzuzufügen und das Netzwerk vor verschiedenen Arten von Angriffen zu schützen. Im Folgenden sind die Grundlagen von PoW zu betrachten:
+	
+	\begin{enumerate}[label=\arabic*.]
+		\item \textbf{Transaktionen validieren:} Im Netzwerk werden Transaktionen von Benutzern gesammelt und in einen Pool gestellt, der darauf wartet, in einen neuen Block aufgenommen zu werden. Diese Transaktionen müssen validiert werden, um sicherzustellen, dass sie den Regeln des Netzwerks entsprechen.
+		
+		\item \textbf{Rätsellösung:} PoW erfordert von den sogenannten Minern, mathematische Rätsel zu lösen, die als "Proof of Work" bezeichnet werden. Diese Rätsel sind so konzipiert, dass sie eine erhebliche Rechenleistung erfordern und gleichzeitig leicht zu überprüfen sind, sobald sie gelöst sind. Minen ist also ein wettbewerbsfähiger Prozess, bei dem die Miner darum konkurrieren, das Rätsel zu lösen.
+		
+		\item \textbf{Wettbewerb und Belohnungen:} Die Miner verwenden ihre Rechenleistung, um das Rätsel zu lösen. Der erste Miner, der das Rätsel erfolgreich löst, kann einen neuen Block erstellen und ihn mit den validierten Transaktionen füllen. Dieser neue Block wird dann der Blockchain hinzugefügt. Als Belohnung für ihre Arbeit erhalten die Miner neue Kryptowährungseinheiten (z. B. Bitcoin) sowie die Transaktionsgebühren, die von den Benutzern für die Validierung ihrer Transaktionen gezahlt werden.
+		
+		\item \textbf{Sicherheit und Dezentralisierung:} PoW schützt das Netzwerk, indem es für Angreifer sehr teuer macht, die Mehrheit der Rechenleistung im Netzwerk zu kontrollieren. Je mehr Rechenleistung ein Angreifer benötigt, desto schwieriger wird es, das Netzwerk zu übernehmen. Dies trägt zur Sicherheit und Dezentralisierung bei, da viele Miner weltweit am PoW-Prozess teilnehmen.
+		
+		\item \textbf{Schwierigkeitsanpassung:} Das PoW-System passt die Schwierigkeit des zu lösenden Rätsels automatisch an die Gesamtrechenleistung des Netzwerks an. Dies stellt sicher, dass die Zeit zwischen der Erstellung neuer Blöcke ungefähr gleich bleibt, unabhängig davon, wie viele Miner im Netzwerk aktiv sind.
+	\end{enumerate}
+	
+	Obgleich PoW mit vielen Vorteilen einhergeht stehen auch Kritikpunkte im Raum: Unter anderem ist PoW höchst ineffizient, da wie bereits erwähnt nur der erste Miner, der das Rätsel löst belohnt wird, obwohl viele andere Miner gleichzeitig am selben Problem arbeiteten. Dadurch werden große Mengen an Rechenleistung verschwendet. 
+	
+	
+\end{itemize}
