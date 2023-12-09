@@ -64,7 +64,7 @@
 %\usepackage{inconsolata} % MONOSPACE Font
 %\usepackage{newcent}
 \usepackage{charter} % modernere Serifen Font
-
+\usepackage{pdfpages}
 
 \usepackage[nottoc]{tocbibind}
 
@@ -310,6 +310,7 @@ style=alphabetic
 %----------------- DECKBLATT -----------------%
 \include{chapter/deckblatt}
 
+
 % Neue leere Seite erzeugen
 \newpage
 \thispagestyle{empty}
@@ -317,8 +318,8 @@ style=alphabetic
 \newpage
  
 %----------------- Formales -----------------%
-\include{chapter/formales}
-
+%\include{chapter/formales}
+\includepdf[pages={2}]{media/hinweis.pdf}
 % ---------------- Sperrvermerk ------------- %
 % Sperrvermerke sind zwar nicht erwünscht, kommen wenn aber hier herein
 % \include{chapter/sperrvermerk}

@@ -47,11 +47,11 @@ Der folgenede Code zeigt wie die Messung der Laufzeit stattgefunden haben.
 \end{lstlisting}	
 
 \section{Sicherheitsevaluierung}
-Die Komponente, die den größten Schutz in der Implementierung benötigt ist der Issuer. Das SSI-Konzept ist abhängig davon, wie vertrauenswürdig Letzterer ist. Daher findet eine Security-Analyse nach dem STRIDE-Modell \cite{ID59} statt..
+Die Komponente, die den größten Schutz in der Implementierung benötigt ist der Issuer. Das SSI-Konzept ist abhängig davon, wie vertrauenswürdig Letzterer ist. Daher findet eine Security-Analyse nach dem STRIDE-Modell \cite{ID59} statt. Die STRIDE-Analyse ist eine Methode zur Identifikation potentieller Sicherheitsbedrohungen in einem Software-System. Die Abkürzung 'STRIDE' steht für die folgenden sechs Kategorien:
 
 \subsection{Spoofing}
 \label{Spoofing}
-Dieser Angriff beschreibt unberechtigten Zugriff auf die Komponente. Hiergegen wurde implementiert, dass der Zugriff (der über ngrok stattfindet) nur authentifiziert passieren kann: --basic-auth 'ngrok:issecure' --basic-auth='username:password'. Zusätzlich besitzt die verwendete REST-API eine Basic-Authentifikation. Daher ist diese Komponente doppelt geschützt. Es wird stark empfohlen, dass die Passwörter den Richtlinien des BSI entsprechen \cite{ID60}.
+Dieser Angriff beschreibt unberechtigten Zugriff auf die Komponente. Hiergegen wurde implementiert, dass der Zugriff (der über ngrok stattfindet) nur authentifiziert passieren kann: --basic-auth 'ngrok:issecure' --basic-auth='username:password'. Zusätzlich besitzt die verwendete REST-API eine Basic-Authentifikation. Daher ist diese Komponente doppelt geschützt. Es wird stark empfohlen, dass die Passwörter den Richtlinien des BSI entsprechen \cite{ID60}. Hierdurch wird verhindert, dass ein Angreifer Zugriff auf den Issuer erstellt und somit Schaden anrichten kann, indem unberechtigte Credentials ausgestellt werden oder der Issuer zerstört wird.
 
 \subsection{Tampering}
 Dieser Angriff beschreibt die ungewollte Manipulation von Daten. Prinzipiell gibt können zwei Komponenten Daten verändern:
@@ -60,6 +60,7 @@ Dieser Angriff beschreibt die ungewollte Manipulation von Daten. Prinzipiell gib
 	\item Der Issuer: Der Issuer kann ebenso Credentials revoken (widderufen). Aber wie bereits im Kapitel \ref{Spoofing} beschrieben ist der Issuer geschützt.
 	\item Der Verifier: Hat keine Möglichkeit Credentials zu modifizieren und ist daher nicht weiter zu betrachten
 \end{enumerate}
+Auch gilt es zu beachten, dass öffentlich zugängliche Daten ebenso nicht unautorisiert veränderbar sein sollten. Im konkreten Fall bedeutet dies, dass die Schemata - die die Credential Metadaten halten - nicht ungewollt modifiziert werden dürfen. Unter anderem schützt die Security von IPFS hiergegen \cite{ID65}.
 
 \subsection{Repudiation}
 \label{Repudiation}
@@ -80,7 +81,7 @@ Dieser Angriff beschreibt, dass ein Nutzer eine Aktivität abstreiten kann. Gege
 	]
 }
 \end{lstlisting}	
-Es ist zu sehen, dass sowohl übertragene Daten, als auch involvierte Adressen gespeichert werden. Das Schreiben ist ebenso kryptographisch geschützt.
+Es ist zu sehen, dass sowohl übertragene Daten, als auch involvierte Adressen gespeichert werden. Das Schreiben ist ebenso kryptographisch geschützt. Hiermit wird verhindert, dass ein Nutzer beispielsweise behauptet niemals den Credential erhalten zu haben oder die Authentizität seiner Dokumente in Frage zu stellen. 
 
 \subsection{Information disclosure}
 \label{disclosure}
@@ -94,12 +95,13 @@ Dieser Angriff beschreibt das ungewollte Veröffentlichen von Daten. In diesem P
 Daher lässt sich erkennen, dass private Daten sicher gespeichert sind und nicht veröffentlicht werde können.
 
 \subsection{Denial of service}
-Denial of Service beschreibt eine Attacke, in die komplette Software oder Teile davon ungewollt außer Betrieb genommen werden. Dieser Angriff findet in dem Prototypen nur Anwendung in dem Verifier, da andere Komponenten entweder lokal sind, oder nur der Nutzer Zugriff hat. Im Verifier könnte ein Angreifer probieren den RPC-Node zu überlasten. Jedoch hat Alchemy hiergegen Mechanismen entwickelt \cite{ID61}.
+Denial of Service beschreibt eine Attacke, bei der komplette Software oder nur Teile davon ungewollt außer Betrieb genommen werden. Dieser Angriff findet in dem Prototypen nur Anwendung in dem Verifier und Issuer. Beide dieser Komponenten verwenden einen RPC-Knoten, der bei Ausfall die komplette Software unbrauchbar macht. Ein Vorgehen wäre beispielsweise den RPC-Knoten zu überlasten. Jedoch hat Alchemy hiergegen Mechanismen entwickelt \cite{ID61}. Bei einer erfolgreichen 'Denial-of-Service'-Attacke wäre das Ergebnis, dass keine Verifizierungen/Erstellung von Credentials mehr stattfinden kann.
 
 \subsection{Evelation of priviledge}
 Dieses Konzept beschreibt, dass ein Nutzer ungewollt seine Rechte auf ein höheres Level setzten kann, um autorisiert zu sein neue Aktivitäten auszuführen. Diese Art der Attacke findet jedoch keine Anwendung, da es keine Levels an Rechten gibt.
 
 \subsection{Zusammenfassung - STRIDE}
+Folgende Tabelle fasst die vorherige Analyse zusammen. '\checkmark' beschreibt, dass die Software gegen diese Art von Angriff sicher ist, wobei 'X' bedeutet, dass eine Gefahr besteht. 
 \begin{center}
 	\begin{tabular}{ c c }
 		KATEGORIE & Abgesichert? \\

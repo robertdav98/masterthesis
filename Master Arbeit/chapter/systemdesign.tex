@@ -33,7 +33,7 @@ Um sich für eine Architektur festzulegen, muss zunächst die Entscheidung über
 Prinzipiell besteht die Architektur aus drei Komponenten: Einem Verifier, einem Issuer und dem Holder. Jede dieser drei Komponenten laufen unabhängig voneinander und können mit fremd-implementierten Instanzen kommunizieren. Das hier dargestellte Szenario ist das Erstellen, Übertragen und Verifizieren von einem digitalen Führerschein auf der Blockchain. Die System-Architektur kann in der Grafik \ref{fig:design} betrachtet werden.
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{media/system-design}
+	\includegraphics[scale=0.5]{media/system-design}
 	\caption{System-Design des Prototyps}
 	\label{fig:design}
 \end{figure}
@@ -102,16 +102,17 @@ Der Issuer stellt den Führerschein aus, indem er einen QR-Code erstellt, der di
 }
 \end{lstlisting}
 Der hier dargestellte Query überprüft primär, ob der Führerschein des Holders älter als vom Jahr 2022 ist. Indirekt fragt er ebenso ab, ob der Nutzer den beschriebenen Credential besitzt und ob dieser noch gültig ist. Ist dies der Fall, so wird der zk-Proof an den Verifier gesendet.
-
+\newpage
 \section{Kommunikation der Komponenten}
 Die Kommunikation der Komponenten ist in Abbildung \ref{fig:komm} dargestellt.
 
 \begin{figure}[H]
 	\centering	
-	\includegraphics[scale=0.6]{media/ablaufdiagram.drawio}
+	\includegraphics[scale=0.55]{media/ablaufdiagram.drawio}
 	\caption{Kommunikationsdiagramm des Issuers, Holder und der Blockchain}
 	\label{fig:komm}
 \end{figure}
+\newpage
 Dabei sind jeweils die Prozesse zum Erstellen einer Identität, Erstellen und Zuweisen von Credentials und das Widerrufen von Credentials illustriert. Die drei Akteure sind jeweils der User/Holder (in diesem Falle die PolygonID-App), das Issuer-CLI (mit Node-JS implementiert) und der Issuer-Node (über DigitalOcean gehostet). Es ist zu erkennen, dass jede der drei Aktivitäten durch das CLI initialisiert wird. In der 'create Identity' Aktivität wird eine Identität erstellt, wobei in das DID-Registrar geschrieben wird. Diese Komponente ist dafür zuständig DID's und DID-Documents zu verwalten und befindet sich in der Blockchain.
 Bei dem Erstellen und Zuweisen von Claims spielt die Blockchain insofern eine wichtige Rolle, als dass in den 'Sparse-Merkle-Tree' geschrieben wird (siehe \ref{merkle}). Auch auf das Widerrufen von Credentials trifft dies zu.
 \section{Der Issuer}

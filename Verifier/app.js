@@ -42,7 +42,7 @@ async function GetAuthRequest(req,res) {
 
   // Generate request for basic authentication
   const request = auth.createAuthorizationRequest(
-      'test flow',
+      'Request for checking drivers license',
       audience,
       uri,
   );
@@ -60,7 +60,7 @@ async function GetAuthRequest(req,res) {
         context: 'https://ipfs.io/ipfs/QmQLZUJqTguEG5LAaHiDQeAYqD3Z22BtTT9dXEVHd8ABoF',
         credentialSubject: {
           YearOfReceipt: {
-            $lt: 2012,
+            $lt: 2012, // is the license older than 2012?
           },
         },
     },
@@ -78,7 +78,6 @@ async function GetAuthRequest(req,res) {
 }
 
 async function Callback(req,res) {
-    console.log("Called CallBack-Func")
     // Get session ID from request
     const sessionId = req.query.sessionId;
 

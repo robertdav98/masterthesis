@@ -1,0 +1,117 @@
+{
+    "$metadata": {
+        "type": "MasterWorkDriversLicense",
+        "uris": {
+            "jsonLdContext": "ipfs://QmQLZUJqTguEG5LAaHiDQeAYqD3Z22BtTT9dXEVHd8ABoF"
+        },
+        "version": "1.0"
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Drivers license credential for masters work",
+    "title": "MasterWorkDriversLicense",
+    "properties": {
+        "@context": {
+            "type": [
+                "string",
+                "array",
+                "object"
+            ]
+        },
+        "expirationDate": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        },
+        "issuanceDate": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "issuer": {
+            "type": [
+                "string",
+                "object"
+            ],
+            "format": "uri",
+            "properties": {
+                "id": {
+                    "format": "uri",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "type": {
+            "type": [
+                "string",
+                "array"
+            ],
+            "items": {
+                "type": "string"
+            }
+        },
+        "credentialSchema": {
+            "properties": {
+                "id": {
+                    "format": "uri",
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "type"
+            ],
+            "type": "object"
+        },
+        "credentialSubject": {
+            "description": "Stores the data of the credential",
+            "title": "Credential subject",
+            "properties": {
+                "id": {
+                    "description": "Stores the DID of the subject that owns the credential",
+                    "title": "Credential subject ID",
+                    "format": "uri",
+                    "type": "string"
+                },
+                "TypeOfVehicle": {
+                    "description": "This describes the type of vehicle the user is allowed to drive.",
+                    "enum": [
+                        "Car",
+                        "Truck",
+                        "Scooter",
+                        "Motorcycle"
+                    ],
+                    "title": "TypeOfVehicle",
+                    "type": "string"
+                },
+                "YearOfReceipt": {
+                    "description": "The year the user received the license",
+                    "title": "YearOfReceipt",
+                    "minimum": 1950,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "TypeOfVehicle",
+                "YearOfReceipt"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "@context",
+        "id",
+        "issuanceDate",
+        "issuer",
+        "type",
+        "credentialSchema",
+        "credentialSubject"
+    ],
+    "type": "object"
+}

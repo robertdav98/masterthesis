@@ -165,7 +165,6 @@ function createClaim(vehicleType, yearOfReceipt, identity){
     }
     axios.post(url, rq, {auth: {username: username,password: password}})
       .then(function (response) {
-        //console.log(JSON.stringify(response["data"]));
         console.log(JSON.stringify(response['data']));
       })
       .catch(function (error) {
