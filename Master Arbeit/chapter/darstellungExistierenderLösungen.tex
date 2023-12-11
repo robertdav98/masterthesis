@@ -6,7 +6,7 @@ Luniverse \cite{ID27} ist eine Firma, die im Mai 2018 gegründet wurde und BaaS 
 Dabei ist eine Sidechain \cite{ID29} \cite{ID33} eine separate Blockchain, die 
 \begin{itemize}
 	\item parallel zur ursprünglichen Blockchain läuft. Dies bedeutet, dass die Knoten der Hauptkette und Knoten der SideChain unabhängig voneinander agieren.
-	\item bidirektional mit dem Mainnet verknüpft ist. Dies hat den Vorteil, dass Informationen zwischen der SideChain und der Hauptkette in beide Richtungen transportiert werden können. Letzteres passiert beispielsweise dadurch, dass die Hauptkette Vermögenswerte blockiert ('lockt'), um diese auf der SideChain zugänglich zu machen. Diese Aktion kann in beide Richtungen erfolgen.
+	\item bidirektional mit dem Mainnet verknüpft ist. Dies hat den Vorteil, dass Informationen zwischen der Sidechain und der Hauptkette in beide Richtungen transportiert werden können. Letzteres passiert beispielsweise dadurch, dass die Hauptkette Vermögenswerte blockiert ('lockt'), um diese auf der Sidechain zugänglich zu machen. Diese Aktion kann in beide Richtungen erfolgen.
 	
 	\item ihren eigenen Konsensus-Algorithmus hat. Ein Beispiel hierfür ist, dass die Hauptkette Proof-of-Stake verwendet und die SideChain Proof-of-Authority.
 	\item ihre Sicherheit \textbf{"nicht"} von der Elternkette erbt (hängt unter anderem mit dem oberen Punkt zusammen)
@@ -14,10 +14,10 @@ Dabei ist eine Sidechain \cite{ID29} \cite{ID33} eine separate Blockchain, die
 	\item neue Anwendungsfälle umsetzt. Während die Hauptkette evtl. nur ein Gerüst mit den Standard-Funktionen anbietet (Transaktionen von Vermögenswerten) kann es sein, dass die SideChain sich auf Supply-Chain-Management speziallisiert oder Finanzoperationen abbildet (Vermögenswerte leihen, Zinsen, etc)
 \end{itemize}
 ohne dabei die Elternkette zu beeinträchtigen.
-
+Folgende Dienste bietet Luniverse an:
 \begin{enumerate}
 	\item Luniverse NFT \\
-	Mit diesem Dienst wird versprochen, dass die 'Luniverse-Multichain-NFTs' sowohl die Emissionskosten entfernen als auch die Umweltprobleme lösen. Dabei finden die Transaktionen zunächst nur auf der Luniverse-Sidechain statt, wobei die NFTs auch auf das Ethereum-Ökosystem übertragen. Es wird das Erstellen ('minten') von NFTs nach dem ERC721 Interface, ein Marktplatz für NFTs, geteiltes Eigentum von NFT, eine Datenbank für Metadaten und vieles mehr angeboten. Hierbei wird eine sehr hohe Energieeffizienz durch das Verwenden des LPOA-Konsensus-Algorithmus garantiert, welcher keine Transaktionskosten generiert.
+	Mit diesem Dienst wird versprochen, dass die 'Luniverse-Multichain-NFTs' sowohl die Emissionskosten entfernen als auch die Umweltprobleme lösen. Dabei finden die Transaktionen zunächst nur auf der Luniverse-Sidechain statt, wobei die NFTs auch auf das Ethereum-Ökosystem übertragen. Es wird das Erstellen ('minten') von NFTs nach dem ERC721 Interface, ein Marktplatz für NFTs, geteiltes Eigentum von NFT, eine Datenbank für Metadaten und vieles mehr angeboten. Hierbei wird eine sehr hohe Energieeffizienz durch das Verwenden des LPOA-Konsensus-Algorithmus garantiert.
 	Weitere Vorteile der Luniverse-Sidechain sind: Mehr Transaktionen pro Sekunde, Anbieten einer REST-API, ein CLI und viele weitere
 	
 	\item Loyalty Point \\
@@ -41,10 +41,10 @@ Auf technischer Sicht arbeitet die API mit nur einem Parameter in den Anfragen: 
 Um Credentials anzufragen, zu erstellen oder zu verifizieren muss zunächst ein Template erstellt werden. Dies passiert durch das UI. Hier kann man entweder Templates als JSON importieren (auch mittels öffentlichen URL's von \textsl{public ledgern} wie IPFS [https://ipfs.tech]) oder im UI jedes Attribut einzeln konfigurieren. Anschließend muss ein Issuer-Profil erstellt werden. Dieses besteht aus einem öffentlichen Namen, einer optionalen Beschreibung und einem 'DID-Type', welcher entweder vom Typ 'dock' ist oder 'polygonid' (siehe nächste Lösung).
 Im Anschluss können Credentials ausgestellt werden, die zuvor erstellen Templates entsprechen müssen. Daraufhin kann der Nutzer alle Empfänger des VC entweder manuell eintragen oder als Excel importieren lassen. Hierbei kann auch eine Email angeben werden, sodass der Rezipient eine Email erhält, um das VC zu akzeptieren. In der Email befindet sich ein QR-Code, welcher beispielsweise mit der PolygonID-App gescannt werden kann, wodurch das VC auf den Wallet übertragen wird.
 Ebenso lassen sich im UI Verifikationstemplates erstellen, die beispielsweise festlegen welcher Claim (zum Beispiel eine Note) vorhanden sein muss.\\
-Alle diese Funktionen lassen sich auch über die REST-API ausführen. Zusätzlich (und dies ist nicht über das UI möglich) lassen sich DID's und DID-Docks erstellen und Löschen, VC widerrufen, etc. \\
+Alle diese Funktionen lassen sich auch über die REST-API ausführen. Zusätzlich (und dies ist nicht über das UI möglich) lassen sich DID's und DID-Docs erstellen und Löschen, VC widerrufen, etc. \\
 Es wird angegeben, dass alle Formate W3C-Standard-konform sind.
 
-Anders als bei Luniverse handelt es sich bei Dock nicht um eine Sidechain, sondern eine eigenständige Blockchain. Dock wirbt damit eine Blockchain entwickelt zu haben, die für die dezentrale Identität optimiert ist \cite{ID30}. Der verwendete Konsensus-Algorithmus lautet GRANDPA (GHOST-based Recursive Ancestor Deriving Prefix Agreement). Eine wichtige Eigenschaft für diesen Kontext ist, dass die Blockproduktion und das Bestätigen von Transaktionen möglichst effizient gestaltet ist. Zudem werden Validato ren (oder auch Nominatoren/Staker) benötigt, die eine bestimmte Menge der Kryptowährung der Blockchain als Kaution hinterlegen müssen, um am Konsensprozess teilzunehmen. Ein Validator ist ein sog. "full node", also ein Knoten des Netzwerks der eine vollständige Kopie der gesamten Blockchain enthält. Hierbei arbeiten bis zu 50 Validatoren parallel, um die Integrität des Netzwerks zu bewahren. Zudem unterstützt die Blockchain das Konzept des Stakings, was bedeutet, dass Teilnehmer dem Netzwerk eine Menge an Kryptowährung hinterlegen, um das Netzwerk sicherer zu gestalten. Als Belohnung erhält der Teilnehmer an bestimmte Menge an 'Dock' (so lautet die Einheit der Kryptowährung).
+Anders als bei Luniverse handelt es sich bei Dock nicht um eine Sidechain, sondern eine eigenständige Blockchain. Dock wirbt damit eine Blockchain entwickelt zu haben, die für die dezentrale Identität optimiert ist \cite{ID30}. Der verwendete Konsensus-Algorithmus lautet GRANDPA (GHOST-based Recursive Ancestor Deriving Prefix Agreement). Eine wichtige Eigenschaft für diesen Kontext ist, dass die Blockproduktion und das Bestätigen von Transaktionen möglichst effizient gestaltet ist. Zudem werden Validatoren (oder auch Nominatoren/Staker) benötigt, die eine bestimmte Menge der Kryptowährung der Blockchain als Kaution hinterlegen müssen, um am Konsensprozess teilzunehmen. Ein Validator ist ein sog. "full node", also ein Knoten des Netzwerks, der eine vollständige Kopie der gesamten Blockchain enthält. Hierbei arbeiten bis zu 50 Validatoren parallel, um die Integrität des Netzwerks zu bewahren. Zudem unterstützt die Blockchain das Konzept des Stakings, was bedeutet, dass Teilnehmer dem Netzwerk eine Menge an Kryptowährung hinterlegen, um das Netzwerk sicherer zu gestalten. Als Belohnung erhält der Teilnehmer an bestimmte Menge an 'Dock' (so lautet die Einheit der Kryptowährung).
 
 
 \section{PolygonId}
@@ -55,11 +55,11 @@ PolygonId (https://polygon.technology/polygon-id) ist eine Plattform, die einem 
 PolygonId dient als Identitätsinfrastruktur auf der Polygon-Blockchain, welche wiederum eine Layer-2-Lösung ist \cite{ID34}, was bedeutet, dass 
 \begin{itemize}
 	\item Ethereum (Layer 1) das übergeordnete Netzwerk ist
-	\item Polygon direkt mit der Hauptkette (Ethereum Mainnet) verbunden ist und dessen Sicherheit und Konsensmechanismen nutzt
+	\item Polygon direkt mit der Hauptkette (Ethereum Mainnet) verbunden ist
 	\item Polygon darauf abzielt die Transaktionsfrequenz zu erhöhen, indem Transaktionen auf außerhalb der Hauptkette ausgelagert werden
 	\item Polygon als Skalierungslösung zk-Rollups verwendet. Demnach wird eine große Menge an Transaktionsdaten auf der - vom Polygon-Framework zur Verfügung gestellten - Sidechain in ein Batch verpackt und mittels zk-Proofs auf der Hauptkette verifiziert, ohne die Details der Transaktionen zu kennen. Eine alternative zu zk-Rollups sind sog. 'optimistic rollups', was bedeutet, dass das Mainnet den Batch 'beglaubigt' \cite{ID35}. In dem Falle, dass sich Fehler oder Unstimmigkeiten innerhalb des Batches befinden kann eine sog. challange eingereicht werden, wodurch Transaktionen überprüft werden durch Teilnehmer des Netzwerks.
 \end{itemize}
-Zusätzlich bietet das Polygon weitere Mechanismen an, wobei im Folgenden nur solche genannt werden, die für das Implementieren von SSI-IDPs von Bedeutung sind oder werden könnten:
+Zusätzlich bietet das Polygon-Framework weitere Mechanismen an, wobei im Folgenden nur solche genannt werden, die für das Implementieren von SSI-IDPs von Bedeutung sind oder werden könnten:
 \begin{itemize}
 	\item Polygon POS Chain \label{PolygonPOS} \cite{ID36}: Ist die Hauptkomponente der Polygon-Plattform und ist eine Proof-of-Stake Blockchain (zuvor auch Matic Network genannt). In der Kryptowährung Matic (MATIC) werden die Transaktionsgebühren gezahlt. Die über PolygonID getätigten Transaktionen finden hier statt und profitieren von Skalierbarkeit, hoher Geschwindigkeit, Benutzerfreundlichkeit und Konnektivität zu Ethereum. Auch wenn es sich hierbei um eine Sidechain handelt ist es bisher \textbf{nicht} möglich DIDs von Polygon auf Ethereum zu übertragen, was bedeutet, dass VP's nur innerhalb von Polygon existieren und andere Ethereum-basierende Lösung diese nicht verifizieren können. Am 21.Juli 2023 wurde angekündigt, dass durch eine Partnerschaft PolygonId auch auf der Ethereum-Blockchain verwendet werden kann \cite{ID36}.
 	\item Polygon Bridge: Ist ein Mechanismus um Vermögenswerte (also Kryptowährungen) zwischen Ethereum und Polygon-Sidechains zu bewegen. Dies kann von Bedeutung sein, wenn beispielsweise beim Anfordern eines VC eine Gebühr bezahlt werden muss (was in der analogen Welt regelmäßig stattfindet) und die Vermögenswerte nicht auf einer Blockchain abgesperrt werden sollen.
@@ -86,7 +86,7 @@ Auf technischer Sicht bietet PolygonId ein Framework um folgendes Dreieck zu imp
 	\label{fig:meine-grafik}
 \end{figure}
 
-Es ist zu erkennen, dass Polygon SDK's für Entwickler zur Verfügung stellt um jeweils (Identity-) Holder, Verifier und Issuer zu implementieren. Für Wallets gibt es zudem eine Wallet-App. Für Issuer müssen Issuer Node gehostet werden, wodurch VC's ausgestellt oder entfernt werden können oder \textsl{Identity States} on-chain veröffentlicht werden können. Nach der Dokumentation \cite{ID38} muss der Node zusammen mit 
+Es ist zu erkennen, dass Polygon SDK's für Entwickler zur Verfügung stellt um jeweils (Identity-) Holder, Verifier und Issuer zu implementieren. Für Wallets gibt es zudem eine Wallet-App. Für Issuer muss ein Issuer Node gehostet werden, wodurch VC's ausgestellt oder entfernt werden können. Nach der Dokumentation \cite{ID38} muss der Node zusammen mit 
 
 \begin{itemize}
 	\item der Applikation
@@ -115,7 +115,7 @@ wobei:
 Der oben genannte Identitätsstatus wird als einziges Datum in der Blockchain gespeichert.
 
 \subsection{zk-Proof von PolygonId}
-Ein Feature von PolygonId, dass es von anderen SSI-Frameworks hervorhebt ist, dass es Verifikation mittels sog. \textsl{zero-knowledge-proofs} zur Verfügung stellt. Die Idee hierbei ist, dass dem Verifier die Richtigkeit eines Claims verifizieren kann \textbf{ohne} Informationen über den eigentlichen Claim zu erhalten. Als Beispiel wird folgender \textbf{nicht anonymisierter / nicht verschlüsselter/ selektiv freigegebener} Claim betrachtet:
+Ein Feature von PolygonId, dass es von anderen SSI-Frameworks hervorhebt ist, dass es Verifikation mittels sog. \textsl{zero-knowledge-proofs} zur Verfügung stellt. Die Idee hierbei ist, dass dem Verifier die Richtigkeit eines Claims verifizieren kann \textbf{ohne} Informationen über den eigentlichen Claim zu erhalten. Als Beispiel wird folgender Claim betrachtet:
 \begin{lstlisting}[language=json,firstnumber=1]	
 [...]
 	"credentialSubject": {	
@@ -130,7 +130,7 @@ Ein Feature von PolygonId, dass es von anderen SSI-Frameworks hervorhebt ist, da
 [...]
 \end{lstlisting}
 Sollte nun beispielsweise ein Kreditinstitut (der Verifier) überprüfen wollen, ob der Kunde mehr als 2000€ verdient, so ist es in erster Linie irrelevant, ob die Person 5000€ oder 10000€ verdient und würde nur unnötig die Privatsphäre beeinträchtigen. Polygon bietet hierzu eine Lösung und implementiert ein zero-knowledge-Konzept, wo der Verifier über eine Query-Sprache lediglich über den Besitz des Credentials informiert wird ohne tatsächlich Informationen zu erhalten.
-Die Anfrage kann on-chain und off-chain formuliert und sieht wie folgt aus (erstellt mit dem ZK-QueryBuilder\footnote{https://schema-builder.polygonid.me/query-builder} von PolygonId):
+Die Anfrage kann on-chain und off-chain formuliert bearbeitet und sieht wie folgt aus (erstellt mit dem ZK-QueryBuilder\footnote{https://schema-builder.polygonid.me/query-builder} von PolygonId):
 
 \begin{lstlisting}[language=json,firstnumber=1]	
 [...]
@@ -165,10 +165,10 @@ Der verteilte Speicher des Netzwerks ist die eigen entwickelte Blockchain, die v
 Ein Mechanismus zum verbessern der Privatsphäre ist das 'pseudonymous by default'-Konzept, welches Sovrin umsetzt. Hierbei wird für jede Relation (beispielsweise PersonX->Arbeitgeber, PersonX->Verkäufer, etc) eine eigene DID verwendet. Somit ist mehr Privatsphäre gegeben und auch die Sicherheit ist verbessert. \\
 Die Sovrin-Blockchain ist eine sog 'permissioned' Blockchain, was bedeutet, dass ein Knoten, der Transaktionen tätigen oder validieren möchte (also ein sog. 'Validator-Knoten') eine Erlaubnis braucht. Organisationen, die diese Erlaubnis erhalten haben nennen sich bei Sovrin 'Stewards'. Diese sind global verteilt und aktuell gibt es 50 Stewards in 13 Ländern und 6 Kontinenten \cite{ID43}. 
 \subsection{Technische Grundlagen}
-Sovrin versucht sich an DNS\footnote{Domain Name System} zu orientieren, da DNS knapp eine Milliarde Einträge hat und über 100 Milliarden anfragen pro Tag bearbeitet \cite{ID42}. Übertragen auf den Identitätskontext - unter der Annahme dass Identitäten mehrere DID's besitzten - muss das Netzwerk möglicherweise täglich Trillionen von Anfragen bearbeiten.
+Sovrin versucht sich an DNS\footnote{Domain Name System} zu orientieren, da DNS knapp eine Milliarde Einträge hat und über 100 Milliarden Anfragen pro Tag bearbeitet \cite{ID42}. Übertragen auf den Identitätskontext - unter der Annahme dass Identitäten mehrere DID's besitzten - muss das Netzwerk möglicherweise täglich Trillionen von Anfragen bearbeiten.
 Während DNS keinen Konsensus-Algorithmus verwendet ist dies bei der Sovrin-Blockchain jedoch nicht der Fall. Um dennoch eine gute Skalierung zu implementieren werden zwei verschiedene Arten von Knoten im Netzwerk verwendet:
 \begin{itemize}
-	\item \textbf{Validator-Knoten}: Ist eine kleine Mengen an Knoten im Netzwerk deren Funktion es ist Transaktionen zu akzeptieren
+	\item \textbf{Validator-Knoten}: Ist eine kleine Menge an Knoten im Netzwerk deren Funktion es ist Transaktionen zu akzeptieren
 	\item \textbf{Observer-Knoten}: Eine größere Menge an Knoten, die Lese-Anfragen bearbeiten
 \end{itemize}
 Issuer, Verifier und Holder erreichen diese Knoten über Agenten. Diese Agenden können beispielsweise Mobilanwendungen sein und die Aufgabe haben mit dem Sovrin-Network in Verbindung zu stehen. Agenten können Identitätstransaktionen stellvertretend für den Identitätsträger tätigen und kommunizieren direkt mit anderen Agenten. Dies funktioniert, da der Agent Zugriff auf den privaten Schlüssel hat. Demnach können beispielsweise DID-Dokumente modifiziert werden oder Transaktionen getätigt werden.
@@ -181,7 +181,7 @@ Die letzte hier vorgestellte Lösung basiert auf der Bitcoin Blockchain. Das bes
 \begin{itemize}
 	\item \textbf{Bootstrapping}: Ist der Prozess bei dem eine neue Shocard erstellt wird. Hierbei erstellt die Shocard-App ein neues asymmetrisches Schlüsselpaar und scannt die Credentials über die Kamera. Die Daten werden im Anschluss verschlüsselt und auf dem Gerät gespeichert. Ein signierter Hash wird im Anschluss in einer Bitcoin Transaktion gespeichert, wobei die erhaltene Transaktionsnummer zu der ShoCardID des Anwenders wird. Ebenso wird diese Information in der App gespeichert. Ist dieser Prozess abgeschlossen ,so kann der Identitätsträger mit Issuern kommunizieren, um weitere Identitätsattribute anzufragen. Dieser Prozess nennt sich 'certification'.
 	\item \textbf{Certification}: Um Identitätsattribute zu erhalten muss der Identitätsträger nachweisen, dass er die Daten kennt, die den Hash generiert hatten (wurde in der App persistiert) und den Schlüssel, der zur Signatur verwendet wurde. Als Ergebnis liegt eine neue Transaktion vor, die die Attribute und die ShoCardID gehasht enthält. Da der Provider die Transaktion getätigt hat, muss er die Transaktionsnummer zusammen mit dem signierten Klartext der neuen Attribute mit dem Nutzer teilen. Diese werden erneut in der Applikation lokal gespeichert. Da der Nutzer die Credentials jedoch nicht verlieren möchte im Falle, dass der Zugriff zur Applikation verloren geht, bietet ShoCard die Möglichkeit Credentials verschlüsselt in einem 'Envelop' zu speichern (ein Speicher den ShoCard verwaltet). Der Envelop kennt den Schlüssel zur Verschlüsselung nicht.
-	\item Validation: Dieser Prozess findet statt, wenn ein Identitätsträger den Besitzt von Credentials nachweisen möchte. Hierbei gibt der Nutzer die Referenz des Envelops und den zur Verschlüsselung verwendeten Schlüssel. Somit kann der Verifier die Korrektheit überprüfen. Somit wird klar, dass kein ZK-Proof vorliegt, da dem Verifier sämtliche Informationen des Credentials vorliegen.	
+	\item Validation: Dieser Prozess findet statt, wenn ein Identitätsträger den Besitzt von Credentials nachweisen möchte. Hierbei gibt der Nutzer die Referenz des Envelops und den zur Verschlüsselung verwendeten Schlüssel an. Somit kann der Verifier die Korrektheit überprüfen. Somit wird klar, dass kein ZK-Proof vorliegt, da dem Verifier sämtliche Informationen des Credentials vorliegen.	
 \end{itemize}
 
 \subsection{Probleme von ShoCard}
@@ -231,7 +231,7 @@ In der Folgenden Tabelle werden die Lösungen von \textbf{Luniverse}, \textbf{Do
 		\item ZK-Proofs?: Yes
 		\item Speicherung: WalletSDK, Blockchain
 	\end{itemize}
-	
+	\newpage
 	\item Shocard
 	\begin{itemize}
 		\item Blockchain: Bitcoin-Blockchain
@@ -252,7 +252,7 @@ Transaktionen auf der Blockchain sind Prozesse, die in den verteilten Speicher s
 	\item Polygon: Bei Polygon lassen sich die Transaktionskosten sehr genau berechnen. Dabei hängt es von zwei Faktoren ab, wie teuer die Transaktion wird \cite{ID45}:
 	\begin{itemize}
 		\item Menge an Gas: Dies ist eine Metrik für die Leistung, die das Netzwerk für das Ausführen der Transaktion zur Verfügung stellt. Im Falle vom Polygon wird die 'Ethereum Virtual Machine' (EVM) verwendet, welche Platten-Verwendung, CPU-Verwendung, etc. misst und so die Menge an Gas berechnet.
-		\item Gaspreis: Dieser Faktor hängt von der Netzwerkauslastung ab. Prinzipiell gibt es drei Modelle zwischen denen man entscheiden muss: Standard, Fast und Rapid. Dabei wird aufsteigend die Transaktionsdauer geringer (30-10 bei Standard und 5-10 bei Rapid). Analog dazu steigt auch der Gaspreis. Auf PolygonScan\footnote{https://polygonscan.com/gastracker} können die Gaspreise historisch betrachtet werden.
+		\item Gaspreis: Dieser Faktor hängt von der Netzwerkauslastung ab. Prinzipiell gibt es drei Modelle zwischen denen man entscheiden muss: Standard, Fast und Rapid. Dabei wird aufsteigend die Transaktionsdauer geringer (10-30s bei Standard und 5-10s bei Rapid). Analog dazu steigt auch der Gaspreis. Auf PolygonScan\footnote{https://polygonscan.com/gastracker} können die Gaspreise historisch betrachtet werden.
 	\end{itemize}
 	\item Sovrin: Credential und DID-Erstellung sind kostenlos. Für alles andere (also Revokation, Schemas, etc) gibt es jeweils für TestNet und MainNet eigene Preise.
 	\item ShoCard: Transaktionskosten auf der Bitcoin Blockchain werden in Satoshi ($1 * 10^{-6} Bitcoin$) pro Byte berechnet. Demnach kostet die Transaktion mehr, je nachdem viele Daten in die Blockchain geschrieben werden. Im Jahr 2023 betrugen die Kosten für eine Transaktion im Durchschnitt zwischen einen und drei Euro \cite{ID49}. Es ist jedoch anzunehmen, dass Transaktionen, die Data-Anchoring betreiben, mehr kosten, da mehr Daten geschrieben werden.
@@ -291,7 +291,7 @@ Konsensus-Algorithmen werden verwendet, um einen einheitlichen Zustand des Netzw
 		
 		\item \textbf{Verlust von gestakten Vermögenswerten:} Bei fehlerhaftem Verhalten oder betrügerischen Handlungen können Validatorn Strafen auferlegt werden, einschließlich des Verlusts ihrer gestakten Vermögenswerte.
 	\end{enumerate}
-	
+	\newpage
 	\item Proof of Work (PoW) ist ein Konsensusmechanismus, der in mehreren Blockchain-Netzwerken verwendet wird. Er dient dazu, Transaktionen zu validieren, neue Blöcke zur Blockchain hinzuzufügen und das Netzwerk vor verschiedenen Arten von Angriffen zu schützen. Im Folgenden sind die Grundlagen von PoW zu betrachten:
 	
 	\begin{enumerate}[label=\arabic*.]

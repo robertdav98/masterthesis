@@ -22,29 +22,7 @@ Um die Laufzeit der Operationen zu messen wurde ein Python-Script entwickelt, we
 \end{center}
 Es ist zu erkennen, dass der Median in jedem Fall geringer ausfällt als der Durchschnitt. Dies muss damit zusammenhängen, dass ein Teil der Aufrufe unverhältnismäßig länger dauern.\\
 
-Der folgenede Code zeigt wie die Messung der Laufzeit stattgefunden haben.
-
-\begin{lstlisting}[language=python]
-	def runMeasurement(command, cache):
-		runs = 100
-		key = command.split()[3]  # e.g. "node app -a createIdentity" -> createIdentity
-		try:
-			runtime = timeit(stmt="subprocess.call('{}')".format(command), setup="import subprocess", number=runs, )
-			durations = repeat(stmt="subprocess.call('{}')".format(command), setup="import subprocess", number=1, repeat=runs)
-		
-			cache[key + "_median"] = calcMedian(durations)
-			runtime = checkisFloat(runtime)
-			if runtime:
-				cache[key + "_average"] = runtime
-		except:
-			pass  # the error here can be ignored
-			
-	cache = {}
-	runMeasurement(create_identity_command, cache)
-	runMeasurement(get_identities_command, cache)
-	runMeasurement(create_claim_command.format("Truck", "2000", first_identifier), cache)
-	runMeasurement(get_claim_command.format(first_claim, first_identifier), cache)	
-\end{lstlisting}	
+Der ausgeführte Programmcode befindet sich in den Anhängen dieser Arbeit.	
 
 \section{Sicherheitsevaluierung}
 Die Komponente, die den größten Schutz in der Implementierung benötigt ist der Issuer. Das SSI-Konzept ist abhängig davon, wie vertrauenswürdig Letzterer ist. Daher findet eine Security-Analyse nach dem STRIDE-Modell \cite{ID59} statt. Die STRIDE-Analyse ist eine Methode zur Identifikation potentieller Sicherheitsbedrohungen in einem Software-System. Die Abkürzung 'STRIDE' steht für die folgenden sechs Kategorien:
@@ -92,7 +70,7 @@ Dieser Angriff beschreibt das ungewollte Veröffentlichen von Daten. In diesem P
 	\item Daten im Holder: Die Daten werden in der Wallet-App gespeichert. Darunter sind private Schlüssel und die Credentials, welche durch ein Passwort in der Polygon-App geschützt sind.
 	\item Daten im Verifier: Der Verifier benötigt lediglich Zugang zu den Schemas, welche öffentlich gespeichert sind, und einen RPC-Node, welcher in Umgebungsvariablen lokal gespeichert ist.
 \end{enumerate}
-Daher lässt sich erkennen, dass private Daten sicher gespeichert sind und nicht veröffentlicht werde können.
+Daher lässt sich erkennen, dass private Daten sicher gespeichert sind und nicht veröffentlicht werde können. Bei einer erfolgreichen Attacke wäre das Ergebnis, dass ein Angreifer private Credentials unberechtigt ließt.
 
 \subsection{Denial of service}
 Denial of Service beschreibt eine Attacke, bei der komplette Software oder nur Teile davon ungewollt außer Betrieb genommen werden. Dieser Angriff findet in dem Prototypen nur Anwendung in dem Verifier und Issuer. Beide dieser Komponenten verwenden einen RPC-Knoten, der bei Ausfall die komplette Software unbrauchbar macht. Ein Vorgehen wäre beispielsweise den RPC-Knoten zu überlasten. Jedoch hat Alchemy hiergegen Mechanismen entwickelt \cite{ID61}. Bei einer erfolgreichen 'Denial-of-Service'-Attacke wäre das Ergebnis, dass keine Verifizierungen/Erstellung von Credentials mehr stattfinden kann.
@@ -123,7 +101,7 @@ Im Folgenden werden die in Kapitel \ref{forschungsfragen} gestellten Fragen bean
 \begin{enumerate}
 	\item Wie erfolgt die Speicherung verschiedener Typen an Daten innerhalb eines Identitätsmanagementsystems?
 	\begin{enumerate}
-		\item Wie kann die technische Machbarkeit erreicht werden, Daten sowohl öffentlich zugänglich als auch privat zu speichern? - Es ist möglich Daten privat und öffentlich zu speichern. Dies passiert zum einen bei Shocard in dem Prozess des Bootstrapping (siehe \ref{shocard}) und zum andere bei zk-Proofs in PolygonId. Jedoch ist es zu empfehlen, private Daten wie Credentials auch privat zu speichern, wie es bereits in verschiedenen Lösungen angewandt wird.
+		\item Wie kann die technische Machbarkeit erreicht werden, Daten sowohl öffentlich zugänglich als auch privat zu speichern? - Es ist möglich Daten privat und öffentlich zu speichern. Dies passiert zum einen bei Shocard in dem Prozess des Bootstrapping (siehe \ref{shocard}) und zum andere bei zk-Proofs in PolygonId.
 		
 		\item Welche kryptografischen Technologien, wie zum Beispiel Hashing oder Verschlüsselung, sind optimal für die sichere Speicherung von Identitätsdaten geeignet? - Sowohl Hashing als auch (asymmetrische) Verschlüsslung werden für die Speicherung von Identitätsdaten verwendet, je nachdem welche Lösung angewandt wird.
 		

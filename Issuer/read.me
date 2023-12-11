@@ -1,0 +1,31 @@
+Bei diesem Program handelt es sich um ein CLI für das Erhalten von Credentials. Um die Funktionalität sicherzustellen muss der Issuer bereits laufen und die öffentliche IP-Addresse muss in Zeile 26 (const issuer_url = "") eingetragen sein.
+Das Interface sieht hierbei wie folgt aus:
+
+usage: app.js [-h] [-a ACTION] [-v VEHICLETYPE] [-y YEAR] [-i IDENTITY] [-r RECEIVER] [-c CLAIM] [-n NONCE]
+
+Argparser for Issuer CLI
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -a ACTION, --action ACTION
+                        Action to be triggered
+  -v VEHICLETYPE, --vehicleType VEHICLETYPE
+                        Type of Vehicle. Can be one of the following: Car, Truck, Scooter, Motorcycle
+  -y YEAR, --year YEAR  Year of Receipt of license. Must be higher than 1950
+  -i IDENTITY, --identity IDENTITY
+                        Identity
+  -r RECEIVER, --receiver RECEIVER
+                        Receiver
+  -c CLAIM, --claim CLAIM
+                        Claim
+  -n NONCE, --nonce NONCE
+                        Nonce
+
+Ein Beispielaufruf wäre:
+node app -a createIdentity // Erstellung einer Identität
+node app -a getIdentity <did:polygonid:polygon:mumbai:2qL1VmjcqCKivohsz5Ge2hL8dsY9RDFcAo98LrvzPN> // Lesen einer Identität
+node app -a createClaim -v Motorcycle -y 2000 -i did:polygonid:polygon:mumbai:2qERBpd4vXT1VxAcB42RHK8kFvz4ipahw8fw5EDsdm // Erstellung eines Claims
+node app -a getClaimQR -c 19b26de6-7969-11ee-b8e5-0242ac150005 -i did:polygonid:polygon:mumbai:2qM7MRt3wMKRm7zxNGAVUo9UedCSH72sVPXkTosWro // Erstellung eines QR-Codes für einen existierenden Claim
+
+Kommentar:
+Das Schema "MastersWorkDriversLicense.json" befindet sich im Ordner "./schema"

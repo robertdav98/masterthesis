@@ -24,7 +24,7 @@ Um sich für eine Architektur festzulegen, muss zunächst die Entscheidung über
 		\item Möglichkeit zum Widerruf von Informationen gegeben
 		\item Informationen sind überprüfbar
 		\item Selektive-Disclosure implementierbar
-		\item Alle nicht-funktionalen Anforderungen implementierbar
+		\item kompatibel mit allen Anforderungen
 		\item Unterstützt W3C Standard für VC's
 		\item Credential Exchange erfolgt nach Identity-Foundation Standard
 	\end{itemize}
@@ -119,7 +119,7 @@ Bei dem Erstellen und Zuweisen von Claims spielt die Blockchain insofern eine wi
 Der Issuer kann im Polygon-Framework auf zwei Weisen realisiert werden:
 \begin{itemize}
 	\item 'On-Chain': Das Ausgabe der Credentials geschieht hierbei 'on-chain', also innerhalb der Blockchain. Implementiert wird die Logik mittels Smart-Contracts, was bedeutet, dass die Logik beliebig erweitert werden kann. Die anzuwendende Programmiersprache ist Solidity \footnote{https://soliditylang.org/}, was der gleichen Sprache entspricht wie im Ethereum Ökosystem. Durch die Smartcontracts werden - die in \nameref{technischeDatenPolygon} erwähnten - Zustandsbäume gespeichert. Auch Identitäten können so generiert  werden. In der Dokumentation werden zwei Szenarien besprochen: öffentliche und private Anwendungsfälle, die beide in der Blockchain realisiert werden können. Auch wenn der Issue-Prozess in der Blockchain stattfindet, so werden private Credentials nicht on-chain generiert. Dies passiert offline und ein Beweis für die Validität wird in der Blockchain gespeichert.
-	\item  'Off-Chain': Hierbei werden die Credentials in einem Issuer-Knoten erstellt, der eine API zur Verfügung stellt. Um den Knoten zu hosten wird ein Droplet von 'Digital Ocean' verwendet,  welches sich in Frankfurt befindet. Nachdem die Knoten-Software installiert wurde und alle Parameter konfiguriert wurden (privater Schlüssel von Issuer, CPU-Typ, URL's, Export von Variablen, RPC-Endpunkt-URL, usw.) kann der Knoten in Betrieb genommen werden. Für letzteren Endpunkt können öffentliche Knoten verwendet werden wie etwa 'https://rpc-mumbai.matic.today'. Dieser ist jedoch vergleichweise langsam und es gehen Vorteile von privaten Endpunkten verloren, wie Monitoring und bessere Debugging-Möglichkeiten. Aus diesen Gründen wird Alchemy (https://www.alchemy.com/) verwendet. Der private Schlüssel wird aus Sicherheitsgründen in einem Tool zur Speicherung sensibler Daten verwendet \footnote{Vault by HashiCorp \label{vault}}. Redis \footnote{https://redis.io/} dient als Cache. Alle drei Komponenten befinden sich jeweils in einem Container in Docker \footnote{https://www.docker.com/}. In einem vierten Container befindet sich ein Server, der über eine REST-API Endpunkte zur Verfügung stellt. Die für diesen Prototypen relevanten Aktivitäten sind das Generieren und Lesen von Identitäten, das Erstellen und Schreiben von Claims und das Generieren von QR-Codes, die der potentielle Holder mit seiner Wallet-App scannen kann. Alle die zuletzt genannten Funktionen wurden in einem CLI (Command Line Interface) in JavaScript zur Verfügung gestellt. Dabei werden in Abbildung \ref{fig:CLI} die Befehle mit einem jeweiligen Beispiel illustriert.
+	\item  'Off-Chain': Hierbei werden die Credentials in einem Issuer-Knoten erstellt, der eine API zur Verfügung stellt. Um den Knoten zu hosten wird ein Droplet von 'Digital Ocean' verwendet. Nachdem die Knoten-Software installiert wurde und alle Parameter konfiguriert wurden (privater Schlüssel von Issuer, CPU-Typ, URL's, Export von Variablen, RPC-Endpunkt-URL, usw.) kann der Knoten in Betrieb genommen werden. Für letzteren Endpunkt können öffentliche Knoten verwendet werden wie etwa 'https://rpc-mumbai.matic.today'. Dieser ist jedoch vergleichweise langsam und es gehen Vorteile von privaten Endpunkten verloren, wie Monitoring und bessere Debugging-Möglichkeiten. Aus diesen Gründen wird Alchemy (https://www.alchemy.com/) verwendet. Der private Schlüssel wird aus Sicherheitsgründen in einem Tool zur Speicherung sensibler Daten verwendet \footnote{Vault by HashiCorp \label{vault}}. Redis \footnote{https://redis.io/} dient als Cache. Alle drei Komponenten befinden sich jeweils in einem Docker Image \footnote{https://www.docker.com/}. In einem vierten Image befindet sich ein Server, der über eine REST-API Endpunkte zur Verfügung stellt. Die für diesen Prototypen relevanten Aktivitäten sind das Generieren und Lesen von Identitäten, das Erstellen und Schreiben von Claims, das Löschen von Claims und das Generieren von QR-Codes, die der potentielle Holder mit seiner Wallet-App scannen kann. Alle die zuletzt genannten Funktionen wurden in einem CLI (Command Line Interface) in JavaScript zur Verfügung gestellt. Dabei werden in Abbildung \ref{fig:CLI} die Befehle mit einem jeweiligen Beispiel illustriert.
 	
 	\begin{figure}[H]
 		\centering
@@ -128,7 +128,7 @@ Der Issuer kann im Polygon-Framework auf zwei Weisen realisiert werden:
 		\label{fig:CLI}
 	\end{figure}
 	
-	Alle Implementierungen verwenden intern die REST-API des Issuer-Knoten. Alternativ ist es möglich dem Droplet eine 'reserved IP' zuzuweisen. Mittels PolygonScan (https://mumbai.polygonscan.com) und dem Monitoring Tool bei Alchemy sind die Aktivitäten auch als Transaktionen einsehbar. Nachdem der QR-Code gescannt wurde, kann man in der App den Credential einsehen, was in Abbildung \ref{fig:appCredential} ersichtlich wird.
+	Alle Implementierungen verwenden intern die REST-API des Issuer-Knoten. Alternativ zu ngrok ist es möglich dem Droplet eine 'reserved IP' zuzuweisen. Mittels PolygonScan (https://mumbai.polygonscan.com) und dem Monitoring Tool bei Alchemy sind die Aktivitäten auch als Transaktionen einsehbar. Nachdem der QR-Code gescannt wurde, kann man in der App den Credential einsehen, was in Abbildung \ref{fig:appCredential} ersichtlich wird.
 	 \begin{figure}[H]
 	 	\centering
 	 	\includegraphics[scale=0.2]{media/appCredential}
@@ -186,7 +186,7 @@ Der oben beschriebe Query wird statisch im Programmcode festgehalten. \\
 	\item /qr: Dient als Endpunkt, um die QR-Codes zu lesen
 	\item /callback: Dieser Endpunkt von dem Identity-Wallet kontaktiert, um einen zk-Proof entgegenzunehmen und diesen zu verifizieren.
 \end{itemize}
-Nachdem der QR-Code von der App gescannt wurde, wird die Anfrage illustriert. Ebenso wird die URL des Issuers angezeigt und der Name des Credentials. Der Holder initiert die Verifizierung durch das Drücken des "Approve"-Buttons. An dieser Stelle wird ein zk-Proof generiert und an den Verifier geschickt. Der Holder schickt hierfür einen POST-Request an die angegebene 'callbackURL'. An dieser Stelle führt der Server die tatsächliche Verifikation des zk-Proofs aus. Der Ablauf hierfür wird im folgenden Code beschrieben: \\ \\
+Nachdem der QR-Code von der App gescannt wurde, wird die Anfrage illustriert. Ebenso wird die URL des Issuers angezeigt und der Name des Credentials. Der Holder initiert die Verifizierung durch das Drücken des 'Approve'-Buttons. An dieser Stelle wird ein zk-Proof generiert und an den Verifier geschickt. Der Holder schickt hierfür einen POST-Request an die angegebene 'callbackURL'. An dieser Stelle führt der Server die tatsächliche Verifikation des zk-Proofs aus. Der Ablauf hierfür wird im folgenden Code beschrieben: \\ \\
 \begin{lstlisting}[language = JavaScript , frame = trBL , firstnumber = last , escapeinside={(*@}{@*)}]
 	const ethURL = 'https://polygon-mumbai.g.alchemy.com/v2/PRIVATE_API_KEY';
 	const contractAddress = "0x134B1BE34911E39A8397ec6289782989729807a4" //public verification contract adress
@@ -214,10 +214,10 @@ Nachdem der QR-Code von der App gescannt wurde, wird die Anfrage illustriert. Eb
 	}
 );
 \end{lstlisting}
-Man kann erkennen, dass Pinata nicht nur verwendet um die Schemata zu speichern, sondern auch als Gateway um die zk-Proofs abzulegen. Auch ist zu erkennen, dass eine URL für einen Polygon-Knoten notwendig ist, da zum einen auf Widerruf geprüft wird und zum anderen der unter 'contractAddress' gespeicherte Smart-Contract kontaktiert wird. Der Holder erhält im Anschluss die Information, dass mit Erfolg verifiziert wurde.
+Man kann erkennen, dass Pinata nicht nur verwendet um die Schemata zu speichern, sondern auch als Gateway, um die zk-Proofs abzulegen. Auch ist zu erkennen, dass eine URL für einen Polygon-Knoten notwendig ist, da zum einen auf Widerruf geprüft wird und zum anderen der unter 'contractAddress' gespeicherte Smart-Contract kontaktiert wird. Der Holder erhält im Anschluss die Information, dass mit Erfolg verifiziert wurde.
 
 \subsection{On-Chain Verifikation}
-An dieser Stelle sollte kurz erwähnt werden, dass es ebenso möglich wäre die Verifikation 'on-chain', also als Smart-Contract in der Blockchain ablaufen zu lassen. Analog dazu gibt es die Alternative auch den Issuer 'on-chain' zu implementieren. Hierbei wird - der in Solidity geschriebene - Smartcontract in der Blockchain deployed. Über einen Polygon-Knoten (beispielsweise gehostet über Alchemy) wird der - vom Holder erstelle - zk-Proof an den Smartcontract gesendet welcher die Richtigkeit überprüft. Der Vorteil hierbei wäre, dass der Gedanke der Dezentralität intensiviert wird und mehr Transparenz über die Verifikation gegeben wird. Als Nachteil ergibt sich, dass für das Deployment Vermögenswerte (MATIC) gezahlt werden müssen und Solidity weniger Schnittstellen bietet als Javascript.
+An dieser Stelle sollte kurz erwähnt werden, dass es ebenso möglich wäre die Verifikation 'on-chain', also als Smart-Contract in der Blockchain ablaufen zu lassen. Hierbei wird - der in Solidity geschriebene - Smartcontract in der Blockchain deployed. Über einen Polygon-Knoten (beispielsweise gehostet über Alchemy) wird der - vom Holder erstelle - zk-Proof an den Smartcontract gesendet welcher die Richtigkeit überprüft. Der Vorteil hierbei wäre, dass der Gedanke der Dezentralität intensiviert wird und mehr Transparenz über die Verifikation gegeben wird. Als Nachteil ergibt sich, dass für das Deployment Vermögenswerte (MATIC) gezahlt werden müssen und Solidity weniger Schnittstellen bietet als Javascript.
 
 \section{Der Holder}
 Der Holder ist die Komponente mit der geringsten Relevanz für diesen . Es gibt jeweils eine App für Android und IOS, die folgende Funktionen haben \cite{ID58}:
@@ -244,7 +244,7 @@ Um die Interaktion zwischen den Komponenten zu illustrieren wird folgende Grafik
 
 Bei der Abbildung \ref{fig:trust} handelt es sich zunächst um das Konzept 'Triangle of Trust', dass mit den Details des Prototypen erweitert wurde. Unterhalb jeder der drei Komponenten werden technische Details zur Realisierung angegeben. Es ist zu erkennen, dass das Konzept abhängig davon ist, dass der Issuer korrekte Credentials angibt. In dem Szenario, dass der Issuer kompromittiert wurde oder bösartig ist würde folgende Situation eintreten:
 \begin{itemize}
-	\item Es werden fehlerhafte, unglaubwürdige erstellt.
+	\item Es werden fehlerhafte, unglaubwürdige Credential erstellt.
 	\item Das Schreiben von Credentials in die Blockchain gilt als Transaktion und daher würden Kosten entstehen
 	\item Der Holder ist im Besitzt dieser falschen Credentials und könnte (evtl. sogar unwissentlich Identitätsdiebstahl begehen)
 	\item Der Verifier vertraut der 'Verifiable Data Registry' und würde fehlerhafte Credentials als richtig attestieren
@@ -257,4 +257,4 @@ Ein schematischer Ablauf von der Erstellung der Identität des Issuer hin zur er
 	\caption{Schematischer Ablauf des Prozesses}
 	\label{fig:kommunikation}
 \end{figure}
-Rote Aktivitäten beinhalten Transaktionen in der Blockchain und blaue Aktivitäten beinhalten Schreibprozesse. Außerdem ist zu sehen, dass viele Prozesse auf anderen Speichern arbeiten, wie z.B. verteile Speicher oder der lokale App-Speicher. Ein Unterschied zu Abbildung \ref{fig:komm} ist, dass der Verifier ebenso dargestellt ist und zwischen Lese- und Schreibzugriffen auf dem DLT unterschieden wird.
+Rote Aktivitäten beinhalten Transaktionen in der Blockchain und blaue Aktivitäten beinhalten Leseprozesse. Außerdem ist zu sehen, dass viele Prozesse auf anderen Speichern arbeiten, wie z.B. verteile Speicher oder der lokale App-Speicher. Ein Unterschied zu Abbildung \ref{fig:komm} ist, dass der Verifier ebenso dargestellt ist und zwischen Lese- und Schreibzugriffen auf dem DLT unterschieden wird.

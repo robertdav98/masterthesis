@@ -33,7 +33,7 @@ const requestMap = new Map();
 async function GetAuthRequest(req,res) {
 
   // Audience is verifier id
-  const hostUrl = "https://7b65-208-127-57-7.ngrok-free.app";
+  const hostUrl = "";
   const sessionId = 1;
   const callbackURL = "/api/callback"
   const audience = "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
