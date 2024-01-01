@@ -2,7 +2,7 @@
     "$metadata": {
         "type": "MasterWorkDriversLicense",
         "uris": {
-            "jsonLdContext": "ipfs://QmQLZUJqTguEG5LAaHiDQeAYqD3Z22BtTT9dXEVHd8ABoF"
+            "jsonLdContext": "https://raw.githubusercontent.com/robertdav98/masterthesis/main/Issuer/schema/MasterWorkDriversLicense.jsonld"
         },
         "version": "1.0"
     },
