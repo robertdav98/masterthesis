@@ -113,5 +113,16 @@
         "credentialSchema",
         "credentialSubject"
     ],
-    "type": "object"
+    "type": "object",
+    "merklizationRootPosition": {
+      "type": "string",
+      "enum": [
+        "none",
+        "index",
+        "value"
+      ]
+    },
+    "revNonce": {
+      "type": "integer"
+    }
 }
